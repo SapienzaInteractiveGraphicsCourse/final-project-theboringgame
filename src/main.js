@@ -1,7 +1,4 @@
 import {Test} from "./app/testing.js";
 
-main();
+var instance = new Test();
 
-function main(){
-    Test.build();
-}
