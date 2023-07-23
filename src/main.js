@@ -1,4 +1,10 @@
 import {Test} from "./app/testing.js";
+import {Game} from "./app/game.js";
+import {config} from "./app/static/config.js";
 
-var instance = new Test();
+main();
 
+function main(){
+    let game = new Game();
+    game.render();
+}

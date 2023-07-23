@@ -7,4 +7,4 @@ then
     echo "previous server shutted down"
 fi
 echo "Server started on: http://127.0.0.1:8080"
-npx http-server ../src/ -s -p 8080 > /dev/null 2>&1 &
+npx http-server ../src/ -c-1 -s -p 8080 > /dev/null 2>&1 &

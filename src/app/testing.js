@@ -1,5 +1,8 @@
 import * as THREE from "../lib/three/build/three.module.js";
 
+import {config} from "./static/config.js";
+
+// Just a junk class used for testing. Remove this when the project is in release
 export class Test {
 
     constructor(){
