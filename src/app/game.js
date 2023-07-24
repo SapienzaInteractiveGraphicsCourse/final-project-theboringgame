@@ -5,7 +5,6 @@ import {basicWall} from '../factories/wall.js';
 import {config} from "./static/config.js";
 
 let instance;
-const wallSize=[1,1,1];
 
 /* 
 This class designed as a singleton handles the game's main loop and contains fundamental rendering elements.
@@ -24,9 +23,15 @@ export class Game{
         this.camera = this.#buildCamera();
         this.scene = this.#buildScene();
         this.light = this.#buildLight();
-        this.wall = this.#buildWall();
 
         // TODO: just for testing purposes.
+
+        let wall= new basicWall([1,1,1],1,0);
+        let wallInstance = wall.create_wall();
+        this.scene.add(wallInstance);
+        this.light.position.set(-1, 2, 4);
+        this.camera.position.set(0, 0, 4);
+
         this.isLoaded = false
         
         const loader = new GLTFLoader();
@@ -61,9 +66,9 @@ export class Game{
         
             }
         );
+    
 
         // END testing
-        this.scene.add(this.wall);
         this.scene.add(this.light);
 
         this.container.appendChild( this.renderer.domElement );
@@ -91,11 +96,6 @@ export class Game{
         const color = 0xFFFFFF;
         const intensity = 1;
         return new THREE.DirectionalLight(color, intensity);
-    }
-
-    #buildWall(){
-        var wall= new basicWall(wallSize,1,0);
-        return wall.create_wall();
     }
 
     render(){
