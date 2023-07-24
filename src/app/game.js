@@ -1,10 +1,11 @@
 import * as THREE from "../lib/three/build/three.module.js";
-import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js"
-
+import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
+import {basicWall} from '../factories/wall.js';
 
 import {config} from "./static/config.js";
 
 let instance;
+const wallSize=[1,1,1];
 
 /* 
 This class designed as a singleton handles the game's main loop and contains fundamental rendering elements.
@@ -23,10 +24,11 @@ export class Game{
         this.camera = this.#buildCamera();
         this.scene = this.#buildScene();
         this.light = this.#buildLight();
+        this.wall = this.#buildWall();
 
         // TODO: just for testing purposes.
         this.isLoaded = false
- 
+        
         const loader = new GLTFLoader();
         loader.load(
             '../assets/models/link/Link.glb',
@@ -61,8 +63,9 @@ export class Game{
         );
 
         // END testing
-
+        this.scene.add(this.wall);
         this.scene.add(this.light);
+
         this.container.appendChild( this.renderer.domElement );
     }
 
@@ -87,7 +90,12 @@ export class Game{
         // TODO: move parameters to config file 
         const color = 0xFFFFFF;
         const intensity = 1;
-        return new THREE.DirectionalLight(color, intensity);;
+        return new THREE.DirectionalLight(color, intensity);
+    }
+
+    #buildWall(){
+        var wall= new basicWall(wallSize,1,0);
+        return wall.create_wall();
     }
 
     render(){
