@@ -30,7 +30,7 @@ export class Game{
         let wallInstance = wall.create_wall();
         this.scene.add(wallInstance);
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(0, 0, 4);
+        this.camera.position.set(0, 0, 5);
 
         this.isLoaded = false
         
