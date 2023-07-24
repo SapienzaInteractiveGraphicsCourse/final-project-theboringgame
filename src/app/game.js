@@ -1,6 +1,6 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
-import {BasicWall} from '../factories/wall.js';
+import {WallFactory} from '../factories/wall.js';
 
 import {config} from "./static/config.js";
 
@@ -24,15 +24,14 @@ export class Game{
         this.scene = this.#buildScene();
         this.light = this.#buildLight();
 
+        this.wallFac = new WallFactory();
+
         // TODO: just for testing purposes.
 
-        /*
-        let wall= new BasicWall([1,1,1],1,0);
-        let wallInstance = wall.create_wall();
-        this.scene.add(wallInstance);
+        let wall = this.wallFac.createBasicWall([1,0.1,0.5], null);
+        this.scene.add(wall);
         this.light.position.set(-1, 2, 4);
         this.camera.position.set(0, 0, 4);
-        */
 
         this.isLoaded = false
         

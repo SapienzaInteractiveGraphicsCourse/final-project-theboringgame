@@ -1,17 +1,26 @@
 import * as THREE from "../lib/three/build/three.module.js";
 
-class WallFactory{
+export class WallFactory{
     constructor(){
-
+        this.instances = new Array()
     }
 
-    createBasicWall(){
-
+    createBasicWall(size,texture,segment = 1){
+        let instance = new BasicWall(size,texture,segment);
+        this.instances.push(instance);
+        return instance.create();
+    }
+    
+    createDoorWall(size,texture,doorSize,segment = 1){
+        let instance = new DoorWall(size,texture,doorSize,segment);
+        this.instances.push(instance);
+        return instance.create();
     }
 
-    createDoorWall(){
-        
+    getInstances(){
+        return this.instances;
     }
+
 }
 
 class AbstractWall {
@@ -42,16 +51,25 @@ export class BasicWall extends AbstractWall{
 
     create(){
         var geometry = new THREE.BoxGeometry(this.w,this.h,this.d); 
-        var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } ); 
+        var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );  // TODO: change with texture
         return new THREE.Mesh( geometry, material );
     }
 }
 
-export class DoorWall extends AbstractWall{
+export class DoorWall extends BasicWall{
     constructor(size,texture,doorSize,segment = 1){
-        super(size,segment);
-        this.t=texture;
-        this.doorW=doorSize.weigth;
-        this.doorH=doorSize.height;
+        super(size,texture,segment);
+
+        this.doorW=doorSize[0];
+        this.doorH=doorSize[1];
+        this.doorD=doorSize[2];
+    }
+    create(){
+        const wallMesh = super.create();
+        const wall_bsp = new THREECSG.ThreeBSP(wallMesh);
+        const doorGeometry= new THREE.BoxGeometry(this.doorW,this.doorH,this.doorD,this.segment,this.segment,this.segment);
+        const doorMesh = new THREE.Mesh(doorGeometry, new THREE.MeshPhongMaterial( { color: 0x00ff00 } )); // TODO: change with texture
+        const door_bsp = new THREECSG.ThreeBSP(doorMesh);
+        var subtract_bsp = wall_bsp.subtract(door_bsp);
     }
 }
