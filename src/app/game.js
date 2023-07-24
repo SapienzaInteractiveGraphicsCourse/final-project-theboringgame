@@ -1,6 +1,6 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
-import {basicWall} from '../factories/wall.js';
+import {BasicWall} from '../factories/wall.js';
 
 import {config} from "./static/config.js";
 
@@ -26,11 +26,13 @@ export class Game{
 
         // TODO: just for testing purposes.
 
-        let wall= new basicWall([1,1,1],1,0);
+        /*
+        let wall= new BasicWall([1,1,1],1,0);
         let wallInstance = wall.create_wall();
         this.scene.add(wallInstance);
         this.light.position.set(-1, 2, 4);
         this.camera.position.set(0, 0, 4);
+        */
 
         this.isLoaded = false
         
