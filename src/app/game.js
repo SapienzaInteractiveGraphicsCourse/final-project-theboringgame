@@ -1,4 +1,7 @@
 import * as THREE from "../lib/three/build/three.module.js";
+import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js"
+
+
 import {config} from "./static/config.js";
 
 let instance;
@@ -22,14 +25,39 @@ export class Game{
         this.light = this.#buildLight();
 
         // TODO: just for testing purposes.
-        const material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );
-        const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        this.cube = new THREE.Mesh( geometry, material );
-        this.cube.rotation.x += Math.PI/4;
-        this.cube.rotation.y += Math.PI/8;
-        this.scene.add( this.cube );
-        this.light.position.set(-1, 2, 4);
-        this.camera.position.set(0, 0, 4);
+
+ 
+        const loader = new GLTFLoader();
+        loader.load(
+            '../assets/models/link/Link.glb',
+
+            function ( gltf ) {
+                this.link = gltf.scene;  
+                this.link.scale.set(20, 20, 20);
+                this.link.rotation.x += Math.PI/2;
+                this.link.position.z -= 80;
+                this.link.position.y -= 20;
+                this.scene.add( this.link );
+        
+                gltf.animations; // Array<THREE.AnimationClip>
+                gltf.scene; // THREE.Group
+                gltf.scenes; // Array<THREE.Group>
+                gltf.cameras; // Array<THREE.Camera>
+                gltf.asset; // Object
+        
+            }.bind(this),
+            function ( xhr ) {
+        
+                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        
+            },
+            function ( error ) {
+        
+                console.log( 'An error happened' );
+        
+            }
+        );
+
         // END testing
 
         this.scene.add(this.light);
@@ -63,6 +91,8 @@ export class Game{
     render(){
         this.renderer.render( this.scene, this.camera );
         window.requestAnimationFrame(() => this.render());
+
+        this.link.rotation.z += 0.01;
     }
 
 }
