@@ -25,7 +25,7 @@ export class Game{
         this.light = this.#buildLight();
 
         // TODO: just for testing purposes.
-
+        this.isLoaded = false
  
         const loader = new GLTFLoader();
         loader.load(
@@ -39,11 +39,13 @@ export class Game{
                 this.link.position.y -= 20;
                 this.scene.add( this.link );
         
-                gltf.animations; // Array<THREE.AnimationClip>
+                this.linkAnimation = gltf.animations; // Array<THREE.AnimationClip>
                 gltf.scene; // THREE.Group
                 gltf.scenes; // Array<THREE.Group>
                 gltf.cameras; // Array<THREE.Camera>
                 gltf.asset; // Object
+
+                this.isLoaded = true;
         
             }.bind(this),
             function ( xhr ) {
@@ -91,8 +93,8 @@ export class Game{
     render(){
         this.renderer.render( this.scene, this.camera );
         window.requestAnimationFrame(() => this.render());
-
-        this.link.rotation.z += 0.01;
+        if(this.isLoaded)
+            this.link.rotation.z += 0.01;
     }
 
 }
