@@ -67,12 +67,12 @@ export class Game{
         
         const loader = new GLTFLoader();
         loader.load(
-            '../assets/models/link/Link.glb',
+            '../assets/models/link/hmo-man.glb',
 
             function ( gltf ) {
                 this.link = gltf.scene;  
-                this.link.scale.set(20, 20, 20);
-                this.link.rotation.x += Math.PI/2;
+                this.link.scale.set(15, 15, 15);
+                //this.link.rotation.x += Math.PI/2;
                 this.link.position.z -= 60;
                 this.link.position.y = floor.position.y;
                 this.scene.add( this.link );
@@ -133,7 +133,7 @@ export class Game{
         this.renderer.render( this.scene, this.camera );
         window.requestAnimationFrame(() => this.render());
         if(this.isLoaded)
-            this.link.rotation.z += 0.01;
+            this.link.rotation.y += 0.01;
     }
 
 }
