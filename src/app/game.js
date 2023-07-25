@@ -1,6 +1,6 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
-import {WallFactory} from '../factories/wall.js';
+import {BuildingFactory} from '../factories/buldings.js';
 
 import {config} from "./static/config.js";
 
@@ -24,7 +24,7 @@ export class Game{
         this.scene = this.#buildScene();
         this.light = this.#buildLight();
 
-        this.wallFac = new WallFactory();
+        this.wallFac = new BuildingFactory();
 
         // TODO: just for testing purposes.
 

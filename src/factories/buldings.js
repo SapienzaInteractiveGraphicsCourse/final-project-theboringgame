@@ -1,6 +1,6 @@
 import * as THREE from "../lib/three/build/three.module.js";
 
-export class WallFactory{
+export class BuildingFactory{
     constructor(){
         this.instances = new Array()
     }
@@ -42,7 +42,7 @@ class AbstractWall {
     }
 }
 
-export class BasicWall extends AbstractWall{
+class BasicWall extends AbstractWall{
 
     constructor(size,texture,segment = 1){
         super(size,segment);
@@ -56,7 +56,7 @@ export class BasicWall extends AbstractWall{
     }
 }
 
-export class DoorWall extends BasicWall{
+class DoorWall extends BasicWall{
     constructor(size,texture,doorSize,segment = 1){
         super(size,texture,segment);
 
