@@ -59,23 +59,22 @@ export class BasicWall extends AbstractWall{
 export class DoorWall extends BasicWall{
     constructor(size,texture,doorSize,segment = 1){
         super(size,texture,segment);
-
         this.doorW=doorSize[0];
         this.doorH=doorSize[1];
-        this.doorD=doorSize[2];
     }
+    
     create(){
         const wallPoints={
-            A: {x: -this.w/2, y:0},
-            B: {x: this.w/2, y:0},
-            C: {x: this.w/2, y: this.h},
-            D: {x: -this.w/2, y: this.h}
+            A: {x: -this.w/2, y:-this.h/2},
+            B: {x: this.w/2, y:-this.h/2},
+            C: {x: this.w/2, y: this.h/2},
+            D: {x: -this.w/2, y: this.h/2}
         };
         const doorPoints={
-            A: {x: -this.doorW/2, y:0},
-            B: {x: this.doorW/2, y:0},
-            C: {x: this.doorW/2, y: this.doorH},
-            D: {x: -this.doorW/2, y: this.doorH}
+            A: {x: -this.doorW/2, y: -this.h/2},
+            B: {x: this.doorW/2, y: -this.h/2},
+            C: {x: this.doorW/2, y: -this.h/2+this.doorH},
+            D: {x: -this.doorW/2, y: -this.h/2+this.doorH}
         };
 
         //We use a Shape type because it has the option to remove a Path from an object throught the call holes(line 94)
