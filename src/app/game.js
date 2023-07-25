@@ -67,11 +67,11 @@ export class Game{
         
         const loader = new GLTFLoader();
         loader.load(
-            '../assets/models/link/hmo-man.glb',
+            '../assets/models/hmo-man/hmo-ng.glb',
 
             function ( gltf ) {
                 this.link = gltf.scene;  
-                this.link.scale.set(15, 15, 15);
+                this.link.scale.set(7, 7, 7);
                 //this.link.rotation.x += Math.PI/2;
                 this.link.position.z -= 60;
                 this.link.position.y = floor.position.y;
