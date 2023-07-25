@@ -128,7 +128,7 @@ class Floor{
 
     create(){
         const plane = new THREE.PlaneGeometry(this.w, this.h);
-        var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } ); // TODO: change with texture
+        var material = new THREE.MeshPhongMaterial( { color: 0xff0000 } ); // TODO: change with texture
         return new THREE.Mesh(plane, material);
     }
 }
