@@ -59,17 +59,44 @@ class BasicWall extends AbstractWall{
 class DoorWall extends BasicWall{
     constructor(size,texture,doorSize,segment = 1){
         super(size,texture,segment);
-
         this.doorW=doorSize[0];
         this.doorH=doorSize[1];
-        this.doorD=doorSize[2];
     }
+    
     create(){
-        const wallMesh = super.create();
-        const wall_bsp = new THREECSG.ThreeBSP(wallMesh);
-        const doorGeometry= new THREE.BoxGeometry(this.doorW,this.doorH,this.doorD,this.segment,this.segment,this.segment);
-        const doorMesh = new THREE.Mesh(doorGeometry, new THREE.MeshPhongMaterial( { color: 0x00ff00 } )); // TODO: change with texture
-        const door_bsp = new THREECSG.ThreeBSP(doorMesh);
-        var subtract_bsp = wall_bsp.subtract(door_bsp);
-    }
+        const wallPoints={
+            A: {x: -this.w/2, y:-this.h/2},
+            B: {x: this.w/2, y:-this.h/2},
+            C: {x: this.w/2, y: this.h/2},
+            D: {x: -this.w/2, y: this.h/2}
+        };
+        const doorPoints={
+            A: {x: -this.doorW/2, y: -this.h/2},
+            B: {x: this.doorW/2, y: -this.h/2},
+            C: {x: this.doorW/2, y: -this.h/2+this.doorH},
+            D: {x: -this.doorW/2, y: -this.h/2+this.doorH}
+        };
+
+        //We use a Shape type because it has the option to remove a Path from an object throught the call holes(line 94)
+        const wallShape= new THREE.Shape();
+        wallShape.moveTo(wallPoints.A.x, wallPoints.A.y);
+        wallShape.lineTo(wallPoints.B.x,wallPoints.B.y);
+        wallShape.lineTo(wallPoints.C.x,wallPoints.C.y);
+        wallShape.lineTo(wallPoints.D.x,wallPoints.D.y);
+
+        const doorPath= new THREE.Path();
+        doorPath.moveTo(doorPoints.A.x,doorPoints.A.y);
+        doorPath.lineTo(doorPoints.B.x,doorPoints.B.y);
+        doorPath.lineTo(doorPoints.C.x,doorPoints.C.y);
+        doorPath.lineTo(doorPoints.D.x,doorPoints.D.y);
+        
+        wallShape.holes.push(doorPath);
+
+        //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
+        const geometry = new THREE.ExtrudeGeometry(wallShape, {depth: this.d, bevelEnabled: false});
+
+        var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );  // TODO: change with texture
+
+        return new THREE.Mesh( geometry, material );
+   }
 }
