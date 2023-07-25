@@ -3,7 +3,7 @@ import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from '../factories/buldings.js';
 
 import {config} from "./static/config.js";
-
+// TODO: just for testing purposes
 let instance;
 const wallWidth=100;
 const wallHeigth=20;
@@ -13,6 +13,8 @@ var phi=0;
 var theta=0;
 const doorWidth=12;
 const doorHeigth=15;
+//END testing
+
 /* 
 This class designed as a singleton handles the game's main loop and contains fundamental rendering elements.
 */
@@ -35,17 +37,22 @@ export class Game{
 
         // TODO: just for testing purposes.
 
-        let wall = this.wallFac.createDoorWall([wallWidth,wallHeigth,wallDepth], null,[doorWidth,doorHeigth]);
+        let wall = this.wallFac.createDoorWall([wallWidth,wallHeigth,wallDepth],null,[doorWidth,doorHeigth]);
         let wall2 = this.wallFac.createBasicWall([wallWidth,wallHeigth,wallDepth], null);
         let wall3 = this.wallFac.createBasicWall([wallWidth,wallHeigth,wallDepth], null);
         let wall4 = this.wallFac.createBasicWall([wallWidth,wallHeigth,wallDepth], null);
+
+        let floor = this.wallFac.createFloor([wallWidth,wallWidth]);
+
+        floor.rotation.x = -Math.PI/2;
+        floor.position.set(0,-wallHeigth/2,-wallWidth/2);
 
         wall2.position.set(wallWidth/2-wallDepth/2,0,-wallWidth/2);
         wall2.rotation.y = Math.PI/2;
         wall3.position.set(-wallWidth/2+wallDepth/2,0,-wallWidth/2);
         wall3.rotation.y = Math.PI/2;
         wall4.position.set(0,0,-wallWidth);
-        this.scene.add(wall,wall2,wall3,wall4);
+        this.scene.add(wall,wall2,wall3,wall4,floor);
         //this.scene.add(wall2);
         this.light.position.set(-1, 2, 4);
         this.camera.position.set(0, 70, 100);
@@ -66,8 +73,8 @@ export class Game{
                 this.link = gltf.scene;  
                 this.link.scale.set(20, 20, 20);
                 this.link.rotation.x += Math.PI/2;
-                this.link.position.z -= 80;
-                this.link.position.y -= 20;
+                this.link.position.z -= 60;
+                this.link.position.y = floor.position.y;
                 this.scene.add( this.link );
         
                 this.linkAnimation = gltf.animations; // Array<THREE.AnimationClip>

@@ -17,6 +17,12 @@ export class BuildingFactory{
         return instance.create();
     }
 
+    createFloor(size){
+        let instance = new Floor(size);
+        this.instances.push(instance);
+        return instance.create();
+    }
+
     getInstances(){
         return this.instances;
     }
@@ -28,6 +34,10 @@ class AbstractWall {
 
         if (this.constructor == AbstractWall) {
             throw new Error("Abstract classes can't be instantiated.");
+        }
+
+        if(size.length != 3){
+            throw new Error("3D size expected, "+size.length+"D given.");
         }
 
         this.w=size[0];
@@ -59,6 +69,11 @@ class BasicWall extends AbstractWall{
 class DoorWall extends BasicWall{
     constructor(size,texture,doorSize,segment = 1){
         super(size,texture,segment);
+
+        if(doorSize.length != 2){
+            throw new Error("2D doorSize expected, "+doorSize.length+"D given.");
+        }
+
         this.doorW=doorSize[0];
         this.doorH=doorSize[1];
     }
@@ -99,4 +114,21 @@ class DoorWall extends BasicWall{
 
         return new THREE.Mesh( geometry, material );
    }
+}
+
+class Floor{
+    constructor(size){
+        if(size.length != 2){
+            throw new Error("2D size expected, "+doorSize.length+"D given.");
+        }
+
+        this.w=size[0];
+        this.h=size[1];
+    }
+
+    create(){
+        const plane = new THREE.PlaneGeometry(this.w, this.h);
+        var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } ); // TODO: change with texture
+        return new THREE.Mesh(plane, material);
+    }
 }
