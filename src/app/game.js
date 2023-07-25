@@ -28,7 +28,7 @@ export class Game{
 
         // TODO: just for testing purposes.
 
-        let wall = this.wallFac.createBasicWall([1,0.1,0.5], null);
+        let wall = this.wallFac.createDoorWall([0.5,0.5,0.5], null,[0.2,0.2,0.2]);
         this.scene.add(wall);
         this.light.position.set(-1, 2, 4);
         this.camera.position.set(0, 0, 4);
