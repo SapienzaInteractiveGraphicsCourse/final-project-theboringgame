@@ -51,7 +51,7 @@ class rotationOneAxis extends AbstractAnimation{
                 new TWEEN.Tween(this.id.rotation)
                 .to({
                     x : this.value
-                },750)
+                },800)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .start()
                 break;
@@ -59,7 +59,7 @@ class rotationOneAxis extends AbstractAnimation{
                 new TWEEN.Tween(this.id.rotation)
                 .to({
                     y : this.value
-                },750)
+                },800)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .start()
                 break;
@@ -67,7 +67,7 @@ class rotationOneAxis extends AbstractAnimation{
                 new TWEEN.Tween(this.id.rotation)
                 .to({
                     z : this.value
-                },750)
+                },800)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .start()
                 break;
@@ -94,7 +94,8 @@ class rotation extends AbstractAnimation{
             x: this.x,
             y: this.y,
             z: this.z
-        },1000)
+        },800)
+        .easing(TWEEN.Easing.Quadratic.Out)
         .start()
     }
 }
