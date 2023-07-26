@@ -14,7 +14,7 @@ var phi=0;
 var theta=0;
 const doorWidth=12;
 const doorHeigth=15;
-let modelMesh= THREE.Object3D;
+let modelMesh= new THREE.Object3D;
 //END testing
 
 /* 
@@ -99,8 +99,7 @@ export class Game{
         
             }
         );
-        this.link.position.z=100;
-        /*console.log(this.scene.getObjectByName('model'));
+        //this.link.position.z=100;
         // END testing
         new TWEEN.Tween(modelMesh.position)
             .to({
@@ -108,7 +107,7 @@ export class Game{
                 y: 0,
                 z: 5
             },1000)
-            .start()*/
+            .start()
         
         this.scene.add(this.light);
 
