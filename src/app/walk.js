@@ -17,10 +17,13 @@ export class walk{
     doWalk(){
         switch(this.state){
             case 0:
+                //upper legs
                 this.animFac.doRotationOneAxis(this.idLU,-0.45,'x');
                 this.animFac.doRotationOneAxis(this.idRU,-0.85,'x');
-                this.animFac.doRotationOneAxis(this.idLL,-0.783,'x');
-                this.animFac.doRotationOneAxis(this.idRL,-0.826,'x');
+                //lower legs
+                this.animFac.doRotationOneAxis(this.idLL,-0.85,'x');
+                this.animFac.doRotationOneAxis(this.idRL,-0.6,'x');
+                //shoulders
                 this.animFac.doRotationOneAxis(this.idLS,-0.26,'x');
                 this.animFac.doRotationOneAxis(this.idRS,0.35,'x');
                 if(this.idLU.rotation.x>-0.5){
@@ -28,12 +31,15 @@ export class walk{
                 }
                 break;
             case 1:
+                //upper legs
                 this.animFac.doRotationOneAxis(this.idLU,-0.85,'x');
                 this.animFac.doRotationOneAxis(this.idRU,-0.45,'x');
-                this.animFac.doRotationOneAxis(this.idLL,-0.826,'x');
-                this.animFac.doRotationOneAxis(this.idRL,-0.783,'x');
-                this.animFac.doRotationOneAxis(this.idRS,-0.26,'x');
+                //lower legs
+                this.animFac.doRotationOneAxis(this.idLL,-0.6,'x');
+                this.animFac.doRotationOneAxis(this.idRL,-0.85,'x');
+                //shoulders
                 this.animFac.doRotationOneAxis(this.idLS,0.35,'x');
+                this.animFac.doRotationOneAxis(this.idRS,-0.26,'x');
                 if(this.idLU.rotation.x<-0.8){
                     this.state=0;
                 }
