@@ -8,7 +8,6 @@ let instance;
 const wallWidth=100;
 const wallHeigth=20;
 const wallDepth=3;
-const vector = new THREE.Vector3()
 var phi=0;
 var theta=0;
 const doorWidth=12;
@@ -46,6 +45,7 @@ export class Game{
 
         floor.rotation.x = -Math.PI/2;
         floor.position.set(0,-wallHeigth/2,-wallWidth/2);
+        floor.receiveShadow = true;
 
         wall2.position.set(wallWidth/2-wallDepth/2,0,-wallWidth/2);
         wall2.rotation.y = Math.PI/2;
@@ -53,13 +53,9 @@ export class Game{
         wall3.rotation.y = Math.PI/2;
         wall4.position.set(0,0,-wallWidth);
         this.scene.add(wall,wall2,wall3,wall4,floor);
-        //this.scene.add(wall2);
+
         this.light.position.set(-1, 2, 4);
         this.camera.position.set(0, 70, 100);
-
-        vector.x=5*Math.sin(theta)*Math.cos(phi);
-        vector.y=5*Math.sin(theta)*Math.sin(phi);
-        vector.z=5*Math.cos(theta);
         
         this.camera.lookAt(0,0,0);
 
@@ -72,12 +68,16 @@ export class Game{
             function ( gltf ) {
                 this.link = gltf.scene;  
                 this.link.scale.set(7, 7, 7);
-                //this.link.rotation.x += Math.PI/2;
+
                 this.link.position.z -= 60;
                 this.link.position.y = floor.position.y;
+
+                this.link.castShadow = true;
+                this.link.receiveShadow = false;
+
                 this.scene.add( this.link );
         
-                this.linkAnimation = gltf.animations; // Array<THREE.AnimationClip>
+                gltf.animations; // Array<THREE.AnimationClip>
                 gltf.scene; // THREE.Group
                 gltf.scenes; // Array<THREE.Group>
                 gltf.cameras; // Array<THREE.Camera>
@@ -87,18 +87,14 @@ export class Game{
         
             }.bind(this),
             function ( xhr ) {
-        
                 console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        
             },
             function ( error ) {
         
-                console.log( 'An error happened' );
+                console.log( 'An error happened: '+error );
         
             }
         );
-    
-
         // END testing
         this.scene.add(this.light);
 
@@ -119,6 +115,8 @@ export class Game{
         let renderer = new THREE.WebGLRenderer();
         renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         return renderer;
     }
 
@@ -126,7 +124,16 @@ export class Game{
         // TODO: move parameters to config file 
         const color = 0xFFFFFF;
         const intensity = 1;
-        return new THREE.DirectionalLight(color, intensity);
+        let light = new THREE.DirectionalLight(color, intensity);
+
+        // shadows
+        light.castShadow = true;
+        light.shadow.mapSize.width = 512;
+        light.shadow.mapSize.height = 512;
+        light.shadow.camera.near = 0.5;
+        light.shadow.camera.far = 500;
+
+        return light
     }
 
     render(){
