@@ -14,7 +14,6 @@ var phi=0;
 var theta=0;
 const doorWidth=12;
 const doorHeigth=15;
-let modelMesh= new THREE.Object3D;
 //END testing
 
 /* 
@@ -58,7 +57,7 @@ export class Game{
         this.scene.add(wall,wall2,wall3,wall4,floor);
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(0, 70, 100);
+        this.camera.position.set(-100, 30, 20);
         
         this.camera.lookAt(0,0,0);
 
@@ -71,7 +70,7 @@ export class Game{
             function ( gltf ) {
                 this.link = gltf.scene;  
                 this.link.name='model';
-                this.link.scale.set(7, 7, 7);
+                this.link.scale.set(9, 9, 9);
 
                 this.link.position.z -= 60;
                 this.link.position.y = floor.position.y;
@@ -80,7 +79,7 @@ export class Game{
                 this.link.receiveShadow = false;
 
                 this.scene.add( this.link );
-                modelMesh=this.link;
+
                 gltf.animations; // Array<THREE.AnimationClip>
                 gltf.scene; // THREE.Group
                 gltf.scenes; // Array<THREE.Group>
@@ -99,15 +98,7 @@ export class Game{
         
             }
         );
-        //this.link.position.z=100;
         // END testing
-        new TWEEN.Tween(modelMesh.position)
-            .to({
-                x: 5,
-                y: 0,
-                z: 5
-            },1000)
-            .start()
         
         this.scene.add(this.light);
 
@@ -151,9 +142,19 @@ export class Game{
 
     render(){
         this.renderer.render( this.scene, this.camera );
+        TWEEN.update();
         window.requestAnimationFrame(() => this.render());
-        if(this.isLoaded)
-            this.link.rotation.y += 0.01;
+        if(this.isLoaded){
+            let rootNode = this.link.getObjectByName("_rootJoint")            
+
+            new TWEEN.Tween(this.link.getObjectByName("RightUpperArm_033").rotation)
+            .to({
+                x: Math.PI/2,
+                y: 0.349066,
+                z: -0.872665
+            },1000)
+            .start()
+        }
     }
 
 }
