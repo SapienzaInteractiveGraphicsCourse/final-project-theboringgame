@@ -23,7 +23,7 @@ export class walk{
                 this.animFac.doRotationOneAxis(this.idRL,-0.826,'x');
                 this.animFac.doRotationOneAxis(this.idLS,-0.26,'x');
                 this.animFac.doRotationOneAxis(this.idRS,0.35,'x');
-                if(this.idLU.rotation.x>-0.5 && this.idRU.rotation.x<-0.7){
+                if(this.idLU.rotation.x>-0.5){
                     this.state++;
                 }
                 break;
@@ -34,7 +34,7 @@ export class walk{
                 this.animFac.doRotationOneAxis(this.idRL,-0.783,'x');
                 this.animFac.doRotationOneAxis(this.idRS,-0.26,'x');
                 this.animFac.doRotationOneAxis(this.idLS,0.35,'x');
-                if(this.idLU.rotation.x<-0.7 && this.idRU.rotation.x>-0.5){
+                if(this.idLU.rotation.x<-0.8){
                     this.state=0;
                 }
                 break;
