@@ -1,9 +1,9 @@
-import * as THREE from "../lib/three/build/three.module.js";
-import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
-import {BuildingFactory} from '../factories/buldings.js';
-import {walk} from './walk.js';
+import * as THREE from "./lib/three/build/three.module.js";
+import {GLTFLoader} from "./lib/three/loaders/GLTFLoader.js";
+import {BuildingFactory} from './factories/buldings.js';
+import {Walk} from './animations/walk.js';
 import {config} from "./static/config.js";
-import {TWEEN} from '../lib/tween/build/tween.module.min.js';
+import {TWEEN} from './lib/tween/build/tween.module.min.js';
 
 // TODO: just for testing purposes
 let instance;
@@ -87,6 +87,13 @@ export class Game{
                 gltf.cameras; // Array<THREE.Camera>
                 gltf.asset; // Object
 
+                this.walkc = new Walk(this.link.getObjectByName("LeftUpperLeg_050"),
+                                        this.link.getObjectByName("RightUpperLeg_053"),
+                                            this.link.getObjectByName("LeftLowerLeg_051"),
+                                                this.link.getObjectByName("RightLowerLeg_054"),
+                                                    this.link.getObjectByName("LeftShoulder_013"),
+                                                        this.link.getObjectByName("RightShoulder_032"));
+
                 this.isLoaded = true;
         
             }.bind(this),
@@ -146,24 +153,7 @@ export class Game{
         window.requestAnimationFrame(() => this.render());
         if(this.isLoaded){
 
-            /*
-            let rootNode = this.link.getObjectByName("_rootJoint")            
-            let animationFac = new AnimationFactory();
-            animationFac.doRotationOneAxis(this.link.getObjectByName("LeftUpperLeg_050"),Math.PI/8,'x');
-            animationFac.doTranslation(rootNode,5,0,5);
-            animationFac.doRotation(this.link.getObjectByName("RightUpperArm_033"),Math.PI/2,0.349066,-0.872665); //nazi
-            */
-            if(!built){
-                this.walkc = new walk(this.link.getObjectByName("LeftUpperLeg_050"),
-                                        this.link.getObjectByName("RightUpperLeg_053"),
-                                            this.link.getObjectByName("LeftLowerLeg_051"),
-                                                this.link.getObjectByName("RightLowerLeg_054"),
-                                                    this.link.getObjectByName("LeftShoulder_013"),
-                                                        this.link.getObjectByName("RightShoulder_032"));
-                built=true;
-            }
-
-            this.walkc.doWalk();
+            this.walkc.update();
 
         }
     }
