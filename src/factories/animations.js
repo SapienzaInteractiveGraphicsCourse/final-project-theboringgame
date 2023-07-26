@@ -51,21 +51,21 @@ class rotationOneAxis extends AbstractAnimation{
                 new TWEEN.Tween(this.id.rotation)
                 .to({
                     x : this.value
-                },1000)
+                },500)
                 .start()
                 break;
             case 'y':
                 new TWEEN.Tween(this.id.rotation)
                 .to({
                     y : this.value
-                },1000)
+                },500)
                 .start()
                 break;
             case 'z':
                 new TWEEN.Tween(this.id.rotation)
                 .to({
                     z : this.value
-                },1000)
+                },500)
                 .start()
                 break;
             default:
