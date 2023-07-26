@@ -70,3 +70,14 @@ export class Walk{
         }
     }
 }
+
+export class MainCharacterWalk extends Walk{
+    constructor(character){
+        super(character.getObjectByName("LeftUpperLeg_050"),
+                character.getObjectByName("RightUpperLeg_053"),
+                    character.getObjectByName("LeftLowerLeg_051"),
+                        character.getObjectByName("RightLowerLeg_054"),
+                            character.getObjectByName("LeftShoulder_013"),
+                                character.getObjectByName("RightShoulder_032"));
+    }
+}

@@ -1,7 +1,7 @@
 import * as THREE from "./lib/three/build/three.module.js";
 import {GLTFLoader} from "./lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from './factories/buldings.js';
-import {Walk} from './animations/walk.js';
+import {MainCharacterWalk} from './animations/walk.js';
 import {config} from "./static/config.js";
 import {TWEEN} from './lib/tween/build/tween.module.min.js';
 
@@ -87,12 +87,7 @@ export class Game{
                 gltf.cameras; // Array<THREE.Camera>
                 gltf.asset; // Object
 
-                this.walkc = new Walk(this.link.getObjectByName("LeftUpperLeg_050"),
-                                        this.link.getObjectByName("RightUpperLeg_053"),
-                                            this.link.getObjectByName("LeftLowerLeg_051"),
-                                                this.link.getObjectByName("RightLowerLeg_054"),
-                                                    this.link.getObjectByName("LeftShoulder_013"),
-                                                        this.link.getObjectByName("RightShoulder_032"));
+                this.walkc = new MainCharacterWalk(this.link);
 
                 this.isLoaded = true;
         
