@@ -1,7 +1,7 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from '../factories/buldings.js';
-import {doAnimation} from './animations.js';
+import {AnimationFactory} from '../factories/animations.js';
 import {config} from "./static/config.js";
 import {TWEEN} from '../lib/tween/build/tween.module.min.js';
 
@@ -57,7 +57,7 @@ export class Game{
         this.scene.add(wall,wall2,wall3,wall4,floor);
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(-100, 30, 20);
+        this.camera.position.set(-0, 50, 70);
         
         this.camera.lookAt(0,0,0);
 
@@ -145,15 +145,13 @@ export class Game{
         TWEEN.update();
         window.requestAnimationFrame(() => this.render());
         if(this.isLoaded){
-            let rootNode = this.link.getObjectByName("_rootJoint")            
 
-            new TWEEN.Tween(this.link.getObjectByName("RightUpperArm_033").rotation)
-            .to({
-                x: Math.PI/2,
-                y: 0.349066,
-                z: -0.872665
-            },1000)
-            .start()
+            let rootNode = this.link.getObjectByName("_rootJoint")            
+            let animationFac = new AnimationFactory();
+            animationFac.doRotationOneAxis(this.link.getObjectByName("LeftUpperLeg_050"),Math.PI/8,'x');
+            animationFac.doTranslation(rootNode,5,0,5);
+            animationFac.doRotation(this.link.getObjectByName("RightUpperArm_033"),Math.PI/2,0.349066,-0.872665); //nazi
+
         }
     }
 
