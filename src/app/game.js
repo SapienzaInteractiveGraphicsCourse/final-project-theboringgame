@@ -1,8 +1,10 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from '../factories/buldings.js';
-
+import {doAnimation} from './animations.js';
 import {config} from "./static/config.js";
+import {TWEEN} from '../lib/tween/build/tween.module.min.js';
+
 // TODO: just for testing purposes
 let instance;
 const wallWidth=100;
@@ -12,6 +14,7 @@ var phi=0;
 var theta=0;
 const doorWidth=12;
 const doorHeigth=15;
+let modelMesh= THREE.Object3D;
 //END testing
 
 /* 
@@ -67,6 +70,7 @@ export class Game{
 
             function ( gltf ) {
                 this.link = gltf.scene;  
+                this.link.name='model';
                 this.link.scale.set(7, 7, 7);
 
                 this.link.position.z -= 60;
@@ -76,7 +80,7 @@ export class Game{
                 this.link.receiveShadow = false;
 
                 this.scene.add( this.link );
-        
+                modelMesh=this.link;
                 gltf.animations; // Array<THREE.AnimationClip>
                 gltf.scene; // THREE.Group
                 gltf.scenes; // Array<THREE.Group>
@@ -95,7 +99,17 @@ export class Game{
         
             }
         );
+        this.link.position.z=100;
+        /*console.log(this.scene.getObjectByName('model'));
         // END testing
+        new TWEEN.Tween(modelMesh.position)
+            .to({
+                x: 5,
+                y: 0,
+                z: 5
+            },1000)
+            .start()*/
+        
         this.scene.add(this.light);
 
         this.container.appendChild( this.renderer.domElement );
