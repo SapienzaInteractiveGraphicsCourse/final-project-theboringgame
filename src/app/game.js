@@ -1,7 +1,7 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import {GLTFLoader} from "../lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from '../factories/buldings.js';
-import {AnimationFactory} from '../factories/animations.js';
+import {walk} from './walk.js';
 import {config} from "./static/config.js";
 import {TWEEN} from '../lib/tween/build/tween.module.min.js';
 
@@ -14,6 +14,7 @@ var phi=0;
 var theta=0;
 const doorWidth=12;
 const doorHeigth=15;
+let built=false;
 //END testing
 
 /* 
@@ -57,7 +58,7 @@ export class Game{
         this.scene.add(wall,wall2,wall3,wall4,floor);
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(-0, 50, 70);
+        this.camera.position.set(-100, 50, 10);
         
         this.camera.lookAt(0,0,0);
 
@@ -99,7 +100,6 @@ export class Game{
             }
         );
         // END testing
-        
         this.scene.add(this.light);
 
         this.container.appendChild( this.renderer.domElement );
@@ -146,11 +146,24 @@ export class Game{
         window.requestAnimationFrame(() => this.render());
         if(this.isLoaded){
 
+            /*
             let rootNode = this.link.getObjectByName("_rootJoint")            
             let animationFac = new AnimationFactory();
             animationFac.doRotationOneAxis(this.link.getObjectByName("LeftUpperLeg_050"),Math.PI/8,'x');
             animationFac.doTranslation(rootNode,5,0,5);
             animationFac.doRotation(this.link.getObjectByName("RightUpperArm_033"),Math.PI/2,0.349066,-0.872665); //nazi
+            */
+            if(!built){
+                this.walkc = new walk(this.link.getObjectByName("LeftUpperLeg_050"),
+                                        this.link.getObjectByName("RightUpperLeg_053"),
+                                            this.link.getObjectByName("LeftLowerLeg_051"),
+                                                this.link.getObjectByName("RightLowerLeg_054"),
+                                                    this.link.getObjectByName("LeftShoulder_013"),
+                                                        this.link.getObjectByName("RightShoulder_032"));
+                built=true;
+            }
+
+            this.walkc.doWalk();
 
         }
     }
