@@ -61,7 +61,49 @@ class BasicWall extends AbstractWall{
 
     create(){
         var geometry = new THREE.BoxGeometry(this.w,this.h,this.d); 
-        var material = new THREE.MeshPhongMaterial( { color: 0x00ff00 } );  // TODO: change with texture
+
+        // TODO: create a material factory
+        let density = 0.5;
+        var repeat = [density*this.w/this.h,density];
+        
+        const ao_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_ambientOcclusion.jpg');
+        ao_tex.wrapS = THREE.RepeatWrapping;
+        ao_tex.wrapT = THREE.RepeatWrapping;
+        ao_tex.repeat.set(...repeat);
+        const map_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_basecolor.jpg');
+        map_tex.wrapS = THREE.RepeatWrapping;
+        map_tex.wrapT = THREE.RepeatWrapping;
+        map_tex.repeat.set(...repeat);
+        const emissive_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_emissive.jpg');
+        emissive_tex.wrapS = THREE.RepeatWrapping;
+        emissive_tex.wrapT = THREE.RepeatWrapping;
+        emissive_tex.repeat.set(...repeat);
+        const displacement_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_height.png');
+        displacement_tex.wrapS = THREE.RepeatWrapping;
+        displacement_tex.wrapT = THREE.RepeatWrapping;
+        displacement_tex.repeat.set(...repeat);
+        const metalness_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_metallic.jpg');
+        metalness_tex.wrapS = THREE.RepeatWrapping;
+        metalness_tex.wrapT = THREE.RepeatWrapping;
+        metalness_tex.repeat.set(...repeat);
+        const normal_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_normal.jpg');
+        normal_tex.wrapS = THREE.RepeatWrapping;
+        normal_tex.wrapT = THREE.RepeatWrapping;
+        normal_tex.repeat.set(...repeat);
+        const roughness_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_roughness.jpg');
+        roughness_tex.wrapS = THREE.RepeatWrapping;
+        roughness_tex.wrapT = THREE.RepeatWrapping;
+        roughness_tex.repeat.set(...repeat);
+
+        var material = new THREE.MeshStandardMaterial({
+            aoMap:ao_tex,
+            map:map_tex,
+            emissiveMap:emissive_tex,
+            displacementMap:displacement_tex,
+            metalnessMap:metalness_tex,
+            normalMap:normal_tex,
+            roughnessMap:roughness_tex,
+        });
         return new THREE.Mesh( geometry, material );
     }
 }

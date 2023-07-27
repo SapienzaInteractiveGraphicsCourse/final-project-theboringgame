@@ -10,11 +10,6 @@ import { RoomParser } from "./utils/roomParser.js"
 
 // TODO: just for testing purposes
 let instance;
-const wallWidth=100;
-const wallHeigth=20;
-const wallDepth=3;
-const doorWidth=12;
-const doorHeigth=15;
 const dudeSpeed = 10;
 //END testing
 
@@ -75,7 +70,7 @@ export class Game{
                 this.holdLight = new MainCharacterHoldLight(this.link,this.holdedLight);
 
                 this.isLoaded = true;
-        
+
             }.bind(this),
             function ( xhr ) {
                 console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
@@ -88,7 +83,7 @@ export class Game{
         );
         // END testing
         this.scene.add(this.light);
-
+        
         this.container.appendChild( this.renderer.domElement );
     }
 
@@ -138,7 +133,8 @@ export class Game{
             this.holdLight.startHoldLight();
             
             // TODO change this as to use a physics engine
-            let nextZ = Math.min(this.link.position.z+1, 0-wallDepth-1)
+            let wall = this.scene.getObjectByName("frontDoorWall");
+            let nextZ = Math.min(this.link.position.z+1, wall.position.z-3)
             AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);
         }
         
