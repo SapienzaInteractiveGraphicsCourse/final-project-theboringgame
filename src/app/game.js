@@ -45,11 +45,13 @@ export class Game{
         rp.parseRoom("room.json");
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(-100, 50, 10);
+        this.camera.position.set(-100, 70, -30);
         
         this.holdedLight=new THREE.SpotLight(0xffffff,0, 100, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
+        this.isHoldingLight=false;
+        this.isMoving=false;
 
         this.camera.lookAt(0,0,0);
 
@@ -90,7 +92,6 @@ export class Game{
         );
         // END testing
         this.scene.add(this.light);
-
         this.container.appendChild( this.renderer.domElement );
     }
 
@@ -129,20 +130,29 @@ export class Game{
         return light
     }
 
+    setupKeyControls(){
+        document.onkeydown=function(e){
+            switch(e.keycode){
+                case 76:
+                    console.log('ciao');
+            }
+        }
+    }
+
     render(t){
         let dt = t - this.last_t;
-
         TWEEN.update();
         
         if(this.isLoaded){
-            
-            this.stand.update();
-            //this.walkc.update();
-            //this.holdLight.startHoldLight();
-            
+            if(!this.isMoving){
+                this.stand.update();
+            }
+            this.isHoldingLight = this.holdLight.startHoldLight(true);
+
+            this.isMoving = this.walkc.update(this.isHoldingLight,!this.isMoving);
             // TODO change this as to use a physics engine
             let nextZ = Math.min(this.link.position.z+1, 0-wallDepth-1)
-            //AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);
+            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);    
         }
         
 
@@ -153,3 +163,17 @@ export class Game{
     }
 
 }
+
+/*
+function onDocumentKeyDown(event) {
+    var keyCode = event.which;
+    if (keyCode == 76) {
+        console.log(this.isHoldingLight);
+        //
+    }else if(keyCode=38){
+        
+    
+    }
+    render();
+        
+};*/
