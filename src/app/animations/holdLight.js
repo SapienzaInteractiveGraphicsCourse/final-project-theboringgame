@@ -16,8 +16,7 @@ class holdLight{
         this.light.intensity=5;
         this.light.target.position.x=this.character.position.x+this.idRH.position.x;
         this.light.target.position.y=this.character.position.y+this.idRH.position.y;
-        console.log(this.light.target.position);
-        //this.light.target.position.z=this.character.position.z;
+        this.light.target.position.z=this.character.position.z+10;
     }
 }
 
