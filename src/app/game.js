@@ -4,17 +4,17 @@ import {BuildingFactory} from './factories/buldings.js';
 import {MainCharacterWalk} from './animations/walk.js';
 import {config} from "./static/config.js";
 import {TWEEN} from './lib/tween/build/tween.module.min.js';
+import { AnimationUtils } from "./utils/animationUtils.js";
+import { RoomParser } from "./utils/roomParser.js"
 
 // TODO: just for testing purposes
 let instance;
 const wallWidth=100;
 const wallHeigth=20;
 const wallDepth=3;
-var phi=0;
-var theta=0;
 const doorWidth=12;
 const doorHeigth=15;
-let built=false;
+const dudeSpeed = 10;
 //END testing
 
 /* 
@@ -39,23 +39,8 @@ export class Game{
 
         // TODO: just for testing purposes.
 
-        let wall = this.wallFac.createDoorWall([wallWidth,wallHeigth,wallDepth],null,[doorWidth,doorHeigth]);
-        let wall2 = this.wallFac.createBasicWall([wallWidth,wallHeigth,wallDepth], null);
-        let wall3 = this.wallFac.createBasicWall([wallWidth,wallHeigth,wallDepth], null);
-        let wall4 = this.wallFac.createBasicWall([wallWidth,wallHeigth,wallDepth], null);
-
-        let floor = this.wallFac.createFloor([wallWidth,wallWidth]);
-
-        floor.rotation.x = -Math.PI/2;
-        floor.position.set(0,-wallHeigth/2,-wallWidth/2);
-        floor.receiveShadow = true;
-
-        wall2.position.set(wallWidth/2-wallDepth/2,0,-wallWidth/2);
-        wall2.rotation.y = Math.PI/2;
-        wall3.position.set(-wallWidth/2+wallDepth/2,0,-wallWidth/2);
-        wall3.rotation.y = Math.PI/2;
-        wall4.position.set(0,0,-wallWidth);
-        this.scene.add(wall,wall2,wall3,wall4,floor);
+        let rp = new RoomParser(this.scene);
+        rp.parseRoom("room.json");
 
         this.light.position.set(-1, 2, 4);
         this.camera.position.set(-100, 50, 10);
@@ -74,18 +59,12 @@ export class Game{
                 this.link.scale.set(9, 9, 9);
 
                 this.link.position.z -= 60;
-                this.link.position.y = floor.position.y;
+                this.link.position.y = this.scene.getObjectByName("mazeFloor").position.y;
 
                 this.link.castShadow = true;
                 this.link.receiveShadow = false;
 
                 this.scene.add( this.link );
-
-                gltf.animations; // Array<THREE.AnimationClip>
-                gltf.scene; // THREE.Group
-                gltf.scenes; // Array<THREE.Group>
-                gltf.cameras; // Array<THREE.Camera>
-                gltf.asset; // Object
 
                 this.walkc = new MainCharacterWalk(this.link);
 
@@ -142,15 +121,25 @@ export class Game{
         return light
     }
 
-    render(){
-        this.renderer.render( this.scene, this.camera );
+    render(t){
+        let dt = t - this.last_t;
+
         TWEEN.update();
-        window.requestAnimationFrame(() => this.render());
+        
         if(this.isLoaded){
-
+            
             this.walkc.update();
-
+            
+            // TODO change this as to use a physics engine
+            let nextZ = Math.min(this.link.position.z+1, 0-wallDepth-1)
+            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);
         }
+        
+
+        this.renderer.render( this.scene, this.camera );
+
+        this.last_t = t;
+        window.requestAnimationFrame((t) => this.render(t));
     }
 
 }
