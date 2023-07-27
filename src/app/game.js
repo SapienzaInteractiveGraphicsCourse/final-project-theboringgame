@@ -3,6 +3,7 @@ import {GLTFLoader} from "./lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from './factories/buldings.js';
 import {MainCharacterWalk} from './animations/walk.js';
 import {MainCharacterHoldLight} from './animations/holdLight.js';
+import {MainCharacterStand} from './animations/stand.js';
 import {config} from "./static/config.js";
 import {TWEEN} from './lib/tween/build/tween.module.min.js';
 import { AnimationUtils } from "./utils/animationUtils.js";
@@ -39,11 +40,13 @@ export class Game{
         rp.parseRoom("room.json");
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(-100, 60, -10);
+        this.camera.position.set(-100, 70, -30);
         
         this.holdedLight=new THREE.SpotLight(0xffffff,0, 100, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
+        this.isHoldingLight=false;
+        this.isMoving=false;
 
         this.camera.lookAt(0,0,0);
 
@@ -68,6 +71,7 @@ export class Game{
                 
                 this.walkc = new MainCharacterWalk(this.link);
                 this.holdLight = new MainCharacterHoldLight(this.link,this.holdedLight);
+                this.stand = new MainCharacterStand(this.link);
 
                 this.isLoaded = true;
 
@@ -83,7 +87,6 @@ export class Game{
         );
         // END testing
         this.scene.add(this.light);
-        
         this.container.appendChild( this.renderer.domElement );
     }
 
@@ -122,16 +125,26 @@ export class Game{
         return light
     }
 
+    setupKeyControls(){
+        document.onkeydown=function(e){
+            switch(e.keycode){
+                case 76:
+                    console.log('ciao');
+            }
+        }
+    }
+
     render(t){
         let dt = t - this.last_t;
-
         TWEEN.update();
         
         if(this.isLoaded){
-            
-            this.walkc.update();
-            this.holdLight.startHoldLight();
-            
+            if(!this.isMoving){
+                this.stand.update();
+            }
+            this.isHoldingLight = this.holdLight.startHoldLight(true);
+
+            this.isMoving = this.walkc.update(this.isHoldingLight,!this.isMoving);
             // TODO change this as to use a physics engine
             let wall = this.scene.getObjectByName("frontDoorWall");
             let nextZ = Math.min(this.link.position.z+1, wall.position.z-3)
