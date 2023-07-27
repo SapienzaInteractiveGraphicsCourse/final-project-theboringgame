@@ -3,6 +3,7 @@ import {GLTFLoader} from "./lib/three/loaders/GLTFLoader.js";
 import {BuildingFactory} from './factories/buldings.js';
 import {MainCharacterWalk} from './animations/walk.js';
 import {MainCharacterHoldLight} from './animations/holdLight.js';
+import {MainCharacterStand} from './animations/stand.js';
 import {config} from "./static/config.js";
 import {TWEEN} from './lib/tween/build/tween.module.min.js';
 import { AnimationUtils } from "./utils/animationUtils.js";
@@ -44,7 +45,7 @@ export class Game{
         rp.parseRoom("room.json");
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(-100, 60, -10);
+        this.camera.position.set(-100, 50, 10);
         
         this.holdedLight=new THREE.SpotLight(0xffffff,0, 100, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
@@ -73,6 +74,7 @@ export class Game{
                 
                 this.walkc = new MainCharacterWalk(this.link);
                 this.holdLight = new MainCharacterHoldLight(this.link,this.holdedLight);
+                this.stand = new MainCharacterStand(this.link);
 
                 this.isLoaded = true;
         
@@ -134,12 +136,13 @@ export class Game{
         
         if(this.isLoaded){
             
-            this.walkc.update();
-            this.holdLight.startHoldLight();
+            this.stand.update();
+            //this.walkc.update();
+            //this.holdLight.startHoldLight();
             
             // TODO change this as to use a physics engine
             let nextZ = Math.min(this.link.position.z+1, 0-wallDepth-1)
-            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);
+            //AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);
         }
         
 
