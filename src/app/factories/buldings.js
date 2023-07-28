@@ -1,5 +1,4 @@
 import * as THREE from "../lib/three/build/three.module.js";
-import { MaterialFactory } from "./materials.js"
 
 export class BuildingFactory {
     createBasicWall(size, material, segment = 1) {

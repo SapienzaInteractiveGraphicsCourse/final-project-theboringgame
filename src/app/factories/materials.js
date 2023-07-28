@@ -1,25 +1,30 @@
 import * as THREE from "../lib/three/build/three.module.js";
 
 export class MaterialFactory {
+    constructor(loadingManager){
+        this.lm=loadingManager;
+    }
+
     createSciFiMaterial(density, surfaceW, surfaceH) {
-        let instance = new SciFiMaterial(density, surfaceW, surfaceH);
+        let instance = new SciFiMaterial(density, surfaceW, surfaceH, this.lm);
         return instance.create();
     }
 }
 
 class SciFiMaterial {
-    constructor(density, surfaceW, surfaceH) {
+    constructor(density, surfaceW, surfaceH, loadingManager) {
         this.repeat = [density * surfaceW / surfaceH, density];
+        this.lm = loadingManager;
     }
 
     create() {
-        const ao_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_ambientOcclusion.jpg');
-        const map_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_basecolor.jpg');
-        const emissive_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_emissive.jpg');
-        const bump_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_height.png');
-        const metalness_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_metallic.jpg');
-        const normal_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_normal.jpg');
-        const roughness_tex = new THREE.TextureLoader().load('../../assets/textures/wall/Sci-fi_Wall_011_roughness.jpg');
+        const ao_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_ambientOcclusion.jpg');
+        const map_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_basecolor.jpg');
+        const emissive_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_emissive.jpg');
+        const bump_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_height.png');
+        const metalness_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_metallic.jpg');
+        const normal_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_normal.jpg');
+        const roughness_tex = new THREE.TextureLoader(this.lm).load('../../assets/textures/wall/Sci-fi_Wall_011_roughness.jpg');
 
         ao_tex.wrapS = THREE.RepeatWrapping;
         ao_tex.wrapT = THREE.RepeatWrapping;

@@ -25,7 +25,7 @@ export class Game {
         instance = this;
 
         this.container = document.querySelector('#scene-container');
-
+        
         this.renderer = this.#buildRenderer();
         this.camera = this.#buildCamera();
         this.scene = this.#buildScene();
@@ -33,7 +33,19 @@ export class Game {
 
         // TODO: just for testing purposes.
 
-        let rp = new RoomParser(this.scene);
+        const lm = new THREE.LoadingManager();
+
+        let loadingBar = document.getElementById("progress-bar");
+
+        lm.onProgress = (url, loaded, total) => {
+            loadingBar.style.setProperty('--width', (loaded / total) * 100)
+        };
+
+        lm.onLoad = function () {
+            document.getElementById("loading").style.display = 'none';
+        }.bind(this);
+
+        let rp = new RoomParser(this.scene, lm);
         rp.parseRoom("room.json");
 
         this.light.position.set(-1, 2, 4);
@@ -49,7 +61,7 @@ export class Game {
 
         this.isLoaded = false
 
-        const loader = new GLTFLoader();
+        const loader = new GLTFLoader(lm);
         loader.load(
             '../assets/models/hmo-man/hmo-ng.glb',
 

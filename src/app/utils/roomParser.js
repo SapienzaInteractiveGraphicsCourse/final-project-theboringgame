@@ -7,9 +7,9 @@ import { MaterialFactory } from '../factories/materials.js';
 const folder = "./app/static/";
 
 export class RoomParser {
-    constructor(scene) {
+    constructor(scene, loadingManager) {
         this.bf = new BuildingFactory();
-        this.mf = new MaterialFactory();
+        this.mf = new MaterialFactory(loadingManager);
         this.scene = scene;
     }
 
