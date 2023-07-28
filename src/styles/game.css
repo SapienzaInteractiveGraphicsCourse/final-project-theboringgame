@@ -2,17 +2,17 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-  
+
     text-align: center;
     font-size: 12px;
     font-family: Sans-Serif;
 
     width: 100vw;
     height: 100vh;
-  
+
     color: black;
-  }
-  
+}
+
 #scene-container {
     position: absolute;
     width: 100%;
@@ -25,4 +25,3 @@ body {
     display: block;
     position: absolute;
 }
-

@@ -1,16 +1,15 @@
 import * as THREE from "./lib/three/build/three.module.js";
-import {GLTFLoader} from "./lib/three/loaders/GLTFLoader.js";
-import {BuildingFactory} from './factories/buldings.js';
-import {MainCharacterWalk} from './animations/walk.js';
-import {MainCharacterHoldLight} from './animations/holdLight.js';
-import {MainCharacterStand} from './animations/stand.js';
-import {config} from "./static/config.js";
-import {TWEEN} from './lib/tween/build/tween.module.min.js';
+import { GLTFLoader } from "./lib/three/loaders/GLTFLoader.js";
+import { MainCharacterWalk } from './animations/walk.js';
+import { MainCharacterHoldLight } from './animations/holdLight.js';
+import { MainCharacterStand } from './animations/stand.js';
+import { config } from "./static/config.js";
+import { TWEEN } from './lib/tween/build/tween.module.min.js';
 import { AnimationUtils } from "./utils/animationUtils.js";
 import { RoomParser } from "./utils/roomParser.js"
 
-// TODO: just for testing purposes
 let instance;
+// TODO: just for testing purposes
 const dudeSpeed = 10;
 //END testing
 
@@ -18,10 +17,10 @@ const dudeSpeed = 10;
 This class designed as a singleton handles the game's main loop and contains fundamental rendering elements.
 */
 
-export class Game{
+export class Game {
 
-    constructor(){
-        if(instance)
+    constructor() {
+        if (instance)
             throw new Error("Class Game is a singleton, a new instance cannot be created");
         instance = this;
 
@@ -32,33 +31,31 @@ export class Game{
         this.scene = this.#buildScene();
         this.light = this.#buildLight();
 
-        this.wallFac = new BuildingFactory();
-
         // TODO: just for testing purposes.
 
         let rp = new RoomParser(this.scene);
         rp.parseRoom("room.json");
 
         this.light.position.set(-1, 2, 4);
-        this.camera.position.set(-100, 70, -30);
-        
-        this.holdedLight=new THREE.SpotLight(0xffffff,0, 100, Math.PI * 0.1);
+        this.camera.position.set(-100, 70, 50);
+
+        this.holdedLight = new THREE.SpotLight(0xffffff, 0, 100, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
-        this.isHoldingLight=false;
-        this.isMoving=false;
+        this.isHoldingLight = false;
+        this.isMoving = false;
 
-        this.camera.lookAt(0,0,0);
+        this.camera.lookAt(0, 0, 0);
 
         this.isLoaded = false
-        
+
         const loader = new GLTFLoader();
         loader.load(
             '../assets/models/hmo-man/hmo-ng.glb',
 
-            function ( gltf ) {
-                this.link = gltf.scene;  
-                this.link.name='model';
+            function (gltf) {
+                this.link = gltf.scene;
+                this.link.name = 'model';
                 this.link.scale.set(9, 9, 9);
 
                 this.link.position.z -= 60;
@@ -67,40 +64,40 @@ export class Game{
                 this.link.castShadow = true;
                 this.link.receiveShadow = false;
 
-                this.scene.add( this.link );
-                
+                this.scene.add(this.link);
+
                 this.walkc = new MainCharacterWalk(this.link);
-                this.holdLight = new MainCharacterHoldLight(this.link,this.holdedLight);
+                this.holdLight = new MainCharacterHoldLight(this.link, this.holdedLight);
                 this.stand = new MainCharacterStand(this.link);
 
                 this.isLoaded = true;
 
             }.bind(this),
-            function ( xhr ) {
-                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
-            function ( error ) {
-        
-                console.log( 'An error happened: '+error );
-        
+            function (error) {
+
+                console.log('An error happened: ' + error);
+
             }
         );
         // END testing
         this.scene.add(this.light);
-        this.container.appendChild( this.renderer.domElement );
+        this.container.appendChild(this.renderer.domElement);
     }
 
-    #buildScene(){
+    #buildScene() {
         let scene = new THREE.Scene();
         scene.background = new THREE.Color(config["game"]["scene"]["background"]);
         return scene;
     }
 
-    #buildCamera(){
+    #buildCamera() {
         return new THREE.PerspectiveCamera(...Object.values(config["game"]["camera"]));
     }
 
-    #buildRenderer(){
+    #buildRenderer() {
         let renderer = new THREE.WebGLRenderer();
         renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -109,7 +106,7 @@ export class Game{
         return renderer;
     }
 
-    #buildLight(){
+    #buildLight() {
         // TODO: move parameters to config file 
         const color = 0xFFFFFF;
         const intensity = 1;
@@ -125,34 +122,34 @@ export class Game{
         return light
     }
 
-    setupKeyControls(){
-        document.onkeydown=function(e){
-            switch(e.keycode){
+    setupKeyControls() {
+        document.onkeydown = function (e) {
+            switch (e.keycode) {
                 case 76:
                     console.log('ciao');
             }
         }
     }
 
-    render(t){
+    render(t) {
         let dt = t - this.last_t;
         TWEEN.update();
-        
-        if(this.isLoaded){
-            if(!this.isMoving){
+
+        if (this.isLoaded) {
+            if (!this.isMoving) {
                 this.stand.update();
             }
-            this.isHoldingLight = this.holdLight.startHoldLight(true);
+            this.isHoldingLight = this.holdLight.update(true);
 
-            this.isMoving = this.walkc.update(this.isHoldingLight,!this.isMoving);
+            this.isMoving = this.walkc.update(this.isHoldingLight, !this.isMoving);
             // TODO change this as to use a physics engine
             let wall = this.scene.getObjectByName("frontDoorWall");
-            let nextZ = Math.min(this.link.position.z+1, wall.position.z-3)
-            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed*dt);
+            let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
+            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed * dt);
         }
-        
 
-        this.renderer.render( this.scene, this.camera );
+
+        this.renderer.render(this.scene, this.camera);
 
         this.last_t = t;
         window.requestAnimationFrame((t) => this.render(t));
