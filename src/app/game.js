@@ -70,6 +70,13 @@ export class Game {
                 this.link.name = 'model';
                 this.link.scale.set(9, 9, 9);
 
+                this.link.traverse(function (node) {
+                    if (node.isMesh) {
+                        node.castShadow = true;
+                    }
+                });
+        
+
                 this.link.position.z -= 60;
                 this.link.position.y = this.scene.getObjectByName("mazeFloor").position.y;
 
@@ -126,10 +133,15 @@ export class Game {
 
         // shadows
         light.castShadow = true;
-        light.shadow.mapSize.width = 512;
-        light.shadow.mapSize.height = 512;
+        light.shadow.mapSize.set(1024,1024)
         light.shadow.camera.near = 0.5;
         light.shadow.camera.far = 500;
+
+        var side = 20;
+        light.shadow.camera.top = side;
+        light.shadow.camera.bottom = -side;
+        light.shadow.camera.left = side;
+        light.shadow.camera.right = -side;
 
         return light
     }
@@ -153,11 +165,14 @@ export class Game {
             }
             this.isHoldingLight = this.holdLight.update(true);
 
+            this.camera.lookAt(this.link.position.x, this.link.position.y, this.link.position.z);
+
             this.isMoving = this.walkc.update(this.isHoldingLight, !this.isMoving);
+
             // TODO change this as to use a physics engine
-            let wall = this.scene.getObjectByName("frontDoorWall");
-            let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
-            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed * dt);
+            //let wall = this.scene.getObjectByName("frontDoorWall");
+            //let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
+            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, this.link.position.z+1, dudeSpeed * dt);
         }
 
 

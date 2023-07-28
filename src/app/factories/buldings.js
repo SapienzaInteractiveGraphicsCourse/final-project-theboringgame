@@ -49,7 +49,9 @@ class BasicWall extends AbstractWall {
 
     create() {
         var geometry = new THREE.BoxGeometry(this.w, this.h, this.d);
-        return new THREE.Mesh(geometry, this.m);
+        let mesh = new THREE.Mesh(geometry, this.m);
+        mesh.receiveShadow = true;
+        return mesh;
     }
 }
 
@@ -96,8 +98,9 @@ class DoorWall extends BasicWall {
 
         //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
         const geometry = new THREE.ExtrudeGeometry(wallShape, { depth: this.d, bevelEnabled: false });
-
-        return new THREE.Mesh(geometry, this.m);
+        let mesh = new THREE.Mesh(geometry, this.m);
+        mesh.receiveShadow = true;
+        return mesh;
     }
 }
 
@@ -114,6 +117,8 @@ class Floor {
 
     create() {
         const plane = new THREE.PlaneGeometry(this.w, this.h);
-        return new THREE.Mesh(plane, this.m);
+        let mesh = new THREE.Mesh(plane, this.m);
+        mesh.receiveShadow = true;
+        return mesh;
     }
 }
