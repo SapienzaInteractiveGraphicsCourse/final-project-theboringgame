@@ -24,8 +24,9 @@ export class Game {
             throw new Error("Class Game is a singleton, a new instance cannot be created");
         instance = this;
 
+        this.isLoaded = false
         this.container = document.querySelector('#scene-container');
-        
+
         this.renderer = this.#buildRenderer();
         this.camera = this.#buildCamera();
         this.scene = this.#buildScene();
@@ -43,6 +44,7 @@ export class Game {
 
         lm.onLoad = function () {
             document.getElementById("loading").style.display = 'none';
+            this.isLoaded = true;
         }.bind(this);
 
         let rp = new RoomParser(this.scene, lm);
@@ -59,8 +61,6 @@ export class Game {
 
         this.camera.lookAt(0, 0, 0);
 
-        this.isLoaded = false
-
         const loader = new GLTFLoader(lm);
         loader.load(
             '../assets/models/hmo-man/hmo-ng.glb',
@@ -75,7 +75,7 @@ export class Game {
                         node.castShadow = true;
                     }
                 });
-        
+
 
                 this.link.position.z -= 60;
                 this.link.position.y = this.scene.getObjectByName("mazeFloor").position.y;
@@ -89,12 +89,8 @@ export class Game {
                 this.holdLight = new MainCharacterHoldLight(this.link, this.holdedLight);
                 this.stand = new MainCharacterStand(this.link);
 
-                this.isLoaded = true;
-
             }.bind(this),
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            },
+            function () {},
             function (error) {
 
                 console.log('An error happened: ' + error);
@@ -133,7 +129,7 @@ export class Game {
 
         // shadows
         light.castShadow = true;
-        light.shadow.mapSize.set(1024,1024)
+        light.shadow.mapSize.set(1024, 1024)
         light.shadow.camera.near = 0.5;
         light.shadow.camera.far = 500;
 
@@ -143,20 +139,20 @@ export class Game {
         light.shadow.camera.left = side;
         light.shadow.camera.right = -side;
 
-        light.target.position.set(0,0,-50);
+        light.target.position.set(0, 0, -50);
 
         // IMPORTANT: move this in update function if either light position or light target changes dinamically
-        light.updateWorldMatrix( true, false );
-        light.target.updateWorldMatrix( true, false );
+        light.updateWorldMatrix(true, false);
+        light.target.updateWorldMatrix(true, false);
 
         return light
     }
 
     render(t) {
-        let dt = t - this.last_t;
-        TWEEN.update();
-
+        
         if (this.isLoaded) {
+            let dt = t - this.last_t;
+            TWEEN.update();
 
             this.isHoldingLight = this.holdLight.update(true);
 
@@ -166,18 +162,16 @@ export class Game {
             let wall = this.scene.getObjectByName("frontDoorWall");
             this.isMoving = this.link.position.z + 1 < wall.position.z - 5
             let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
-            if(this.isMoving){
+            if (this.isMoving) {
                 this.walkc.update(this.isHoldingLight);
                 AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed * dt);
             }
-            else{
+            else {
                 this.stand.update();
             }
+            this.renderer.render(this.scene, this.camera);
         }
-
-
-        this.renderer.render(this.scene, this.camera);
-
+        
         this.last_t = t;
         window.requestAnimationFrame((t) => this.render(t));
     }
