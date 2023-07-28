@@ -48,7 +48,7 @@ export class Game {
         let rp = new RoomParser(this.scene, lm);
         rp.parseRoom("room.json");
 
-        this.light.position.set(-1, 2, 4);
+        this.light.position.set(-1, 50, 4);
         this.camera.position.set(-100, 70, 50);
 
         this.holdedLight = new THREE.SpotLight(0xffffff, 0, 100, Math.PI * 0.1);
@@ -137,11 +137,20 @@ export class Game {
         light.shadow.camera.near = 0.5;
         light.shadow.camera.far = 500;
 
-        var side = 20;
+        var side = 30;
         light.shadow.camera.top = side;
         light.shadow.camera.bottom = -side;
         light.shadow.camera.left = side;
         light.shadow.camera.right = -side;
+
+        light.target.position.set(0,0,-50);
+
+        //debug
+        let helper = new THREE.CameraHelper( light.shadow.camera );
+		this.scene.add( helper );
+        let h = new THREE.DirectionalLightHelper( light, 5 );
+		this.scene.add( h );
+
 
         return light
     }
