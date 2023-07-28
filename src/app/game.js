@@ -145,23 +145,11 @@ export class Game {
 
         light.target.position.set(0,0,-50);
 
-        //debug
-        let helper = new THREE.CameraHelper( light.shadow.camera );
-		this.scene.add( helper );
-        let h = new THREE.DirectionalLightHelper( light, 5 );
-		this.scene.add( h );
-
+        // IMPORTANT: move this in update function if either light position or light target changes dinamically
+        light.updateWorldMatrix( true, false );
+        light.target.updateWorldMatrix( true, false );
 
         return light
-    }
-
-    setupKeyControls() {
-        document.onkeydown = function (e) {
-            switch (e.keycode) {
-                case 76:
-                    console.log('ciao');
-            }
-        }
     }
 
     render(t) {
@@ -169,19 +157,22 @@ export class Game {
         TWEEN.update();
 
         if (this.isLoaded) {
-            if (!this.isMoving) {
-                this.stand.update();
-            }
+
             this.isHoldingLight = this.holdLight.update(true);
 
             this.camera.lookAt(this.link.position.x, this.link.position.y, this.link.position.z);
 
-            this.isMoving = this.walkc.update(this.isHoldingLight, !this.isMoving);
-
             // TODO change this as to use a physics engine
-            //let wall = this.scene.getObjectByName("frontDoorWall");
-            //let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
-            AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, this.link.position.z+1, dudeSpeed * dt);
+            let wall = this.scene.getObjectByName("frontDoorWall");
+            this.isMoving = this.link.position.z + 1 < wall.position.z - 5
+            let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
+            if(this.isMoving){
+                this.walkc.update(this.isHoldingLight);
+                AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed * dt);
+            }
+            else{
+                this.stand.update();
+            }
         }
 
 
