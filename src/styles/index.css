@@ -49,6 +49,7 @@ td {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 2%;
 }
 
 .logo-img {
@@ -60,7 +61,7 @@ td {
 
 .option-container {
     position: relative;
-    top: 15vh;
+    top: 10vh;
     max-width: 70%;
     margin: 0 auto;
     padding: 1rem;

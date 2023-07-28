@@ -40,18 +40,20 @@ export class RoomParser {
     #createElement(type, params) {
         switch (type) {
             case "floor":
-                return this.bf.createFloor(Object.values(params));
+                let materialFloor = this.#createMaterial(params);
+                let dimFloor = Object.values(params).slice(0,2);
+                return this.bf.createFloor(dimFloor, materialFloor);
 
             case "wall":
                 let dim = Object.values(params).slice(0, 3);
-                let material = this.#createMaterial(params);
-                return this.bf.createBasicWall(dim, material);
+                let materialWall = this.#createMaterial(params);
+                return this.bf.createBasicWall(dim, materialWall);
 
             case "doorwall":
                 let dimWall = Object.values(params).slice(0, 3);
                 let dimDoor = Object.values(params).slice(4, 6);
-                let mat = this.#createMaterial(params);
-                return this.bf.createDoorWall(dimWall, mat, dimDoor);
+                let materialDW = this.#createMaterial(params);
+                return this.bf.createDoorWall(dimWall, materialDW, dimDoor);
 
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall");
@@ -61,11 +63,14 @@ export class RoomParser {
 
     #createMaterial(params) {
         switch (params.texture.name) {
-            case "scifi":
-                return this.mf.createSciFiMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
+            case "scifi-wall":
+                return this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
+
+            case "scifi-floor":
+                return this.mf.createSciFiFloorMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
 
             default:
-                throw new Error("Invalid texture " + type + ". The textures currently supported are: scifi");
+                throw new Error("Invalid texture " + type + ". The textures currently supported are: scifi-wall, scifi-floor");
                 break;
         }
     }

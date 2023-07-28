@@ -11,8 +11,8 @@ export class BuildingFactory {
         return instance.create();
     }
 
-    createFloor(size) {
-        let instance = new Floor(size);
+    createFloor(size, material) {
+        let instance = new Floor(size, material);
         return instance.create();
     }
 }
@@ -102,18 +102,18 @@ class DoorWall extends BasicWall {
 }
 
 class Floor {
-    constructor(size) {
+    constructor(size, material) {
         if (size.length != 2) {
             throw new Error("2D size expected, " + doorSize.length + "D given.");
         }
 
         this.w = size[0];
         this.h = size[1];
+        this.m = material;
     }
 
     create() {
         const plane = new THREE.PlaneGeometry(this.w, this.h);
-        var material = new THREE.MeshPhongMaterial({ color: 0xff0000 }); // TODO: change with texture
-        return new THREE.Mesh(plane, material);
+        return new THREE.Mesh(plane, this.m);
     }
 }

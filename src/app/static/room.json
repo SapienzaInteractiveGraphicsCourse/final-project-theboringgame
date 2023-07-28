@@ -4,7 +4,11 @@
         "type": "floor",
         "params": {
             "width": 100,
-            "height": 100
+            "height": 100,
+            "texture": {
+                "name": "scifi-floor",
+                "density": 1
+            }
         },
         "pose": {
             "translation": {
@@ -27,7 +31,7 @@
             "height": 20,
             "depth": 3,
             "texture": {
-                "name": "scifi",
+                "name": "scifi-wall",
                 "density": 0.5
             },
             "door-width": 12,
@@ -54,7 +58,7 @@
             "height": 20,
             "depth": 3,
             "texture": {
-                "name": "scifi",
+                "name": "scifi-wall",
                 "density": 0.5
             }
         },
@@ -79,7 +83,7 @@
             "height": 20,
             "depth": 3,
             "texture": {
-                "name": "scifi",
+                "name": "scifi-wall",
                 "density": 0.5
             }
         },
@@ -104,7 +108,7 @@
             "height": 20,
             "depth": 3,
             "texture": {
-                "name": "scifi",
+                "name": "scifi-wall",
                 "density": 0.5
             }
         },
