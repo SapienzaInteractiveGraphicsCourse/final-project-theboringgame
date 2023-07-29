@@ -1,11 +1,6 @@
 import * as THREE from "./lib/three/build/three.module.js";
-import { GLTFLoader } from "./lib/three/loaders/GLTFLoader.js";
-import { MainCharacterWalk } from './animations/walk.js';
-import { MainCharacterHoldLight } from './animations/holdLight.js';
-import { MainCharacterStand } from './animations/stand.js';
 import { config } from "./static/config.js";
 import { TWEEN } from './lib/tween/build/tween.module.min.js';
-import { AnimationUtils } from "./utils/animationUtils.js";
 import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
 
@@ -156,12 +151,16 @@ export class Game {
             }
             */
 
-            if(t <= 5000)
+            if(t <= 3000){
+                this.mainChar.walk();
+            }
+            if(t > 3000 && t <= 6000){
                 this.mainChar.walk();
                 this.mainChar.holdLight(this.holdedLight);
-            if(t > 5000)
+            }
+            if(t > 6000 && t <= 10000)
                 this.mainChar.dropLight();
-            if(t > 10000)
+            if(t > 10000 && t <= 15000)
                 this.mainChar.stand();
             if(t > 15000)
                 this.mainChar.walk();
