@@ -142,7 +142,6 @@ export class Game {
             this.camera.lookAt(this.mainCharInstance.position.x, this.mainCharInstance.position.y, this.mainCharInstance.position.z);
 
             /*
-            this.isHoldingLight = this.holdLight.update(true);
 
             // TODO change this as to use a physics engine
             let wall = this.scene.getObjectByName("frontDoorWall");

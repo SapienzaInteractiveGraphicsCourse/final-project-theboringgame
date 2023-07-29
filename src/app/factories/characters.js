@@ -33,11 +33,6 @@ class MainRobot {
                     }
                 });
                 this.isLoaded = true;
-                /*
-                this.walkc = new MainCharacterWalk(this.link);
-                this.holdLight = new MainCharacterHoldLight(this.link, this.holdedLight);
-                this.stand = new MainCharacterStand(this.link);
-                */
             }.bind(this),
             function () {},
             function (error) {
