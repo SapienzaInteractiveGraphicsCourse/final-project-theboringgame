@@ -80,24 +80,49 @@ class DoorWall extends BasicWall {
             C: { x: this.doorW / 2, y: -this.h / 2 + this.doorH },
             D: { x: -this.doorW / 2, y: -this.h / 2 + this.doorH }
         };
-
+        
         //We use a Shape type because it has the option to remove a Path from an object throught the call holes(line 94)
         const wallShape = new THREE.Shape();
         wallShape.moveTo(wallPoints.A.x, wallPoints.A.y);
         wallShape.lineTo(wallPoints.B.x, wallPoints.B.y);
         wallShape.lineTo(wallPoints.C.x, wallPoints.C.y);
         wallShape.lineTo(wallPoints.D.x, wallPoints.D.y);
-
+        
         const doorPath = new THREE.Path();
         doorPath.moveTo(doorPoints.A.x, doorPoints.A.y);
         doorPath.lineTo(doorPoints.B.x, doorPoints.B.y);
         doorPath.lineTo(doorPoints.C.x, doorPoints.C.y);
         doorPath.lineTo(doorPoints.D.x, doorPoints.D.y);
-
+        
         wallShape.holes.push(doorPath);
 
-        //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
         const geometry = new THREE.ExtrudeGeometry(wallShape, { depth: this.d, bevelEnabled: false });
+
+        // recomputing uv coordinates
+        geometry.computeBoundingBox();
+        
+        let {min, _} = geometry.boundingBox;
+
+        let offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+        let range = new THREE.Vector2(this.w, this.h);
+        
+        const position = geometry.attributes.position;
+        
+        const uvs = [];
+        
+        for ( let i = 0; i < position.count; i ++ ) {
+            const v3 = new THREE.Vector3().fromBufferAttribute( position, i );
+            uvs.push( (v3.x + offset.x) / range.x);
+            uvs.push( (v3.y + offset.y) / range.y);
+        }
+
+        geometry.setAttribute( 'uv', new THREE.BufferAttribute( new Float32Array( uvs ), 2 ) );
+        geometry.setAttribute( 'uv2', new THREE.BufferAttribute( new Float32Array( uvs ), 2 ) );
+
+        geometry.attributes.uv.needsUpdate = true;
+        geometry.attributes.uv2.needsUpdate = true;
+
+        //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
         let mesh = new THREE.Mesh(geometry, this.m);
         mesh.receiveShadow = true;
         return mesh;
