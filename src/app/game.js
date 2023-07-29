@@ -127,6 +127,8 @@ export class Game {
 
         this.render();
     }
+    
+
 
     render(t) {
         
@@ -148,9 +150,25 @@ export class Game {
             }
             else {
                 this.stand.update();
-            }
-            */
-
+            }*/
+            
+            document.onkeydown = function(event){
+                switch(event.keyCode){
+                    case 37:
+                        this.mainChar.walk();
+                        break;
+                    case 38:
+                        this.mainChar.stand();
+                        break;
+                    case 39:
+                        this.mainChar.holdLight(this.holdedLight);
+                        break;
+                    case 40:
+                        this.mainChar.dropLight();
+                        break;
+                }
+            }.bind(this);
+            /*
             if(t <= 5000){
                 this.mainChar.stand();
             }
@@ -161,10 +179,8 @@ export class Game {
             if(t>9000 && t<=15000){
                 this.mainChar.dropLight();
                 this.mainChar.stand();
-            }
-            if(t>15000){
-                this.mainChar.walk();
-            }
+            }*/
+
             
 
 
