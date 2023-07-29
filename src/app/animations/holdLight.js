@@ -7,11 +7,12 @@ class holdLight {
         this.idRLA = idRLA;
         this.idRH = idRH;
         this.light = light;
+        this.isOn = false;
     }
 
     update() {
         AnimationUtils.rotation(this.idRS, -0.233, -0.046, 2.00);
-        AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x', 800, function(){this.light.intensity = 5;}.bind(this) );
+        AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x', 800, function(){if(!this.isOn){this.light.intensity = 5; this.isOn = true}}.bind(this) );
 
         this.light.position.set(this.character.position.x + this.idRH.position.x, this.character.position.y + this.idRH.position.y, this.character.position.z + this.idRH.position.z + 10);
         this.light.target.position.x = this.character.position.x + this.idRH.position.x;
