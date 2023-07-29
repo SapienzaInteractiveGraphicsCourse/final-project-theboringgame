@@ -7,6 +7,7 @@ import { config } from "./static/config.js";
 import { TWEEN } from './lib/tween/build/tween.module.min.js';
 import { AnimationUtils } from "./utils/animationUtils.js";
 import { RoomParser } from "./utils/roomParser.js"
+import { CharacterFactory } from "./factories/characters.js"
 
 let instance;
 // TODO: just for testing purposes
@@ -31,23 +32,17 @@ export class Game {
         this.camera = this.#buildCamera();
         this.scene = this.#buildScene();
         this.light = this.#buildLight();
+        this.lm = this.#buildLoader();
+
 
         // TODO: just for testing purposes.
 
-        const lm = new THREE.LoadingManager();
+        let cf = new CharacterFactory()
 
-        let loadingBar = document.getElementById("progress-bar");
+        this.mainChar = cf.createMainRobot(this.lm);
 
-        lm.onProgress = (url, loaded, total) => {
-            loadingBar.style.setProperty('--width', (loaded / total) * 100)
-        };
+        let rp = new RoomParser(this.scene, this.lm);
 
-        lm.onLoad = function () {
-            document.getElementById("loading").style.display = 'none';
-            this.isLoaded = true;
-        }.bind(this);
-
-        let rp = new RoomParser(this.scene, lm);
         rp.parseRoom("room.json");
 
         this.light.position.set(-1, 50, 4);
@@ -56,47 +51,10 @@ export class Game {
         this.holdedLight = new THREE.SpotLight(0xffffff, 0, 100, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
-        this.isHoldingLight = false;
-        this.isMoving = false;
+
 
         this.camera.lookAt(0, 0, 0);
 
-        const loader = new GLTFLoader(lm);
-        loader.load(
-            '../assets/models/hmo-man/hmo-ng.glb',
-
-            function (gltf) {
-                this.link = gltf.scene;
-                this.link.name = 'model';
-                this.link.scale.set(9, 9, 9);
-
-                this.link.traverse(function (node) {
-                    if (node.isMesh) {
-                        node.castShadow = true;
-                    }
-                });
-
-
-                this.link.position.z -= 60;
-                this.link.position.y = this.scene.getObjectByName("mazeFloor").position.y;
-
-                this.link.castShadow = true;
-                this.link.receiveShadow = false;
-
-                this.scene.add(this.link);
-
-                this.walkc = new MainCharacterWalk(this.link);
-                this.holdLight = new MainCharacterHoldLight(this.link, this.holdedLight);
-                this.stand = new MainCharacterStand(this.link);
-
-            }.bind(this),
-            function () {},
-            function (error) {
-
-                console.log('An error happened: ' + error);
-
-            }
-        );
         // END testing
         this.scene.add(this.light);
         this.container.appendChild(this.renderer.domElement);
@@ -148,15 +106,43 @@ export class Game {
         return light
     }
 
+    #buildLoader(){
+        const lm = new THREE.LoadingManager();
+
+        lm.onProgress = (url, loaded, total) => {
+            document.getElementById("progress-bar").style.setProperty('--width', (loaded / total) * 100)
+        };
+
+        lm.onLoad = function () {
+            document.getElementById("loading").style.display = 'none';
+            this.isLoaded = true;
+            this.#init();
+        }.bind(this);
+
+        return lm;
+    }
+
+    #init(){
+        this.mainCharInstance = this.mainChar.getInstance();
+
+        this.mainCharInstance.position.z -= 60;
+        this.mainCharInstance.position.y = this.scene.getObjectByName("mazeFloor").position.y;
+
+        this.scene.add(this.mainCharInstance);
+
+        this.render();
+    }
+
     render(t) {
         
         if (this.isLoaded) {
             let dt = t - this.last_t;
             TWEEN.update();
+            
+            this.camera.lookAt(this.mainCharInstance.position.x, this.mainCharInstance.position.y, this.mainCharInstance.position.z);
 
+            /*
             this.isHoldingLight = this.holdLight.update(true);
-
-            this.camera.lookAt(this.link.position.x, this.link.position.y, this.link.position.z);
 
             // TODO change this as to use a physics engine
             let wall = this.scene.getObjectByName("frontDoorWall");
@@ -169,6 +155,21 @@ export class Game {
             else {
                 this.stand.update();
             }
+            */
+
+            if(t <= 5000)
+                this.mainChar.walk();
+                this.mainChar.holdLight(this.holdedLight);
+            if(t > 5000)
+                this.mainChar.dropLight();
+            if(t > 10000)
+                this.mainChar.stand();
+            if(t > 15000)
+                this.mainChar.walk();
+
+
+            this.mainChar.update();
+
             this.renderer.render(this.scene, this.camera);
         }
         

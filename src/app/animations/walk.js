@@ -11,9 +11,19 @@ export class Walk {
         this.idLS = idLS;
         this.idRS = idRS;
 
+        this.holdingLight = false;
+
     }
 
-    update(isHoldingLight) {
+    holdLight(){
+        this.holdingLight = true;
+    }
+
+    dropLight(){
+        this.holdingLight = false;
+    }
+
+    update() {
         switch (this.state) {
             case 0:
                 //upper legs
@@ -24,7 +34,7 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idRL, 0.0, 'x', 800);
                 //shoulders
                 AnimationUtils.rotationOneAxis(this.idLS, -0.26, 'x', 800);
-                if (isHoldingLight) {
+                if (this.holdingLight) {
                     AnimationUtils.rotationOneAxis(this.idRS, -0.2, 'x', 800);
                 } else {
                     AnimationUtils.rotationOneAxis(this.idRS, 0.36, 'x', 800);
@@ -41,7 +51,7 @@ export class Walk {
 
                 //shoulders
                 AnimationUtils.rotationOneAxis(this.idLS, 0.05, 'x', 800);
-                if (isHoldingLight) {
+                if (this.holdingLight) {
                     AnimationUtils.rotationOneAxis(this.idRS, -0.1, 'x', 800);
                 } else {
                     AnimationUtils.rotationOneAxis(this.idRS, 0.05, 'x', 800);
@@ -60,7 +70,7 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idRL, -0.7, 'x', 800);
                 //shoulders
                 AnimationUtils.rotationOneAxis(this.idLS, 0.36, 'x', 800);
-                if (isHoldingLight) {
+                if (this.holdingLight) {
                     AnimationUtils.rotationOneAxis(this.idRS, -0.0, 'x', 800);
                 } else {
                     AnimationUtils.rotationOneAxis(this.idRS, -0.26, 'x', 800);
@@ -77,7 +87,7 @@ export class Walk {
 
                 //shoulders
                 AnimationUtils.rotationOneAxis(this.idLS, 0.05, 'x', 800);
-                if (isHoldingLight) {
+                if (this.holdingLight) {
                     AnimationUtils.rotationOneAxis(this.idRS, -0.1, 'x', 800);
                 } else {
                     AnimationUtils.rotationOneAxis(this.idRS, 0.05, 'x', 800);

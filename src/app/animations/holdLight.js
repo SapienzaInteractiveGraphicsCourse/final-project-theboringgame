@@ -9,17 +9,15 @@ class holdLight {
         this.light = light;
     }
 
-    update(hold) {
-        if (hold) {
-            AnimationUtils.rotation(this.idRS, -0.233, -0.046, 2.00);
-            AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x');
-            this.light.position.set(this.character.position.x + this.idRH.position.x, this.character.position.y + this.idRH.position.y, this.character.position.z + this.idRH.position.z + 10);
-            this.light.intensity = 5;
-            this.light.target.position.x = this.character.position.x + this.idRH.position.x;
-            this.light.target.position.y = this.character.position.y + this.idRH.position.y;
-            this.light.target.position.z = this.character.position.z + 10;
-        }
-        return hold;
+    update() {
+        AnimationUtils.rotation(this.idRS, -0.233, -0.046, 2.00);
+        AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x');
+
+        this.light.position.set(this.character.position.x + this.idRH.position.x, this.character.position.y + this.idRH.position.y, this.character.position.z + this.idRH.position.z + 10);
+        this.light.intensity = 5;
+        this.light.target.position.x = this.character.position.x + this.idRH.position.x;
+        this.light.target.position.y = this.character.position.y + this.idRH.position.y;
+        this.light.target.position.z = this.character.position.z + 10;
     }
 }
 
