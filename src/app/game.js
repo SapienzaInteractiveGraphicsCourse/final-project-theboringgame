@@ -155,15 +155,16 @@ export class Game {
                 this.stand.update();
             }
             */
-
-            if(t <= 5000)
+            if(t<=5000)
+                this.mainChar.stand();
+            if(t > 5000)
                 this.mainChar.walk();
                 this.mainChar.holdLight(this.holdedLight);
-            if(t > 5000)
-                this.mainChar.dropLight();
             if(t > 10000)
-                this.mainChar.stand();
+                this.mainChar.dropLight();
             if(t > 15000)
+                this.mainChar.stand();
+            if(t > 20000)
                 this.mainChar.walk();
 
 

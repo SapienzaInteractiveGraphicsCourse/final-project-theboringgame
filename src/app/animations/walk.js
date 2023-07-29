@@ -2,7 +2,7 @@ import { AnimationUtils } from '../utils/animationUtils.js';
 
 
 export class Walk {
-    constructor(idLU, idRU, idLL, idRL, idLS, idRS) {
+    constructor(idLU, idRU, idLL, idRL, idLS, idRS, idRLA) {
         this.state = 0;
         this.idLU = idLU;
         this.idLL = idLL;
@@ -10,6 +10,7 @@ export class Walk {
         this.idRL = idRL;
         this.idLS = idLS;
         this.idRS = idRS;
+        this.idRLA = idRLA;
 
         this.holdingLight = false;
 
@@ -37,6 +38,7 @@ export class Walk {
                 if (this.holdingLight) {
                     AnimationUtils.rotationOneAxis(this.idRS, -0.2, 'x', 800);
                 } else {
+                    AnimationUtils.rotation(this.idRLA, 0.5391, -0.1309, -0.157);
                     AnimationUtils.rotationOneAxis(this.idRS, 0.36, 'x', 800);
                 }
 
@@ -108,6 +110,7 @@ export class MainCharacterWalk extends Walk {
             character.getObjectByName("LeftLowerLeg_051"),
             character.getObjectByName("RightLowerLeg_054"),
             character.getObjectByName("LeftShoulder_013"),
-            character.getObjectByName("RightShoulder_032"));
+            character.getObjectByName("RightShoulder_032"),
+            character.getObjectByName("RightLowerArm_034"));
     }
 }

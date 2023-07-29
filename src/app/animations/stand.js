@@ -21,8 +21,8 @@ export class Stand {
         AnimationUtils.rotation(this.idRL, -0.35, 0, 0);
         AnimationUtils.rotation(this.idLS, -0.226, 0.087, -2.00);
         AnimationUtils.rotation(this.idRS, -0.226, 0.087, 2.00);
-        AnimationUtils.rotation(this.idLLA, 0.262, -0.1309, -0.157);
-        AnimationUtils.rotation(this.idRLA, 0.262, -0.1309, -0.157);
+        AnimationUtils.rotation(this.idLLA, 0.6269, -0.1309, -0.157);
+        AnimationUtils.rotation(this.idRLA, 0.5391, -0.1309, -0.157);
         AnimationUtils.rotation(this.idLF, 1.5708, -0.07, -0.033);
         AnimationUtils.rotation(this.idRF, 1.5708, -0.07, -0.033);
     }
