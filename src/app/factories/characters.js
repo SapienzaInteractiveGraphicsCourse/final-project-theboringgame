@@ -84,6 +84,8 @@ class MainRobot {
         this.activeAnimations.forEach(element => { 
             if(element instanceof MainCharacterWalk)
                 element.dropLight();
+            if(element instanceof MainCharacterHoldLight)
+                element.light.intensity = 0;
         });
 
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterHoldLight));
