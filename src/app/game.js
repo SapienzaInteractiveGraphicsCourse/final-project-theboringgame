@@ -7,6 +7,7 @@ import { CharacterFactory } from "./factories/characters.js"
 let instance;
 // TODO: just for testing purposes
 const dudeSpeed = 10;
+let useLight = false;
 //END testing
 
 /* 
@@ -49,6 +50,44 @@ export class Game {
 
 
         this.camera.lookAt(0, 0, 0);
+
+        document.onkeydown = function(event){
+            switch ( event.code ) {
+
+                case 'ArrowUp':
+                case 'KeyW': this.mainChar.controls.moveForward = true; break;
+
+                case 'ArrowDown':
+                case 'KeyS': this.mainChar.controls.moveBackward = true; break;
+
+                case 'ArrowLeft':
+                case 'KeyA': this.mainChar.controls.moveLeft = true; break;
+
+                case 'ArrowRight':
+                case 'KeyD': this.mainChar.controls.moveRight = true; break;
+
+                case 'KeyL': useLight = !useLight; break; // TODO: move it in the player class
+
+            }
+        }.bind(this);
+
+		document.onkeyup = function(event){
+            switch ( event.code ) {
+
+                case 'ArrowUp':
+                case 'KeyW': this.mainChar.controls.moveForward = false; break;
+
+                case 'ArrowDown':
+                case 'KeyS': this.mainChar.controls.moveBackward = false; break;
+
+                case 'ArrowLeft':
+                case 'KeyA': this.mainChar.controls.moveLeft = false; break;
+
+                case 'ArrowRight':
+                case 'KeyD': this.mainChar.controls.moveRight = false; break;
+
+            }
+        }.bind(this);
 
         // END testing
         this.scene.add(this.light);
@@ -134,6 +173,9 @@ export class Game {
         
         if (this.isLoaded) {
             let dt = t - this.last_t;
+            if(isNaN(dt))
+                dt = 0;
+
             TWEEN.update();
             
             this.camera.lookAt(this.mainCharInstance.position.x, this.mainCharInstance.position.y, this.mainCharInstance.position.z);
@@ -151,23 +193,6 @@ export class Game {
             else {
                 this.stand.update();
             }*/
-            
-            document.onkeydown = function(event){
-                switch(event.keyCode){
-                    case 37:
-                        this.mainChar.walk();
-                        break;
-                    case 38:
-                        this.mainChar.stand();
-                        break;
-                    case 39:
-                        this.mainChar.holdLight(this.holdedLight);
-                        break;
-                    case 40:
-                        this.mainChar.dropLight();
-                        break;
-                }
-            }.bind(this);
             /*
             if(t <= 5000){
                 this.mainChar.stand();
@@ -181,10 +206,11 @@ export class Game {
                 this.mainChar.stand();
             }*/
 
-            
-
-
-            this.mainChar.update();
+            this.mainChar.update(dt);
+            if(useLight)
+                this.mainChar.holdLight(this.holdedLight);
+            else
+                this.mainChar.dropLight();
 
             this.renderer.render(this.scene, this.camera);
         }
