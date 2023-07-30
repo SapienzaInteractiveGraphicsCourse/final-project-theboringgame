@@ -3,11 +3,11 @@ export const config = {
         camera: {
             fov: 60,
             aspect: document.querySelector('#scene-container').clientWidth / document.querySelector('#scene-container').clientHeight,
-            near: 0.1,
-            far: 300
+            near: 10,
+            far: 10000
         },
         scene: {
-            background: "skyblue"
+            background: "rgb(6,5,41)"
         }
     }
 };

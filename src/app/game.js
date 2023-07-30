@@ -3,10 +3,10 @@ import { config } from "./static/config.js";
 import { TWEEN } from './lib/tween/build/tween.module.min.js';
 import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
+import { OrbitControls } from "./lib/three/control/OrbitControls.js";
 
 let instance;
 // TODO: just for testing purposes
-const dudeSpeed = 10;
 let useLight = false;
 //END testing
 
@@ -39,10 +39,10 @@ export class Game {
 
         let rp = new RoomParser(this.scene, this.lm);
 
-        rp.parseRoom("room.json");
+        rp.parseRoom("maze-easy.json");
 
         this.light.position.set(-1, 50, 4);
-        this.camera.position.set(-100, 70, 50);
+        this.camera.position.set(-100, 70, 250);
 
         this.holdedLight = new THREE.SpotLight(0xffffff, 0, 100, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
@@ -159,8 +159,10 @@ export class Game {
     #init(){
         this.mainCharInstance = this.mainChar.getInstance();
 
-        this.mainCharInstance.position.z -= 60;
-        this.mainCharInstance.position.y = this.scene.getObjectByName("mazeFloor").position.y;
+        this.mainCharInstance.position.z = -100;
+        this.mainCharInstance.position.x = 100;
+        this.mainCharInstance.position.y = this.scene.getObjectByName("maze-easy-floor").position.y;
+        this.mainChar.bodyOrientation = Math.PI/2;
 
         this.scene.add(this.mainCharInstance);
 
@@ -205,6 +207,16 @@ export class Game {
                 this.mainChar.dropLight();
                 this.mainChar.stand();
             }*/
+
+            this.camera.position.set(this.mainChar.getInstance().position.x, this.mainChar.getInstance().position.y+150, this.mainChar.getInstance().position.z+50);
+            this.camera.lookAt(...Object.values(this.mainChar.getInstance().position));
+
+
+            this.light.position.set(this.mainCharInstance.position.x-1,this.mainCharInstance.position.y+50,this.mainCharInstance.position.y+4);
+            this.light.target.position.set(...Object.values(this.mainChar.getInstance().position));
+
+            this.light.updateWorldMatrix(true, false);
+            this.light.target.updateWorldMatrix(true, false);
 
             this.mainChar.update(dt);
             if(useLight)
