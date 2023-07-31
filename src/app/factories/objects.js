@@ -1,13 +1,17 @@
 import { GLTFLoader } from "../lib/three/loaders/GLTFLoader.js";
 
 export class ObjectsFactory{
-    createGenerator(loadingManager){
-        let instance = new Generator(loadingManager);
+    constructor(loadingManager){
+        this.lm=loadingManager;
+    }
+
+    createGenerator(){
+        let instance = new Generator(this.lm);
         return instance;
     }
 
-    createPlatform(loadingManager){
-        let instance = new Platform(loadingManager);
+    createPlatform(){
+        let instance = new Platform(this.lm);
         return instance;
     }
 
@@ -25,7 +29,7 @@ class Generator{
             function (gltf) {
                 this.instance = gltf.scene;
                 this.instance.name = 'generator';
-                this.instance.scale.set(20, 20, 20);
+                this.instance.scale.set(10, 10, 10);
 
                 this.instance.traverse(function (node) {
                     if (node.isMesh) {
@@ -42,9 +46,6 @@ class Generator{
         );
     }
 
-    create(){
-        
-    }
     getInstance() {
         if (this.isLoaded)
             return this.instance;
@@ -66,12 +67,6 @@ class Platform{
                 this.instance = gltf.scene;
                 this.instance.name = 'platform';
                 this.instance.scale.set(0.15, 0.15, 0.15);
-
-                this.instance.traverse(function (node) {
-                    if (node.isMesh) {
-                        node.castShadow = true;
-                    }
-                });
                 this.isLoaded = true;
             }.bind(this),
             function () { },

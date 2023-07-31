@@ -38,10 +38,10 @@ export class Game {
 
         this.mainChar = cf.createMainRobot(this.lm);
 
-        let of = new ObjectsFactory();
+        let of = new ObjectsFactory(this.lm);
 
-        this.platform = of.createPlatform(this.lm);
-        this.generator = of.createGenerator(this.lm);
+        this.platform = of.createPlatform();
+        this.generator = of.createGenerator();
 
         let rp = new RoomParser(this.scene, this.lm);
 
@@ -50,7 +50,7 @@ export class Game {
         this.light.position.set(-1, 50, 4);
         this.camera.position.set(-100, 70, 250);
 
-        this.holdedLight = new THREE.SpotLight(0xffffff, 0, 100, Math.PI * 0.1);
+        this.holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
 
@@ -122,10 +122,12 @@ export class Game {
     #buildLight() {
         // TODO: move parameters to config file 
         const color = 0xFFFFFF;
-        const intensity = 1;
-        let light = new THREE.DirectionalLight(color, intensity);
+        const intensity = 0.01;
+        //let light = new THREE.DirectionalLight(color, intensity);
+        let light = new THREE.AmbientLight(color, intensity);
 
         // shadows
+        /*
         light.castShadow = true;
         light.shadow.mapSize.set(1024, 1024)
         light.shadow.camera.near = 0.5;
@@ -142,7 +144,7 @@ export class Game {
         // IMPORTANT: move this in update function if either light position or light target changes dinamically
         light.updateWorldMatrix(true, false);
         light.target.updateWorldMatrix(true, false);
-
+        */
         return light
     }
 
@@ -229,13 +231,13 @@ export class Game {
             this.camera.position.set(this.mainChar.getInstance().position.x, this.mainChar.getInstance().position.y+150, this.mainChar.getInstance().position.z+50);
             this.camera.lookAt(...Object.values(this.mainChar.getInstance().position));
 
-
+/*
             this.light.position.set(this.mainCharInstance.position.x-1,this.mainCharInstance.position.y+50,this.mainCharInstance.position.y+4);
             this.light.target.position.set(...Object.values(this.mainChar.getInstance().position));
 
             this.light.updateWorldMatrix(true, false);
             this.light.target.updateWorldMatrix(true, false);
-
+*/
             this.mainChar.update(dt);
             if(useLight)
                 this.mainChar.holdLight(this.holdedLight);

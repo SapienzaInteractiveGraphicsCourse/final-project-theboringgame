@@ -16,7 +16,7 @@ class MainRobot {
     constructor(loadingManager) {
         this.isLoaded = false;
         this.activeAnimations = new Array();
-        this.items = new Array();
+        this.items = new Map();
 
         const loader = new GLTFLoader(loadingManager);
 
@@ -63,7 +63,7 @@ class MainRobot {
     walk() {
         this.stopStand();
         if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterWalk || elem instanceof MainCharacterWalkWithLight))
-            this.activeAnimations.push(this.items.includes("torch") ? new MainCharacterWalkWithLight(this.instance) : new MainCharacterWalk(this.instance));
+            this.activeAnimations.push(this.items.has("torch") ? new MainCharacterWalkWithLight(this.instance, this.items.get("torch")) : new MainCharacterWalk(this.instance));
     }
 
     stopWalk() {
@@ -72,8 +72,8 @@ class MainRobot {
 
     stand() {
         this.stopWalk();
-        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterStand))
-            this.activeAnimations.push(this.items.includes("torch") ? new MainCharacterStandWithLight(this.instance) : new MainCharacterStand(this.instance));
+        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterStand || elem instanceof MainCharacterStandWithLight ))
+            this.activeAnimations.push(this.items.has("torch") ? new MainCharacterStandWithLight(this.instance, this.items.get("torch")) : new MainCharacterStand(this.instance));
     }
 
     stopStand() {
@@ -99,29 +99,23 @@ class MainRobot {
     }
 
     holdLight(light) {
-        if (!this.items.includes("torch"))
-            this.items.push("torch");
+
+        if(!this.items.has("torch"))
+            this.items.set("torch", light);
 
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterWalk) && !(element instanceof MainCharacterStand));
-
-
-        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterHoldLight))
-            this.activeAnimations.push(new MainCharacterHoldLight(this.instance, light));
-
     }
 
     dropLight() {
 
-        var index = this.items.indexOf("torch");
-        if (index !== -1)
-            this.items.splice(index, 1);
+        this.items.delete("torch");
 
-        this.activeAnimations.forEach((element, index, object) => {
-            if (element instanceof MainCharacterHoldLight)
+        this.activeAnimations.forEach((element) => {
+            if (element instanceof MainCharacterWalkWithLight || element instanceof MainCharacterStandWithLight)
                 element.light.intensity = 0;
         });
 
-        this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterHoldLight) && !(element instanceof MainCharacterStandWithLight) && !(element instanceof MainCharacterWalkWithLight));
+        this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStandWithLight) && !(element instanceof MainCharacterWalkWithLight));
     }
 
     getInstance() {
