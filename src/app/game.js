@@ -3,6 +3,7 @@ import { config } from "./static/config.js";
 import { TWEEN } from './lib/tween/build/tween.module.min.js';
 import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
+import {ObjectsFactory} from "./factories/objects.js"
 import { OrbitControls } from "./lib/three/control/OrbitControls.js";
 
 let instance;
@@ -33,9 +34,14 @@ export class Game {
 
         // TODO: just for testing purposes.
 
-        let cf = new CharacterFactory()
+        let cf = new CharacterFactory();
 
         this.mainChar = cf.createMainRobot(this.lm);
+
+        let of = new ObjectsFactory();
+
+        this.platform = of.createPlatform(this.lm);
+        this.generator = of.createGenerator(this.lm);
 
         let rp = new RoomParser(this.scene, this.lm);
 
@@ -164,6 +170,18 @@ export class Game {
         this.mainCharInstance.position.y = this.scene.getObjectByName("maze-easy-floor").position.y;
         this.mainChar.bodyOrientation = Math.PI/2;
 
+        this.platformInstance = this.platform.getInstance();
+        this.platformInstance.position.x = 100;
+        this.platformInstance.position.y = -10;
+        this.platformInstance.position.z = -100;
+
+        this.generatorInstance = this.generator.getInstance();
+        this.generatorInstance.position.x = 85;
+        this.generatorInstance.position.y = 10;
+        this.generatorInstance.position.z = -100;
+
+        this.scene.add(this.generatorInstance);
+        this.scene.add(this.platformInstance);
         this.scene.add(this.mainCharInstance);
 
         this.render();
