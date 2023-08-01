@@ -1,7 +1,5 @@
 import * as THREE from "../lib/three/build/three.module.js";
-import { GLTFLoader } from "../lib/three/loaders/GLTFLoader.js";
 import { MainCharacterWalk, MainCharacterWalkWithLight } from '../animations/walk.js';
-import { MainCharacterHoldLight } from '../animations/holdLight.js';
 import { MainCharacterStand, MainCharacterStandWithLight } from "../animations/stand.js";
 
 

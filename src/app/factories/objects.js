@@ -1,4 +1,3 @@
-import { GLTFLoader } from "../lib/three/loaders/GLTFLoader.js";
 
 export class ObjectsFactory {
     constructor(modelLoader) {
@@ -37,7 +36,7 @@ export class Generator {
 export class Platform {
     constructor(modelLoader) {
         this.instance = modelLoader.models.get(this.constructor);
-        this.instance.scale.set(0.15, 0.15, 0.15);
+        this.instance.scale.set(10, 10, 10);
         
         this.instance.traverse(function (node) {
             if (node.isMesh) {
