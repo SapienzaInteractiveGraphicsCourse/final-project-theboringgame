@@ -1,4 +1,5 @@
 import * as THREE from "./lib/three/build/three.module.js";
+import * as CANNON from "./lib/cannon/cannon-es.js"
 import { config } from "./static/config.js";
 import { TWEEN } from './lib/tween/build/tween.module.min.js';
 import { RoomParser } from "./utils/roomParser.js"
@@ -6,6 +7,8 @@ import { CharacterFactory } from "./factories/characters.js"
 import { RoomFactory } from "./factories/rooms.js"
 import { ModelsLoader } from "./utils/loader.js"
 import { setupKeyHandler } from "./utils/keyhandler.js";
+import CannonDebugger from "./lib/cannon/cannon-es-debugger.js"
+
 let instance;
 
 /* 
@@ -25,8 +28,10 @@ export class Game {
         this.camera = this.#buildCamera();
         this.scene = this.#buildScene();
         this.lm = this.#buildLoader();
+        this.physics = this.#buildPhysics();
         this.ml = new ModelsLoader(this.lm);
-        this.rp = new RoomParser(this.scene, this.lm, this.ml);
+        this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
+        this.debugger = CannonDebugger(this.scene,this.physics);
     }
 
     async load() {
@@ -71,6 +76,13 @@ export class Game {
         return lm;
     }
 
+    #buildPhysics(){
+        const physicsWorld = new CANNON.World({
+            gravity: new CANNON.Vec3(0, -30, 0)
+        });
+        return physicsWorld;
+    }
+
     #init() {
         this.container.appendChild(this.renderer.domElement);
 
@@ -83,6 +95,7 @@ export class Game {
 
         this.mainChar.bindTorch(this.holdedLight);
         this.scene.add(this.mainChar.getInstance());
+        this.physics.addBody(this.mainChar.getPhysic());
 
         document.getElementById("progress-bar").style.setProperty('--width', 100);
         document.getElementById("loading").style.display = 'none';
@@ -109,10 +122,12 @@ export class Game {
             dt = 0;
 
         this.#resizeRendererAndCamera();
-
+        this.physics.fixedStep();
+        //this.debugger.update(); //uncomment to test physics
         TWEEN.update();
         this.mainChar.update(dt);
         this.currentRoom.update();
+
 
         this.renderer.render(this.scene, this.camera);
 

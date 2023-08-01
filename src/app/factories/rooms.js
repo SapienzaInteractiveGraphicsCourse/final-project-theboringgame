@@ -22,13 +22,14 @@ class Maze {
         this.scene = scene;
         this.player = player;
         this.playerRoot = player.getInstance();
+        this.playerPhysic = player.getPhysic();
         this.camera = camera;
     }
     async create(){
         await this.rp.parseRoom("maze-easy.json");
         this.light = this.#buildLight();
-
-        this.playerRoot.position.set(200,this.scene.getObjectByName("maze-easy-floor").position.y,-100)
+        this.playerPhysic.position.set(200,this.scene.getObjectByName("maze-easy-floor").position.y+9,-100);
+        this.playerRoot.position.copy(this.playerPhysic);
         this.player.bodyOrientation = Math.PI / 2;
 
         this.scene.add(this.light);

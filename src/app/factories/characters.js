@@ -1,4 +1,5 @@
 import * as THREE from "../lib/three/build/three.module.js";
+import * as CANNON from "../lib/cannon/cannon-es.js"
 import { MainCharacterWalk, MainCharacterWalkWithLight } from '../animations/walk.js';
 import { MainCharacterStand, MainCharacterStandWithLight } from "../animations/stand.js";
 
@@ -48,6 +49,12 @@ export class MainRobot {
 
         this.speed = 0;
         this.bodyOrientation = 0;
+
+        this.charPhysic = new CANNON.Body({
+            mass: 5,
+            type: CANNON.Body.DYNAMIC,
+            shape: new CANNON.Box(new CANNON.Vec3(9,9,9))
+        });
     }
 
     bindTorch(torch){
@@ -117,6 +124,10 @@ export class MainRobot {
         return this.instance;
     }
 
+    getPhysic(){
+        return this.charPhysic;
+    }
+
     #exponentialDecrease(k) { return k === 1 ? 1 : - Math.pow(2, - 10 * k) + 1; }
 
     updateMovement(delta) {
@@ -163,9 +174,11 @@ export class MainRobot {
         // displacement
         var forwardDelta = this.speed * delta;
 
-        this.instance.position.x += Math.sin(this.bodyOrientation) * forwardDelta;
-        this.instance.position.z += Math.cos(this.bodyOrientation) * forwardDelta;
+        this.charPhysic.position.x += Math.sin(this.bodyOrientation) * forwardDelta;
+        this.charPhysic.position.z += Math.cos(this.bodyOrientation) * forwardDelta;
         // steering
+        this.instance.position.copy(this.charPhysic.position);
+        this.instance.position.y=0;
         this.instance.rotation.y = this.bodyOrientation;
     }
 }

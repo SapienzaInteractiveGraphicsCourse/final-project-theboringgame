@@ -8,11 +8,12 @@ import { ObjectsFactory } from '../factories/objects.js';
 const folder = "./app/static/";
 
 export class RoomParser {
-    constructor(scene, loadingManager, modelLoader) {
+    constructor(scene, loadingManager, modelLoader, worldPhysics) {
         this.bf = new BuildingFactory();
         this.mf = new MaterialFactory(loadingManager);
         this.of = new ObjectsFactory(modelLoader);
         this.scene = scene;
+        this.worldPhysics = worldPhysics;
     }
 
     async parseRoom(name) {
@@ -26,11 +27,21 @@ export class RoomParser {
         for (let index = 0; index < data.length; index++) {
             const element = data[index];
             let obj = await this.#createElement(element.type, element.params);
-            if (obj && obj.isObject3D) {
-                obj.name = element.name;
-                await this.#placeElement(obj, element.pose);
+            if (obj[0] && obj[0].isObject3D) {
 
-                this.scene.add(obj);
+                obj[0].name = element.name;
+
+                await this.#placeElement(obj[0], element.pose);
+
+                this.scene.add(obj[0]);
+            }
+            if(obj[1]){
+
+                obj[1].name = element.name;
+
+                await this.#placePhysic(obj[1], element.pose);
+
+                this.worldPhysics.addBody(obj[1]);
             }
         }
     }
@@ -80,5 +91,10 @@ export class RoomParser {
     async #placeElement(obj, pose) {
         obj.position.set(...Object.values(pose.translation))
         obj.rotation.set(...Object.values(pose.rotation))
+    }
+
+    async #placePhysic(obj, pose) {
+        obj.position.set(...Object.values(pose.translation));
+        obj.quaternion.setFromEuler(...Object.values(pose.rotation));
     }
 }

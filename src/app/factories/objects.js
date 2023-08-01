@@ -29,7 +29,7 @@ export class Generator {
     }
 
     getInstance() {
-        return this.instance;
+        return [this.instance,0];
     }
 }
 
@@ -46,6 +46,6 @@ export class Platform {
     }
 
     getInstance() {
-        return this.instance;
+        return [this.instance,0];
     }
 }

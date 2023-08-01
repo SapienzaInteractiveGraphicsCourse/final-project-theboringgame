@@ -1,4 +1,5 @@
 import * as THREE from "../lib/three/build/three.module.js";
+import * as CANNON from "../lib/cannon/cannon-es.js"
 
 export class BuildingFactory {
     createBasicWall(size, material, segment = 1) {
@@ -51,7 +52,13 @@ class BasicWall extends AbstractWall {
         var geometry = new THREE.BoxGeometry(this.w, this.h, this.d);
         let mesh = new THREE.Mesh(geometry, this.m);
         mesh.receiveShadow = true;
-        return mesh;
+
+        let wall = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(this.w/2,this.h/2,this.d/2))
+        });
+
+        return [mesh,wall];
     }
 }
 
@@ -125,7 +132,7 @@ class DoorWall extends BasicWall {
         //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
         let mesh = new THREE.Mesh(geometry, this.m);
         mesh.receiveShadow = true;
-        return mesh;
+        return [mesh,0];
     }
 }
 
@@ -144,6 +151,14 @@ class Floor {
         const plane = new THREE.PlaneGeometry(this.w, this.h);
         let mesh = new THREE.Mesh(plane, this.m);
         mesh.receiveShadow = true;
-        return mesh;
+
+        const ground = new CANNON.Body({
+            mass: 0,
+            type: CANNON.Body.STATIC,
+            shape:new CANNON.Plane()
+            //shape: new CANNON.Box(new CANNON.Vec3(this.w/2,this.h/2,0))
+        });
+        
+        return [mesh,ground];
     }
 }
