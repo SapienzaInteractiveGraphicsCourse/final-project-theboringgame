@@ -35,7 +35,7 @@ export class Game {
 
         let cf = new CharacterFactory(this.ml);
         this.mainChar = cf.createMainRobot(this.lm);
-        
+
         this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera);
         this.currentRoom = await this.rf.createMaze();
 
@@ -53,9 +53,9 @@ export class Game {
     }
 
     #buildRenderer() {
-        let renderer = new THREE.WebGLRenderer();
-        renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        const canvas = document.querySelector('#scene-canvas');
+        let renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
+
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         return renderer;
@@ -72,7 +72,6 @@ export class Game {
     }
 
     #init() {
-
         this.container.appendChild(this.renderer.domElement);
 
         setupKeyHandler(this.mainChar);
@@ -91,12 +90,25 @@ export class Game {
         this.render();
     }
 
+    #resizeRendererAndCamera() {
+        const canvas = this.renderer.domElement;
 
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        const needResize = canvas.width !== width || canvas.height !== height;
+        if (needResize) {
+            this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            this.camera.updateProjectionMatrix();
+            this.renderer.setSize(width, height, false);
+        }
+    }
 
     render(t) {
         let dt = t - this.last_t;
         if (isNaN(dt))
             dt = 0;
+
+        this.#resizeRendererAndCamera();
 
         TWEEN.update();
         this.mainChar.update(dt);
