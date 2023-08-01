@@ -1,0 +1,750 @@
+[
+    {
+        "name": "maze-medium-floor",
+        "type": "floor",
+        "params": {
+            "width": 600,
+            "height": 600,
+            "texture": {
+                "name": "scifi-floor",
+                "density": 4
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": -1.5707963267948966,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    },
+    {
+        "name": "maze-medium-win",
+        "type": "floor",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "texture": {
+                "name": "scifi-floor",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 50,
+                "y": 0,
+                "z": 350
+            },
+            "rotation": {
+                "x": -1.5707963267948966,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -250,
+                "y": 50,
+                "z": 300
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -150,
+                "y": 50,
+                "z": 300
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -50,
+                "y": 50,
+                "z": 300
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 150,
+                "y": 50,
+                "z": 300
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 250,
+                "y": 50,
+                "z": 300
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 600,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 300,
+                "y": 50,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 600,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -300,
+                "y": 50,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 600,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 50,
+                "z": -300
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -250,
+                "y": 50,
+                "z": 200
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 50,
+                "y": 50,
+                "z": 200
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 150,
+                "y": 50,
+                "z": 200
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -150,
+                "y": 50,
+                "z": 100
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -50,
+                "y": 50,
+                "z": 100
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 50,
+                "y": 50,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -150,
+                "y": 50,
+                "z": -100
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 150,
+                "y": 50,
+                "z": -100
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -50,
+                "y": 50,
+                "z": -200
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 200,
+                "y": 50,
+                "z": -150
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 200,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 200,
+                "y": 50,
+                "z": 100
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 100,
+                "y": 50,
+                "z": -250
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 100,
+                "y": 50,
+                "z": 250
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 200,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 100,
+                "y": 50,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 50,
+                "z": -150
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 200,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 50,
+                "z": 100
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -100,
+                "y": 50,
+                "z": -250
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -100,
+                "y": 50,
+                "z": -50
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 100,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -100,
+                "y": 50,
+                "z": 250
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 300,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -200,
+                "y": 50,
+                "z": -50
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    }
+]
