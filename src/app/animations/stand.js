@@ -63,10 +63,10 @@ export class StandWithLight{
         this.executionSpeed = 500;
     }
     update() {
-        let lightPos = new Vector3(this.idRH.position.x-0.65,this.idRH.position.y,this.idRH.position.z+0.7).applyMatrix4(this.character.matrixWorld);
+        let lightPos = new Vector3(this.idRH.position.x-0.65,this.idRH.position.y,this.idRH.position.z+0.8).applyMatrix4(this.character.matrixWorld);
         
         this.light.position.set(...Object.values(lightPos));
-        let point = new Vector3(this.idRH.position.x, 0.0, 100.0).applyMatrix4(this.character.matrixWorld);
+        let point = new Vector3(this.idRH.position.x, 0.0, 50.0).applyMatrix4(this.character.matrixWorld);
 
         this.light.target.position.x = point.x;
         this.light.target.position.y = this.character.position.y + this.idRH.position.y;

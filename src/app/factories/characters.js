@@ -6,41 +6,33 @@ import { MainCharacterStand, MainCharacterStandWithLight } from "../animations/s
 
 
 export class CharacterFactory {
-    createMainRobot(loadingManager) {
-        let instance = new MainRobot(loadingManager);
+    constructor(modelLoader) {
+        this.ml = modelLoader;
+    }
+
+    createMainRobot() {
+        let instance = new MainRobot(this.ml);
         return instance;
     }
 }
 
-class MainRobot {
-    constructor(loadingManager) {
-        this.isLoaded = false;
+export class MainRobot {
+    constructor(modelLoader) {
+
         this.activeAnimations = new Array();
         this.items = new Map();
 
-        const loader = new GLTFLoader(loadingManager);
+        this.useLight = false;
 
-        loader.load(
-            '../../assets/models/hmo-man/hmo-ng.glb',
+        this.instance = modelLoader.models.get(this.constructor);
+        this.instance.name = 'mainRobot'; // TODO: move this in the parser
+        this.instance.scale.set(9, 9, 9);
 
-            function (gltf) {
-                this.instance = gltf.scene;
-                this.instance.name = 'mainRobot';
-                this.instance.scale.set(9, 9, 9);
-
-                this.instance.traverse(function (node) {
-                    if (node.isMesh) {
-                        node.castShadow = true;
-                    }
-                });
-                this.isLoaded = true;
-            }.bind(this),
-            function () { },
-            function (error) {
-                console.log('An error happened: ' + error);
-
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
             }
-        );
+        });
 
         this.controls = {
 
@@ -48,16 +40,20 @@ class MainRobot {
             moveBackward: false,
             moveLeft: false,
             moveRight: false,
-        
+
         };
 
         //TODO move these in config file
         this.walkSpeed = 0.05;
         this.acceleration = 0.01;
         this.angularSpeed = 0.002;
-        
+
         this.speed = 0;
         this.bodyOrientation = 0;
+    }
+
+    bindTorch(torch){
+        this.holdedLight = torch;
     }
 
     walk() {
@@ -72,7 +68,7 @@ class MainRobot {
 
     stand() {
         this.stopWalk();
-        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterStand || elem instanceof MainCharacterStandWithLight ))
+        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterStand || elem instanceof MainCharacterStandWithLight))
             this.activeAnimations.push(this.items.has("torch") ? new MainCharacterStandWithLight(this.instance, this.items.get("torch")) : new MainCharacterStand(this.instance));
     }
 
@@ -85,23 +81,28 @@ class MainRobot {
     }
 
     update(delta) {
-        if(this.speed != 0){
+        if (this.speed != 0) {
             this.stopStand();
             this.walk();
         }
-        else{
+        else {
             this.stopWalk();
             this.stand();
         }
+
+        if (this.useLight)
+            this.holdLight();
+        else
+            this.dropLight();
 
         this.activeAnimations.forEach(element => { element.update() });
         this.updateMovement(delta);
     }
 
-    holdLight(light) {
+    holdLight() {
 
-        if(!this.items.has("torch"))
-            this.items.set("torch", light);
+        if (!this.items.has("torch"))
+            this.items.set("torch", this.holdedLight);
 
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterWalk) && !(element instanceof MainCharacterStand));
     }
@@ -110,25 +111,18 @@ class MainRobot {
 
         this.items.delete("torch");
 
-        this.activeAnimations.forEach((element) => {
-            if (element instanceof MainCharacterWalkWithLight || element instanceof MainCharacterStandWithLight)
-                element.light.intensity = 0;
-        });
-
+        this.holdedLight.intensity = 0;
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStandWithLight) && !(element instanceof MainCharacterWalkWithLight));
     }
 
     getInstance() {
-        if (this.isLoaded)
-            return this.instance;
-        else
-            throw new Error("Requested a MainRobot instance but it isn't loaded yet.");
+        return this.instance;
     }
 
-    #exponentialDecrease(k) { return k === 1 ? 1 : - Math.pow( 2, - 10 * k ) + 1; }
+    #exponentialDecrease(k) { return k === 1 ? 1 : - Math.pow(2, - 10 * k) + 1; }
 
     updateMovement(delta) {
-        
+
         var controls = this.controls;
         // translation speed update 
         let maxSpeed = this.walkSpeed;
@@ -144,14 +138,14 @@ class MainRobot {
         // orientation speed update
         if (controls.moveLeft) {
             this.bodyOrientation += delta * this.angularSpeed;
-            if(this.speed > 0)
+            if (this.speed > 0)
                 this.speed = THREE.MathUtils.clamp(this.speed + delta * frontAcceleration, maxReverseSpeed, maxSpeed);
             else
                 this.speed = THREE.MathUtils.clamp(this.speed - delta * backAcceleration, maxReverseSpeed, maxSpeed);
         }
         if (controls.moveRight) {
             this.bodyOrientation -= delta * this.angularSpeed;
-            if(this.speed > 0)
+            if (this.speed > 0)
                 this.speed = THREE.MathUtils.clamp(this.speed + delta * frontAcceleration, maxReverseSpeed, maxSpeed);
             else
                 this.speed = THREE.MathUtils.clamp(this.speed - delta * backAcceleration, maxReverseSpeed, maxSpeed);

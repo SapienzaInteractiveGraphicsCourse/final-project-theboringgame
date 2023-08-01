@@ -1,5 +1,6 @@
 import { BuildingFactory } from '../factories/buldings.js';
 import { MaterialFactory } from '../factories/materials.js';
+import { ObjectsFactory } from '../factories/objects.js';
 
 
 //TODO: handle lights
@@ -7,75 +8,76 @@ import { MaterialFactory } from '../factories/materials.js';
 const folder = "./app/static/";
 
 export class RoomParser {
-    constructor(scene, loadingManager) {
+    constructor(scene, loadingManager, modelLoader) {
         this.bf = new BuildingFactory();
         this.mf = new MaterialFactory(loadingManager);
+        this.of = new ObjectsFactory(modelLoader);
         this.scene = scene;
     }
 
-    parseRoom(name) {
+    async parseRoom(name) {
         const path = folder + name;
-        fetch(path)
-            .then(response => response.json())
-            .then(function (data) {
-                this.#parse(data);
-            }.bind(this))
-            .catch(error => {
-                console.error('Error parsing JSON:', error);
-            });
+        let response = await fetch(path);
+        response = await response.json()
+        await this.#parse(response);
     }
 
-    #parse(data) {
-        data.forEach(element => {
-            let obj = this.#createElement(element.type, element.params);
+    async #parse(data) {
+        for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            let obj = await this.#createElement(element.type, element.params);
             if (obj && obj.isObject3D) {
                 obj.name = element.name;
-                this.#placeElement(obj, element.pose);
+                await this.#placeElement(obj, element.pose);
 
                 this.scene.add(obj);
             }
-        });
+        }
     }
 
-    #createElement(type, params) {
+    async #createElement(type, params) {
         switch (type) {
             case "floor":
-                let materialFloor = this.#createMaterial(params);
                 let dimFloor = Object.values(params).slice(0,2);
+                let materialFloor = await this.#createMaterial(params);
                 return this.bf.createFloor(dimFloor, materialFloor);
 
             case "wall":
                 let dim = Object.values(params).slice(0, 3);
-                let materialWall = this.#createMaterial(params);
+                let materialWall = await this.#createMaterial(params);
                 return this.bf.createBasicWall(dim, materialWall);
 
             case "doorwall":
                 let dimWall = Object.values(params).slice(0, 3);
                 let dimDoor = Object.values(params).slice(4, 6);
-                let materialDW = this.#createMaterial(params);
+                let materialDW = await this.#createMaterial(params);
                 return this.bf.createDoorWall(dimWall, materialDW, dimDoor);
 
+            case "generator":
+                return this.of.createGenerator();
+
+            case "platform":
+                return this.of.createPlatform();
+
             default:
-                throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall");
-                break;
+                throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");
         }
     }
 
-    #createMaterial(params) {
+    async #createMaterial(params) {
         switch (params.texture.name) {
             case "scifi-wall":
-                return this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
+                return await this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
 
             case "scifi-floor":
-                return this.mf.createSciFiFloorMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
+                return await this.mf.createSciFiFloorMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
 
             default:
                 throw new Error("Invalid texture " + type + ". The textures currently supported are: scifi-wall, scifi-floor");
-                break;
         }
     }
 
-    #placeElement(obj, pose) {
+    async #placeElement(obj, pose) {
         obj.position.set(...Object.values(pose.translation))
         obj.rotation.set(...Object.values(pose.rotation))
     }

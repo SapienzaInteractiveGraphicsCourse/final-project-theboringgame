@@ -496,5 +496,37 @@
                 "z": 0
             }
         }
+    },
+    {
+        "name": "generator",
+        "type": "generator",
+        "pose": {
+            "translation": {
+                "x": 125,
+                "y": 10,
+                "z": -130
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "platform",
+        "type": "platform",
+        "pose": {
+            "translation": {
+                "x": 200,
+                "y": -10,
+                "z": -100
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
     }
 ]

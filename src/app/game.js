@@ -3,13 +3,9 @@ import { config } from "./static/config.js";
 import { TWEEN } from './lib/tween/build/tween.module.min.js';
 import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
-import {ObjectsFactory} from "./factories/objects.js"
-import { OrbitControls } from "./lib/three/control/OrbitControls.js";
-
+import { ModelsLoader } from "./utils/loader.js"
+import { setupKeyHandler } from "./utils/keyhandler.js";
 let instance;
-// TODO: just for testing purposes
-let useLight = false;
-//END testing
 
 /* 
 This class designed as a singleton handles the game's main loop and contains fundamental rendering elements.
@@ -22,7 +18,6 @@ export class Game {
             throw new Error("Class Game is a singleton, a new instance cannot be created");
         instance = this;
 
-        this.isLoaded = false
         this.container = document.querySelector('#scene-container');
 
         this.renderer = this.#buildRenderer();
@@ -31,21 +26,17 @@ export class Game {
         this.light = this.#buildLight();
         this.lm = this.#buildLoader();
 
+    }
 
-        // TODO: just for testing purposes.
+    async load() {
 
-        let cf = new CharacterFactory();
+        // TODO: just for testing purposes. Hard refactoring is needed (create a class for each world)
+        this.ml = new ModelsLoader(this.lm);
+        await this.ml.loadModels();
+
+        let cf = new CharacterFactory(this.ml);
 
         this.mainChar = cf.createMainRobot(this.lm);
-
-        let of = new ObjectsFactory(this.lm);
-
-        this.platform = of.createPlatform();
-        this.generator = of.createGenerator();
-
-        let rp = new RoomParser(this.scene, this.lm);
-
-        rp.parseRoom("maze-easy.json");
 
         this.light.position.set(-1, 50, 4);
         this.camera.position.set(-100, 70, 250);
@@ -54,60 +45,24 @@ export class Game {
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
 
-
-        this.camera.lookAt(0, 0, 0);
-
-        document.onkeydown = function(event){
-            switch ( event.code ) {
-
-                case 'ArrowUp':
-                case 'KeyW': this.mainChar.controls.moveForward = true; break;
-
-                case 'ArrowDown':
-                case 'KeyS': this.mainChar.controls.moveBackward = true; break;
-
-                case 'ArrowLeft':
-                case 'KeyA': this.mainChar.controls.moveLeft = true; break;
-
-                case 'ArrowRight':
-                case 'KeyD': this.mainChar.controls.moveRight = true; break;
-
-                case 'KeyL': useLight = !useLight; break; // TODO: move it in the player class
-
-            }
-        }.bind(this);
-
-		document.onkeyup = function(event){
-            switch ( event.code ) {
-
-                case 'ArrowUp':
-                case 'KeyW': this.mainChar.controls.moveForward = false; break;
-
-                case 'ArrowDown':
-                case 'KeyS': this.mainChar.controls.moveBackward = false; break;
-
-                case 'ArrowLeft':
-                case 'KeyA': this.mainChar.controls.moveLeft = false; break;
-
-                case 'ArrowRight':
-                case 'KeyD': this.mainChar.controls.moveRight = false; break;
-
-            }
-        }.bind(this);
-
+        let rp = new RoomParser(this.scene, this.lm, this.ml);
+        await rp.parseRoom("maze-easy.json");
         // END testing
+
         this.scene.add(this.light);
         this.container.appendChild(this.renderer.domElement);
+
+        this.#init();
     }
 
     #buildScene() {
         let scene = new THREE.Scene();
-        scene.background = new THREE.Color(config["game"]["scene"]["background"]);
+        scene.background = new THREE.Color(config.game.scene.background);
         return scene;
     }
 
     #buildCamera() {
-        return new THREE.PerspectiveCamera(...Object.values(config["game"]["camera"]));
+        return new THREE.PerspectiveCamera(...Object.values(config.game.camera));
     }
 
     #buildRenderer() {
@@ -148,105 +103,54 @@ export class Game {
         return light
     }
 
-    #buildLoader(){
+    #buildLoader() {
         const lm = new THREE.LoadingManager();
 
-        lm.onProgress = (url, loaded, total) => {
-            document.getElementById("progress-bar").style.setProperty('--width', (loaded / total) * 100)
+        lm.onProgress = async (url, loaded, total) => {
+            document.getElementById("progress-bar").style.setProperty('--width', (loaded / total) * 90)
         };
-
-        lm.onLoad = function () {
-            document.getElementById("loading").style.display = 'none';
-            this.isLoaded = true;
-            this.#init();
-        }.bind(this);
 
         return lm;
     }
 
-    #init(){
+    #init() {
         this.mainCharInstance = this.mainChar.getInstance();
+
+        setupKeyHandler(this.mainChar);
 
         this.mainCharInstance.position.z = -100;
         this.mainCharInstance.position.x = 100;
         this.mainCharInstance.position.y = this.scene.getObjectByName("maze-easy-floor").position.y;
-        this.mainChar.bodyOrientation = Math.PI/2;
-
-        this.platformInstance = this.platform.getInstance();
-        this.platformInstance.position.x = 100;
-        this.platformInstance.position.y = -10;
-        this.platformInstance.position.z = -100;
-
-        this.generatorInstance = this.generator.getInstance();
-        this.generatorInstance.position.x = 85;
-        this.generatorInstance.position.y = 10;
-        this.generatorInstance.position.z = -100;
-
-        this.scene.add(this.generatorInstance);
-        this.scene.add(this.platformInstance);
+        this.mainChar.bodyOrientation = Math.PI / 2;
+        this.mainChar.bindTorch(this.holdedLight);
         this.scene.add(this.mainCharInstance);
+
+        document.getElementById("progress-bar").style.setProperty('--width', 100);
+        document.getElementById("loading").style.display = 'none';
 
         this.render();
     }
-    
+
 
 
     render(t) {
-        
-        if (this.isLoaded) {
-            let dt = t - this.last_t;
-            if(isNaN(dt))
-                dt = 0;
+        let dt = t - this.last_t;
+        if (isNaN(dt))
+            dt = 0;
 
-            TWEEN.update();
-            
-            this.camera.lookAt(this.mainCharInstance.position.x, this.mainCharInstance.position.y, this.mainCharInstance.position.z);
+        TWEEN.update();
 
-            /*
+        this.camera.lookAt(this.mainCharInstance.position.x, this.mainCharInstance.position.y, this.mainCharInstance.position.z);
 
-            // TODO change this as to use a physics engine
-            let wall = this.scene.getObjectByName("frontDoorWall");
-            this.isMoving = this.link.position.z + 1 < wall.position.z - 5
-            let nextZ = Math.min(this.link.position.z + 1, wall.position.z - 3)
-            if (this.isMoving) {
-                this.walkc.update(this.isHoldingLight);
-                AnimationUtils.translation(this.link, this.link.position.x, this.link.position.y, nextZ, dudeSpeed * dt);
-            }
-            else {
-                this.stand.update();
-            }*/
-            /*
-            if(t <= 5000){
-                this.mainChar.stand();
-            }
-            if(t > 5000 && t <= 9000){
-                this.mainChar.walk();
-                this.mainChar.holdLight(this.holdedLight);
-            }
-            if(t>9000 && t<=15000){
-                this.mainChar.dropLight();
-                this.mainChar.stand();
-            }*/
 
-            this.camera.position.set(this.mainChar.getInstance().position.x, this.mainChar.getInstance().position.y+150, this.mainChar.getInstance().position.z+50);
-            this.camera.lookAt(...Object.values(this.mainChar.getInstance().position));
+        this.camera.position.set(this.mainChar.getInstance().position.x, this.mainChar.getInstance().position.y + 150, this.mainChar.getInstance().position.z + 50);
+        this.camera.lookAt(...Object.values(this.mainChar.getInstance().position));
 
-/*
-            this.light.position.set(this.mainCharInstance.position.x-1,this.mainCharInstance.position.y+50,this.mainCharInstance.position.y+4);
-            this.light.target.position.set(...Object.values(this.mainChar.getInstance().position));
+        this.mainChar.update(dt);
 
-            this.light.updateWorldMatrix(true, false);
-            this.light.target.updateWorldMatrix(true, false);
-*/
-            this.mainChar.update(dt);
-            if(useLight)
-                this.mainChar.holdLight(this.holdedLight);
-            else
-                this.mainChar.dropLight();
+        this.renderer.render(this.scene, this.camera);
 
-            this.renderer.render(this.scene, this.camera);
-        }
-        
+
         this.last_t = t;
         window.requestAnimationFrame((t) => this.render(t));
     }
