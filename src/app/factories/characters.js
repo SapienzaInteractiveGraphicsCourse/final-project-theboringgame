@@ -25,7 +25,7 @@ export class MainRobot {
         this.useLight = false;
 
         this.instance = modelLoader.models.get(this.constructor);
-        this.instance.name = 'mainRobot'; // TODO: move this in the parser
+        this.instance.name = 'mainRobot';
         this.instance.scale.set(9, 9, 9);
 
         this.instance.traverse(function (node) {
