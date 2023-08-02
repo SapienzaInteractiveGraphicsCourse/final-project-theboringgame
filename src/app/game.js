@@ -133,7 +133,7 @@ export class Game {
 
         this.#resizeRendererAndCamera();
         this.physics.fixedStep();
-        //this.debugger.update(); //uncomment to test physics
+        this.debugger.update(); //uncomment to test physics
         TWEEN.update();
         this.mainChar.update(dt);
         this.currentRoom.update();

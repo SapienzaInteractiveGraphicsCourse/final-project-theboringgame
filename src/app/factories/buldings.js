@@ -56,7 +56,7 @@ class BasicWall extends AbstractWall {
 
         let wall = new CANNON.Body({
             type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(this.w/2,this.h/2,this.d/2))
+            shape: new CANNON.Box(new CANNON.Vec3(this.w/2,this.h/2,this.d/2+0.5))
         });
 
         return [mesh,wall];
@@ -133,7 +133,20 @@ class DoorWall extends BasicWall {
         //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
         let mesh = new THREE.Mesh(geometry, this.m);
         mesh.receiveShadow = true;
-        return [mesh,0];
+
+        let wallDoorleft = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(this.w/4-this.doorW/4,this.h/2,this.d/2))
+        });
+        wallDoorleft.position.x=-(this.w/2+this.doorW/2)/2;
+
+        let wallDoorright = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(this.w/4-this.doorW/4,this.h/2,this.d/2))
+        });
+        wallDoorright.position.x=(this.w/2+this.doorW/2)/2;
+
+        return [mesh,wallDoorleft,wallDoorright];
     }
 }
 
