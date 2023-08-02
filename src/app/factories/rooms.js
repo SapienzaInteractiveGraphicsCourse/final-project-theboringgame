@@ -1,4 +1,5 @@
 import * as THREE from "../lib/three/build/three.module.js";
+import { showTextBox } from "../utils/textBox.js"
 
 export class RoomFactory {
     constructor(roomParser, scene, player, camera) {
@@ -33,6 +34,7 @@ class Maze {
         this.player.bodyOrientation = Math.PI / 2;
 
         this.scene.add(this.light);
+        showTextBox("Hey, it looks like the light is cut off. I need to find the generator and place it on the platform to restore power.");
     }
 
     #buildLight() {

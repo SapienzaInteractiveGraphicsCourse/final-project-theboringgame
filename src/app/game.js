@@ -6,7 +6,7 @@ import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
 import { RoomFactory } from "./factories/rooms.js"
 import { ModelsLoader } from "./utils/loader.js"
-import { setupKeyHandler } from "./utils/keyhandler.js";
+import { KeyHandlerUtil } from "./utils/keyhandler.js";
 import CannonDebugger from "./lib/cannon/cannon-es-debugger.js"
 
 let instance;
@@ -86,7 +86,7 @@ export class Game {
     #init() {
         this.container.appendChild(this.renderer.domElement);
 
-        setupKeyHandler(this.mainChar);
+        KeyHandlerUtil.setupKeyHandler(this.mainChar);
 
         // Idk if this is the right place to generate the torch. Consider to move it somewhere else
         this.holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);

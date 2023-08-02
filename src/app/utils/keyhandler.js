@@ -1,22 +1,29 @@
 
-export function setupKeyHandler(mainChar){
+export class KeyHandlerUtil{
+    static isEnabled = true;
+
+    static setupKeyHandler(mainChar){
     document.onkeydown = function (event) {
-        switch (event.code) {
+        if(KeyHandlerUtil.isEnabled){
+            document.getElementById("dialog-container").style.display="none"; 
+            document.getElementById("dialog-container").innerHTML="";
+            switch (event.code) {
 
-            case 'ArrowUp':
-            case 'KeyW': mainChar.controls.moveForward = true; break;
+                case 'ArrowUp':
+                case 'KeyW': mainChar.controls.moveForward = true; break;
 
-            case 'ArrowDown':
-            case 'KeyS': mainChar.controls.moveBackward = true; break;
+                case 'ArrowDown':
+                case 'KeyS': mainChar.controls.moveBackward = true; break;
 
-            case 'ArrowLeft':
-            case 'KeyA': mainChar.controls.moveLeft = true; break;
+                case 'ArrowLeft':
+                case 'KeyA': mainChar.controls.moveLeft = true; break;
 
-            case 'ArrowRight':
-            case 'KeyD': mainChar.controls.moveRight = true; break;
+                case 'ArrowRight':
+                case 'KeyD': mainChar.controls.moveRight = true; break;
 
-            case 'KeyL': mainChar.useLight = !mainChar.useLight; break;
+                case 'KeyL': mainChar.useLight = !mainChar.useLight; break;
 
+            }
         }
     }.bind(mainChar);
 
@@ -37,4 +44,5 @@ export function setupKeyHandler(mainChar){
 
         }
     }.bind(mainChar);
+    }
 }
