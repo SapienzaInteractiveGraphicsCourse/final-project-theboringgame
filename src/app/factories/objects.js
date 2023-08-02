@@ -29,8 +29,10 @@ export class Generator {
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
+                node.receiveShadow = true;
             }
         });
+
     }
 
     getInstance() {
@@ -46,6 +48,7 @@ export class Platform {
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
+                node.receiveShadow = true;
             }
         });
     }
@@ -63,6 +66,7 @@ export class Door {
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
+                node.receiveShadow = true;
             }
         });
     }
