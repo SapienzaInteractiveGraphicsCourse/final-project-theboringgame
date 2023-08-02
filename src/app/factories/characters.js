@@ -53,7 +53,10 @@ export class MainRobot {
         this.charPhysic = new CANNON.Body({
             mass: 5,
             type: CANNON.Body.DYNAMIC,
-            shape: new CANNON.Box(new CANNON.Vec3(9,9,9))
+            shape: new CANNON.Box(new CANNON.Vec3(9,6,9)),
+            angularDamping: 1,
+            collisionFilterGroup: 1,
+            collisionFilterMask: 1
         });
     }
 
