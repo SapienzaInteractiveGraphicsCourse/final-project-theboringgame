@@ -57,17 +57,32 @@ class Maze {
 
         const genInstance = this.scene.getObjectByName("generator");
         let closeToGenerator = genInstance == null ? false : this.playerRoot.position.distanceTo(genInstance.position) < 40.0;
+        const platInstance = this.scene.getObjectByName("platform");
+        let closeToPlatform = platInstance == null ? false : this.playerRoot.position.distanceTo(platInstance.position) < 40.0;
 
-        if (closeToGenerator && document.getElementById("dialog-container").innerHTML === "") {
+        if (closeToGenerator && !closeToPlatform && document.getElementById("dialog-container").innerHTML === "") {
             showHint("Press P to pick the generator up", 10);
         }
 
+        if (closeToPlatform && document.getElementById("dialog-container").innerHTML === "") {
+            if(this.player.items.has("generator"))
+                showHint("Press P to place the generator", 10);
+            else if(closeToPlatform && !closeToGenerator)
+                showHint("I found the platform, but I don't have the generator", 10);
+        }
 
         if (this.player.action) {
 
-            if (closeToGenerator && !this.player.items.has("generator")) {
+            if (closeToGenerator && !closeToPlatform && !this.player.items.has("generator")) {
                 this.player.items.set("generator", genInstance)
                 this.scene.remove(genInstance);
+            }
+
+            if(closeToPlatform && this.player.items.has("generator")) {
+                const platformPos = this.scene.getObjectByName("platform").position;
+                this.player.items.get("generator").position.set(platformPos.x, 5, platformPos.z);
+                this.scene.add(this.player.items.get("generator"))
+                this.player.items.delete("generator");
             }
 
             this.player.action = false;
