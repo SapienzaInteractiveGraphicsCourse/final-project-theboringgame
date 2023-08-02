@@ -102,9 +102,10 @@ export class MainRobot {
             this.holdLight();
         else
             this.dropLight();
-
-        this.activeAnimations.forEach(element => { element.update() });
-        this.updateMovement(delta);
+ 
+            this.updateMovement(delta);
+            
+            this.activeAnimations.forEach(element => { element.update() });
     }
 
     holdLight() {
@@ -148,20 +149,10 @@ export class MainRobot {
         if (controls.moveBackward) this.speed = THREE.MathUtils.clamp(this.speed - delta * backAcceleration, maxReverseSpeed, maxSpeed);
 
         // orientation speed update
-        if (controls.moveLeft) {
-            this.bodyOrientation += delta * this.angularSpeed;
-            if (this.speed > 0)
-                this.speed = THREE.MathUtils.clamp(this.speed + delta * frontAcceleration, maxReverseSpeed, maxSpeed);
-            else
-                this.speed = THREE.MathUtils.clamp(this.speed - delta * backAcceleration, maxReverseSpeed, maxSpeed);
-        }
-        if (controls.moveRight) {
-            this.bodyOrientation -= delta * this.angularSpeed;
-            if (this.speed > 0)
-                this.speed = THREE.MathUtils.clamp(this.speed + delta * frontAcceleration, maxReverseSpeed, maxSpeed);
-            else
-                this.speed = THREE.MathUtils.clamp(this.speed - delta * backAcceleration, maxReverseSpeed, maxSpeed);
-        }
+        if (controls.moveLeft) this.bodyOrientation += delta * this.angularSpeed;
+        
+        if (controls.moveRight)this.bodyOrientation -= delta * this.angularSpeed;
+        
 
         // speed decreasing
         if (!(controls.moveForward || controls.moveBackward)) {

@@ -106,7 +106,7 @@ export class WalkWithLight{
     }
 
     update() {
-        let lightPos = new Vector3(this.idRH.position.x-0.65,this.idRH.position.y,this.idRH.position.z+0.8).applyMatrix4(this.character.matrixWorld);
+        let lightPos = new Vector3(this.idRH.position.x-0.65,this.idRH.position.y,this.idRH.position.z+1).applyMatrix4(this.character.matrixWorld);
         
         this.light.position.set(...Object.values(lightPos));
         let point = new Vector3(this.idRH.position.x, 0.0, 50.0).applyMatrix4(this.character.matrixWorld);
