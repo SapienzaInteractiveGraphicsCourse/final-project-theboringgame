@@ -52,6 +52,7 @@ class BasicWall extends AbstractWall {
         var geometry = new THREE.BoxGeometry(this.w, this.h, this.d);
         let mesh = new THREE.Mesh(geometry, this.m);
         mesh.receiveShadow = true;
+        mesh.castShadow = true;
 
         let wall = new CANNON.Body({
             type:CANNON.Body.STATIC,

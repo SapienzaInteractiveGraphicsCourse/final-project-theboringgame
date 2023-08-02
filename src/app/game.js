@@ -90,6 +90,16 @@ export class Game {
 
         // Idk if this is the right place to generate the torch. Consider to move it somewhere else
         this.holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);
+        this.holdedLight.castShadow = true;
+        this.holdedLight.shadow.mapSize.set(1024, 1024)
+        this.holdedLight.shadow.camera.near = 1;
+        this.holdedLight.shadow.camera.far = 100;
+        var side = 10;
+        this.holdedLight.shadow.camera.top = side;
+        this.holdedLight.shadow.camera.bottom = -side;
+        this.holdedLight.shadow.camera.left = side;
+        this.holdedLight.shadow.camera.right = -side;
+
         this.scene.add(this.holdedLight);
         this.scene.add(this.holdedLight.target);
 
