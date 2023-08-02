@@ -1,3 +1,5 @@
+import * as THREE from "../lib/three/build/three.module.js";
+import * as CANNON from "../lib/cannon/cannon-es.js"
 
 export class ObjectsFactory {
     constructor(modelLoader) {
@@ -33,10 +35,20 @@ export class Generator {
             }
         });
 
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
+
+        this.generator = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        this.generator.position.y=dim.y/2;
+
     }
 
     getInstance() {
-        return [this.instance,0];
+        return [this.instance,this.generator];
     }
 }
 
@@ -51,6 +63,7 @@ export class Platform {
                 node.receiveShadow = true;
             }
         });
+
     }
 
     getInstance() {
@@ -61,7 +74,7 @@ export class Platform {
 export class Door {
     constructor(modelLoader) {
         this.instance = modelLoader.models.get(this.constructor);
-        this.instance.scale.set(8, 8, 8);
+        this.instance.scale.set(2.5, 2.5, 2.5);
         
         this.instance.traverse(function (node) {
             if (node.isMesh) {
@@ -69,9 +82,20 @@ export class Door {
                 node.receiveShadow = true;
             }
         });
+        
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
+
+        this.door = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        this.door.position.y=dim.y/2;
     }
 
     getInstance() {
-        return [this.instance,0];
+        return [this.instance,this.door];
     }
+
 }

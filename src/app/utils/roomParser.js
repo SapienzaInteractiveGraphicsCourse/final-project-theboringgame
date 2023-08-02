@@ -38,8 +38,14 @@ export class RoomParser {
             if(obj[1]){
 
                 obj[1].name = element.name;
-
-                await this.#placePhysic(obj[1], element.pose);
+                if(obj[1].name == "doorwall"){
+                    obj[2].name = element.name;
+                    await this.#placePhysic(obj[1], element.pose);
+                    await this.#placePhysic(obj[2], element.pose);
+                    this.worldPhysics.addBody(obj[2]);
+                }else{
+                    await this.#placePhysic(obj[1], element.pose);
+                }
 
                 this.worldPhysics.addBody(obj[1]);
             }
@@ -97,7 +103,19 @@ export class RoomParser {
     }
 
     async #placePhysic(obj, pose) {
-        obj.position.set(...Object.values(pose.translation));
+        switch(obj.name){
+            case "":
+                obj.position.set(...Object.values(pose.translation));
+                break;
+            case "doorwall":
+                obj.position.y=pose.translation.y;
+                obj.position.z=pose.translation.z;
+                break;
+            default:
+                obj.position.x=pose.translation.x;
+                obj.position.z=pose.translation.z;
+                break;
+        }
         obj.quaternion.setFromEuler(...Object.values(pose.rotation));
     }
 }
