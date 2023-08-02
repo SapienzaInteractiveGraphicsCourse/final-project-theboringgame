@@ -30,7 +30,7 @@ class Maze {
     async create(){
         await this.rp.parseRoom("maze-easy.json");
         this.light = this.#buildLight();
-        this.playerPhysic.position.set(200,this.scene.getObjectByName("maze-easy-floor").position.y+70,-100);
+        this.playerPhysic.position.set(200,this.scene.getObjectByName("maze-easy-floor").position.y+7,-100);
         this.playerRoot.position.copy(this.playerPhysic);
         this.player.bodyOrientation = Math.PI / 2;
 
