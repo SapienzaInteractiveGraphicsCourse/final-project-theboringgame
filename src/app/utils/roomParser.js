@@ -60,7 +60,7 @@ export class RoomParser {
 
             case "doorwall":
                 let dimWall = Object.values(params).slice(0, 3);
-                let dimDoor = Object.values(params).slice(4, 6);
+                let dimDoor = Object.values(params).slice(3, 5);
                 let materialDW = await this.#createMaterial(params);
                 return this.bf.createDoorWall(dimWall, materialDW, dimDoor);
 
@@ -69,6 +69,9 @@ export class RoomParser {
 
             case "platform":
                 return this.of.createPlatform();
+
+            case "door":
+                return this.of.createDoor();
 
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");
