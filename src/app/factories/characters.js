@@ -21,6 +21,7 @@ export class MainRobot {
         this.activeAnimations = new Array();
         this.items = new Map();
 
+        this.action = false;
         this.useLight = false;
 
         this.instance = modelLoader.models.get(this.constructor);
