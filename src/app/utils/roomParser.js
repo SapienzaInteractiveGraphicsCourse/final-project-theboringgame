@@ -108,7 +108,6 @@ export class RoomParser {
                 obj.position.set(...Object.values(pose.translation));
                 break;
             case "doorwall":
-                console.log(obj.shape);
                 obj.position.y=pose.translation.y;
                 obj.position.z=pose.translation.z;
                 break;

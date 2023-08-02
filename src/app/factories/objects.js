@@ -74,7 +74,7 @@ export class Platform {
 export class Door {
     constructor(modelLoader) {
         this.instance = modelLoader.models.get(this.constructor);
-        this.instance.scale.set(8, 8, 8);
+        this.instance.scale.set(2.5, 2.5, 2.5);
         
         this.instance.traverse(function (node) {
             if (node.isMesh) {
