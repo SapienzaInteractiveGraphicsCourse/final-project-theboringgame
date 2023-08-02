@@ -133,6 +133,7 @@ class DoorWall extends BasicWall {
         //ExtrudeGeometry works like BoxGeometry but takes a Shape type to input
         let mesh = new THREE.Mesh(geometry, this.m);
         mesh.receiveShadow = true;
+        mesh.castShadow = true;
 
         let wallDoorleft = new CANNON.Body({
             type:CANNON.Body.STATIC,

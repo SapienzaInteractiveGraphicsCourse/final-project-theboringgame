@@ -102,10 +102,9 @@ export class MainRobot {
             this.holdLight();
         else
             this.dropLight();
- 
-            this.updateMovement(delta);
-            
-            this.activeAnimations.forEach(element => { element.update() });
+
+        this.activeAnimations.forEach(element => { element.update() });
+        this.updateMovement(delta);
     }
 
     holdLight() {
