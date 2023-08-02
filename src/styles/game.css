@@ -97,3 +97,21 @@ body, html{
     word-spacing: 3px;
     width: 40%;
   }
+
+  #tips-container {
+    display: flex;
+    top: 80%;
+    height: 10%;
+    background: transparent;
+    font-family: Orbitron, Arial, sans-serif;
+    color: #0cf;
+    opacity: 0%;
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: center;
+    word-spacing: 3px;
+    width: 100%;
+  }

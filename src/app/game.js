@@ -110,6 +110,8 @@ export class Game {
         document.getElementById("progress-bar").style.setProperty('--width', 100);
         document.getElementById("loading").style.display = 'none';
 
+        this.currentRoom.init();
+
         this.render();
     }
 

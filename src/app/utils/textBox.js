@@ -14,4 +14,23 @@ export async function showTextBox(text, speed=50){
 	}
 
 	KeyHandlerUtil.isEnabled = true;
+
+}
+
+export async function showHint(text, speed=100){
+    let div = document.getElementById("tips-container");
+
+	const prevOpacity = div.style.opacity;
+
+	div.innerHTML = text;
+	div.style.opacity = 0.5;
+
+	if(prevOpacity != 0)
+		return;
+
+	var interval = setInterval(function() {
+		div.style.opacity -= 0.01;
+		if(div.style.opacity == 0)
+			clearInterval(interval);
+	}, speed); 
 }
