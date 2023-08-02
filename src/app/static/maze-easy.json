@@ -502,9 +502,9 @@
         "type": "generator",
         "pose": {
             "translation": {
-                "x": 125,
+                "x": -15,
                 "y": 5,
-                "z": -130
+                "z": 110
             },
             "rotation": {
                 "x": 0,
@@ -520,7 +520,7 @@
             "translation": {
                 "x": 200,
                 "y": 0.001,
-                "z": -100
+                "z": 200
             },
             "rotation": {
                 "x": 0,

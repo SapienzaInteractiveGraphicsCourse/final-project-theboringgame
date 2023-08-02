@@ -8,7 +8,7 @@ export const config = {
             fov: 60,
             aspect: document.querySelector('#scene-container').clientWidth / document.querySelector('#scene-container').clientHeight,
             near: 10,
-            far: 10000
+            far: 500
         },
         scene: {
             background: "rgb(6,5,41)"
