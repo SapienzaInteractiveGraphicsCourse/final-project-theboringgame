@@ -88,7 +88,7 @@ export class RoomParser {
                 mat = this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1]);
                 break;
             case "scifi-floor":
-                mat = this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1]);
+                mat = this.mf.createSciFiFloorMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1]);
                 break;
 
             default:
@@ -117,7 +117,7 @@ export class RoomParser {
 
     async #placePhysic(obj, pose) {
         switch (obj.type) {
-            case "":
+            case "wall":
                 obj.position.set(...Object.values(pose.translation));
                 break;
             case "doorwall":
@@ -129,7 +129,6 @@ export class RoomParser {
                 obj.position.z = pose.translation.z;
                 break;
         }
-        obj.position.set(...Object.values(pose.translation));
 
         obj.quaternion.setFromEuler(...Object.values(pose.rotation));
     }
