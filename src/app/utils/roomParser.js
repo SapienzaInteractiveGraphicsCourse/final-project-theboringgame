@@ -12,6 +12,7 @@ export class RoomParser {
         this.bf = new BuildingFactory();
         this.mf = new MaterialFactory(loadingManager);
         this.of = new ObjectsFactory(modelLoader);
+        this.physicsItems = new Map();
         this.scene = scene;
         this.worldPhysics = worldPhysics;
         this.LUT = {};
@@ -41,6 +42,7 @@ export class RoomParser {
                     obj[index].name = element.name;
                     await this.#placePhysic(obj[index], element.pose);
                     this.worldPhysics.addBody(obj[index]);
+                    this.physicsItems.set(obj[index].name,obj[index]);
                 }
             }
         }

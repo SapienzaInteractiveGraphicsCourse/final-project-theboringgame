@@ -38,7 +38,6 @@ class Maze {
         this.playerRoot.position.copy(this.playerPhysic);
         this.player.bodyOrientation = Math.PI / 2;
         this.doorAnimation = new DoorOpen(this.scene.getObjectByName('door'));
-        console.log(this.scene.getObjectByName('door').getObjectByName("A1003").rotation);
         this.scene.add(this.light);
     }
 
@@ -60,7 +59,7 @@ class Maze {
             this.hintTorch = false;
         }
 
-        const genPhysic = this.physic.bodies[20];
+        const genPhysic = this.rp.physicsItems.get('generator');
         const genInstance = this.scene.getObjectByName("generator");
         let closeToGenerator = genInstance == null ? false : this.playerRoot.position.distanceTo(genInstance.position) < 40.0;
         const platInstance = this.scene.getObjectByName("platform");
@@ -103,7 +102,7 @@ class Maze {
                 showTextBox('I can finally see the world clearly, now I will have to find the exit of the maze');
                 this.light.intensity=0.8;
 
-                this.physic.removeBody(this.physic.bodies[22]);
+                this.physic.removeBody(this.rp.physicsItems.get('door'));
 
                 this.doorAnimation.update();
             }
