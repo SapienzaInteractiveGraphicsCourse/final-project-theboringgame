@@ -46,7 +46,7 @@ export class Game {
         let cf = new CharacterFactory(this.ml);
         this.mainChar = cf.createMainRobot(this.lm);
 
-        this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera);
+        this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera, this.physics);
         this.currentRoom = await this.rf.createMaze();
 
         this.#init();

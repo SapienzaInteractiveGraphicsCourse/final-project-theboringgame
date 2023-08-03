@@ -1,16 +1,18 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import { showTextBox, showHint } from "../utils/textBox.js"
+import { DoorOpen } from "../animations/door.js";
 
 export class RoomFactory {
-    constructor(roomParser, scene, player, camera) {
+    constructor(roomParser, scene, player, camera, physic) {
         this.rp = roomParser;
         this.scene = scene;
         this.player = player;
         this.camera = camera;
+        this.physic = physic;
     }
 
     async createMaze() {
-        let instance = new Maze(this.rp, this.scene, this.player, this.camera)
+        let instance = new Maze(this.rp, this.scene, this.player, this.camera, this.physic)
         await instance.create();
         return instance;
     }
@@ -18,14 +20,16 @@ export class RoomFactory {
 }
 
 class Maze {
-    constructor(roomParser, scene, player, camera) {
+    constructor(roomParser, scene, player, camera, physic) {
         this.rp = roomParser;
         this.scene = scene;
         this.player = player;
+        this.physic = physic;
         this.playerRoot = player.getInstance();
         this.playerPhysic = player.getPhysic();
         this.camera = camera;
         this.hintTorch = true;
+        
     }
     async create() {
         await this.rp.parseRoom("maze-easy.json");
@@ -33,7 +37,8 @@ class Maze {
         this.playerPhysic.position.set(100, this.scene.getObjectByName("maze-easy-floor").position.y + 7, -100);
         this.playerRoot.position.copy(this.playerPhysic);
         this.player.bodyOrientation = Math.PI / 2;
-
+        this.doorAnimation = new DoorOpen(this.scene.getObjectByName('door'));
+        console.log(this.scene.getObjectByName('door').getObjectByName("A1003").rotation);
         this.scene.add(this.light);
     }
 
@@ -55,6 +60,7 @@ class Maze {
             this.hintTorch = false;
         }
 
+        const genPhysic = this.physic.bodies[20];
         const genInstance = this.scene.getObjectByName("generator");
         let closeToGenerator = genInstance == null ? false : this.playerRoot.position.distanceTo(genInstance.position) < 40.0;
         const platInstance = this.scene.getObjectByName("platform");
@@ -76,17 +82,30 @@ class Maze {
         if (this.player.action) {
 
             if (closeToGenerator && !genOverPlat && !this.player.items.has("generator")) {
-                this.player.items.set("generator", genInstance)
+                this.player.items.set("generator", genInstance);
+                this.player.items.set("physic", genPhysic);
                 this.scene.remove(genInstance);
+                this.physic.removeBody(genPhysic);
             }
 
             if(closeToPlatform && this.player.items.has("generator")) {
                 const platformPos = this.scene.getObjectByName("platform").position;
+                
                 this.player.items.get("generator").position.set(platformPos.x, 5, platformPos.z);
-                this.scene.add(this.player.items.get("generator"))
+                this.player.items.get("physic").position.set(platformPos.x, 5, platformPos.z);
+                
+                this.scene.add(this.player.items.get("generator"));
+                this.physic.addBody(this.player.items.get("physic"))
+                
                 this.player.items.delete("generator");
+                this.player.items.delete("physic");
 
-                // DOMENICO
+                showTextBox('I can finally see the world clearly, now I will have to find the exit of the maze');
+                this.light.intensity=0.8;
+
+                this.physic.removeBody(this.physic.bodies[22]);
+
+                this.doorAnimation.update();
             }
 
             this.player.action = false;
