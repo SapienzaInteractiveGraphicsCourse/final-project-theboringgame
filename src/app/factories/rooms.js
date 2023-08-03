@@ -1,6 +1,7 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import { showTextBox, showHint } from "../utils/textBox.js"
 import { DoorOpen } from "../animations/door.js";
+import { config } from "../static/config.js";
 
 export class RoomFactory {
     constructor(roomParser, scene, player, camera, physic) {
@@ -51,7 +52,8 @@ class Maze {
     }
 
     init() {
-        showTextBox("Hey, it looks like the light is cut off. I need to find the generator and place it on the platform to restore power.");
+        if(!config.debug)
+            showTextBox("Hey, it looks like the light is cut off. I need to find the generator and place it on the platform to restore power.");
     }
 
     async update() {

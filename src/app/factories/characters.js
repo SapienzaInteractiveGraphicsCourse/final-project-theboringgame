@@ -2,6 +2,7 @@ import * as THREE from "../lib/three/build/three.module.js";
 import * as CANNON from "../lib/cannon/cannon-es.js"
 import { MainCharacterWalk, MainCharacterWalkWithLight } from '../animations/walk.js';
 import { MainCharacterStand, MainCharacterStandWithLight } from "../animations/stand.js";
+import { config } from "../static/config.js";
 
 
 export class CharacterFactory {
@@ -44,7 +45,7 @@ export class MainRobot {
         };
 
         //TODO move these in config file
-        this.walkSpeed = 0.1;//0.05;
+        this.walkSpeed = config.debug ? 0.1 : 0.05;
         this.acceleration = 0.01;
         this.angularSpeed = 0.002;
 

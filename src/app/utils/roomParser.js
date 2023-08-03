@@ -1,6 +1,7 @@
 import { BuildingFactory } from '../factories/buldings.js';
 import { MaterialFactory } from '../factories/materials.js';
 import { ObjectsFactory } from '../factories/objects.js';
+import { config } from '../static/config.js';
 
 
 //TODO: handle lights ?? 
@@ -36,7 +37,7 @@ export class RoomParser {
 
                 this.scene.add(obj[0]);
             }
-            if (obj[1]) {
+            if (obj[1] && !(config.debug && element.type == "wall")) {
                 for (let index = 1; index < obj.length; index++) {
                     obj[index].name = element.name;
                     await this.#placePhysic(obj[index], element.pose);
@@ -113,7 +114,7 @@ export class RoomParser {
     }
 
     async #placePhysic(obj, pose) {
-        switch (obj.name) {
+        switch (obj.type) {
             case "":
                 obj.position.set(...Object.values(pose.translation));
                 break;
@@ -126,6 +127,8 @@ export class RoomParser {
                 obj.position.z = pose.translation.z;
                 break;
         }
+        obj.position.set(...Object.values(pose.translation));
+
         obj.quaternion.setFromEuler(...Object.values(pose.rotation));
     }
 }
