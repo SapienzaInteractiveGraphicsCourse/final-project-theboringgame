@@ -41,7 +41,7 @@ export class RoomParser {
             if (obj[1] && !(config.debug && element.type == "wall")) {
                 for (let index = 1; index < obj.length; index++) {
                     obj[index].name = element.name;
-                    await this.#placePhysic(obj[index], element.pose);
+                    await this.#placePhysic(obj[index], element.pose, element.type);
                     this.worldPhysics.addBody(obj[index]);
                     this.physicsItems.set(obj[index].name,obj[index]);
                 }
@@ -115,8 +115,8 @@ export class RoomParser {
         obj.rotation.set(...Object.values(pose.rotation))
     }
 
-    async #placePhysic(obj, pose) {
-        switch (obj.type) {
+    async #placePhysic(obj, pose, type) {
+        switch (type) {
             case "wall":
                 obj.position.set(...Object.values(pose.translation));
                 break;
