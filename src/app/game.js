@@ -8,6 +8,7 @@ import { RoomFactory } from "./factories/rooms.js"
 import { ModelsLoader } from "./utils/loader.js"
 import { KeyHandlerUtil } from "./utils/keyhandler.js";
 import CannonDebugger from "./lib/cannon/cannon-es-debugger.js"
+import Stats from './lib/stats/stats.module.js';
 
 let instance;
 
@@ -32,6 +33,10 @@ export class Game {
         this.ml = new ModelsLoader(this.lm);
         this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
         this.debugger = CannonDebugger(this.scene,this.physics);
+
+        this.stats = new Stats()
+        this.stats.showPanel(0);
+        document.body.appendChild(this.stats.dom);
     }
 
     async load() {
@@ -129,6 +134,7 @@ export class Game {
     }
 
     render(t) {
+        this.stats.begin();
         let dt = t - this.last_t;
         if (isNaN(dt))
             dt = 0;
@@ -140,11 +146,11 @@ export class Game {
         this.mainChar.update(dt);
         this.currentRoom.update();
 
-
         this.renderer.render(this.scene, this.camera);
 
         this.last_t = t;
         window.requestAnimationFrame((t) => this.render(t));
+        this.stats.end();
     }
 
 }
