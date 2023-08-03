@@ -727,9 +727,9 @@
         "type": "generator",
         "pose": {
             "translation": {
-                "x": -200,
+                "x": 300,
                 "y": 5,
-                "z": 200
+                "z": 300
             },
             "rotation": {
                 "x": 0,
@@ -743,9 +743,10 @@
         "type": "platform",
         "pose": {
             "translation": {
-                "x": 300,
+                "x": -200,
                 "y": 0.001,
-                "z": 300
+                "z": 200
+
             },
             "rotation": {
                 "x": 0,
