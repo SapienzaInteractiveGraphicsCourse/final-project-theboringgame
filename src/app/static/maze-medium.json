@@ -748,6 +748,38 @@
         }
     },
     {
+        "name": "generator",
+        "type": "generator",
+        "pose": {
+            "translation": {
+                "x": 50,
+                "y": 5,
+                "z": 50
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "platform",
+        "type": "platform",
+        "pose": {
+            "translation": {
+                "x": -150,
+                "y": 0.001,
+                "z": -50
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
         "name": "doorwall",
         "type": "doorwall",
         "params": {
