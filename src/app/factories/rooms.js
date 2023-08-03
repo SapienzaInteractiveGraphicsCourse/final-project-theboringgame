@@ -2,6 +2,10 @@ import * as THREE from "../lib/three/build/three.module.js";
 import { showTextBox, showHint } from "../utils/textBox.js"
 import { DoorOpen } from "../animations/door.js";
 import { config } from "../static/config.js";
+import { AnimationUtils } from '../utils/animationUtils.js';
+import { TWEEN } from '../lib/tween/build/tween.module.min.js';
+
+
 
 export class RoomFactory {
     constructor(roomParser, scene, player, camera, physic) {
@@ -30,6 +34,7 @@ class Maze {
         this.playerPhysic = player.getPhysic();
         this.camera = camera;
         this.hintTorch = true;
+        this.cameraCloseUp = false;
         
     }
     async create() {
@@ -84,36 +89,63 @@ class Maze {
 
             if (closeToGenerator && !genOverPlat && !this.player.items.has("generator")) {
                 this.player.items.set("generator", genInstance);
-                this.player.items.set("physic", genPhysic);
                 this.scene.remove(genInstance);
-                this.physic.removeBody(genPhysic);
+                const platformPos = this.scene.getObjectByName("platform").position;
+                genPhysic.position.set(platformPos.x, 5, platformPos.z);
             }
 
             if(closeToPlatform && this.player.items.has("generator")) {
                 const platformPos = this.scene.getObjectByName("platform").position;
                 
                 this.player.items.get("generator").position.set(platformPos.x, 5, platformPos.z);
-                this.player.items.get("physic").position.set(platformPos.x, 5, platformPos.z);
                 
                 this.scene.add(this.player.items.get("generator"));
-                this.physic.addBody(this.player.items.get("physic"))
                 
                 this.player.items.delete("generator");
-                this.player.items.delete("physic");
-                if(!config.debug)
-                    showTextBox('I can finally see this place clearly, now I have to get out of here');
+                
                 this.light.intensity=0.8;
 
                 this.physic.removeBody(this.rp.physicsItems.get('door'));
+                this.cameraCloseUp=true;
+                const doorpos = this.scene.getObjectByName("door").position; 
 
-                this.doorAnimation.update();
-            }
+                this.camera.lookAt(doorpos.x-65,doorpos.y+50,doorpos.z+1000);
+
+                AnimationUtils.translation(this.camera,doorpos.x-65,doorpos.y+50,doorpos.z-80,2000);
+                AnimationUtils.rotation(this.camera,-Math.PI,2*Math.PI,Math.PI,2000);
+                
+                new TWEEN.Tween(this.scene.getObjectByName('door').getObjectByName("pCube5").position)
+                    .to({
+                        x: 0,
+                        y: 0,
+                        z: 100
+                    }, 2000)
+                    .delay(2000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start()
+                    .onComplete(() => {this.cameraCloseUp=false;})
+                    
+                new TWEEN.Tween(this.scene.getObjectByName('door').getObjectByName("pCube6").position)
+                    .to({
+                        x: 0,
+                        y: 0,
+                        z: -100
+                    }, 2000)
+                    .delay(2000)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start()
+                    .onComplete(() => {this.cameraCloseUp=false;
+                                            if(!config.debug)
+                                                showTextBox('I can finally see this place clearly, now I have to get out of here');})
+                    }
 
             this.player.action = false;
         }
-
-        this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z + 50);
-        this.camera.lookAt(...Object.values(this.playerRoot.position));
+        
+        if (!this.cameraCloseUp){
+            this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z + 50);
+            this.camera.lookAt(...Object.values(this.playerRoot.position));
+        }
         this.player.action = false;
     }
 }

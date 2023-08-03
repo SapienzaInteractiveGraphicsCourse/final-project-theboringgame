@@ -21,5 +21,5 @@ export const modelMapping = new Map([
 [Generator, '../../assets/models/generator/sci-fi_cargo_crate.glb'],
 [MainRobot, '../../assets/models/hmo-man/hmo-ng.glb'],
 [Platform ,'../../assets/models/platform/scifi_platform.glb'],
-[Door , '../../assets/models/door/scifi-sliding_doors.glb']
+[Door , '../../assets/models/door/space_door.glb']
 ]);

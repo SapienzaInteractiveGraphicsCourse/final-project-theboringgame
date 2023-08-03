@@ -54,6 +54,7 @@ export class AnimationUtils {
                 y: _y,
                 z: _z
             }, time)
+            .easing(TWEEN.Easing.Quadratic.Out)
             .start()
             .onComplete(callback)
     }

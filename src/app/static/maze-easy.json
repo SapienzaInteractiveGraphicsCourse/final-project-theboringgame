@@ -536,8 +536,8 @@
             "width": 100,
             "height": 100,
             "depth": 5,
-            "doorWidth": 80,
-            "doorHeigth": 67,
+            "doorWidth": 70,
+            "doorHeigth": 70,
             "texture": {
                 "name": "scifi-wall",
                 "density": 0.5
@@ -561,13 +561,13 @@
         "type": "door",
         "pose": {
             "translation": {
-                "x": 18,
-                "y": 0,
-                "z": 250
+                "x": 65,
+                "y": 0.1,
+                "z": 253.5
             },
             "rotation": {
                 "x": 0,
-                "y": 3.1415926535,
+                "y": -1.5707963267948966,
                 "z": 0
             }
         }
