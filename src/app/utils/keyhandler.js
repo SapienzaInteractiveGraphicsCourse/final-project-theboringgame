@@ -1,10 +1,17 @@
-
+import { addAudioListenerToCamera } from "../utils/audio.js"
 export class KeyHandlerUtil{
     static isEnabled = true;
+    static isFirstCall = true;
 
-    static setupKeyHandler(mainChar){
+    static setupKeyHandler(mainChar, camera){
     document.onkeydown = function (event) {
         if(KeyHandlerUtil.isEnabled){
+
+            if(KeyHandlerUtil.isFirstCall){
+                addAudioListenerToCamera(camera);
+                KeyHandlerUtil.isFirstCall = false;
+            }
+
             document.getElementById("dialog-container").style.display="none"; 
             document.getElementById("dialog-container").innerHTML="";
             switch (event.code) {

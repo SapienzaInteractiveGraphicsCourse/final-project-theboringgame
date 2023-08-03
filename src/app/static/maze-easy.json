@@ -7,7 +7,7 @@
             "height": 500,
             "texture": {
                 "name": "scifi-floor",
-                "density": 4
+                "density": 2
             }
         },
         "pose": {
@@ -31,7 +31,7 @@
             "height": 100,
             "texture": {
                 "name": "scifi-floor",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -56,7 +56,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -81,7 +81,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -106,7 +106,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -131,7 +131,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -156,7 +156,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -181,7 +181,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -206,7 +206,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -231,7 +231,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -256,7 +256,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -281,7 +281,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -306,7 +306,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -331,7 +331,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -356,7 +356,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -381,7 +381,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -406,7 +406,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -431,7 +431,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -456,7 +456,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -481,7 +481,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
@@ -540,7 +540,7 @@
             "doorHeigth": 70,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
+                "density": 0.25
             }
         },
         "pose": {
