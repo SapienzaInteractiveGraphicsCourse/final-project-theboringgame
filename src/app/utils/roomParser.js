@@ -3,7 +3,7 @@ import { MaterialFactory } from '../factories/materials.js';
 import { ObjectsFactory } from '../factories/objects.js';
 
 
-//TODO: handle lights
+//TODO: handle lights ?? 
 
 const folder = "./app/static/";
 
@@ -36,18 +36,11 @@ export class RoomParser {
                 this.scene.add(obj[0]);
             }
             if(obj[1]){
-
-                obj[1].name = element.name;
-                if(obj[1].name == "doorwall"){
-                    obj[2].name = element.name;
-                    await this.#placePhysic(obj[1], element.pose);
-                    await this.#placePhysic(obj[2], element.pose);
-                    this.worldPhysics.addBody(obj[2]);
-                }else{
-                    await this.#placePhysic(obj[1], element.pose);
+                for (let index = 1; index < obj.length; index++) {
+                    obj[index].name = element.name;
+                    await this.#placePhysic(obj[index], element.pose);
+                    this.worldPhysics.addBody(obj[index]);
                 }
-
-                this.worldPhysics.addBody(obj[1]);
             }
         }
     }

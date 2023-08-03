@@ -60,20 +60,22 @@ class Maze {
         const platInstance = this.scene.getObjectByName("platform");
         let closeToPlatform = platInstance == null ? false : this.playerRoot.position.distanceTo(platInstance.position) < 40.0;
 
-        if (closeToGenerator && !closeToPlatform && document.getElementById("dialog-container").innerHTML === "") {
+        let genOverPlat = genInstance==null ? false : genInstance.position.distanceTo(platInstance.position) < 40;
+
+        if (closeToGenerator && !genOverPlat && document.getElementById("dialog-container").innerHTML === "") {
             showHint("Press P to pick the generator up", 10);
         }
 
         if (closeToPlatform && document.getElementById("dialog-container").innerHTML === "") {
             if(this.player.items.has("generator"))
                 showHint("Press P to place the generator", 10);
-            else if(closeToPlatform && !closeToGenerator)
+            else if(!genOverPlat)
                 showHint("I found the platform, but I don't have the generator", 10);
         }
 
         if (this.player.action) {
 
-            if (closeToGenerator && !closeToPlatform && !this.player.items.has("generator")) {
+            if (closeToGenerator && !genOverPlat && !this.player.items.has("generator")) {
                 this.player.items.set("generator", genInstance)
                 this.scene.remove(genInstance);
             }
@@ -83,6 +85,8 @@ class Maze {
                 this.player.items.get("generator").position.set(platformPos.x, 5, platformPos.z);
                 this.scene.add(this.player.items.get("generator"))
                 this.player.items.delete("generator");
+
+                // DOMENICO
             }
 
             this.player.action = false;
