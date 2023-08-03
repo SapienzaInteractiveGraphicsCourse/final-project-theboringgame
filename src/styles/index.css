@@ -38,11 +38,11 @@ td {
 }
 
 .big-font {
-    font-size: 4rem;
+    font-size: 3.5rem;
 }
 
 .small-font {
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .logo-box {
@@ -54,7 +54,7 @@ td {
 
 .logo-img {
     display: block;
-    max-width: 15%;
+    max-width: 13%;
     height: auto;
     padding-bottom: 2rem;
 }

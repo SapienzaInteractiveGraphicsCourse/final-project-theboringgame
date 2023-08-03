@@ -14,6 +14,7 @@ export class RoomParser {
         this.of = new ObjectsFactory(modelLoader);
         this.scene = scene;
         this.worldPhysics = worldPhysics;
+        this.LUT = {};
     }
 
     async parseRoom(name) {
@@ -35,7 +36,7 @@ export class RoomParser {
 
                 this.scene.add(obj[0]);
             }
-            if(obj[1]){
+            if (obj[1]) {
                 for (let index = 1; index < obj.length; index++) {
                     obj[index].name = element.name;
                     await this.#placePhysic(obj[index], element.pose);
@@ -48,7 +49,7 @@ export class RoomParser {
     async #createElement(type, params) {
         switch (type) {
             case "floor":
-                let dimFloor = Object.values(params).slice(0,2);
+                let dimFloor = Object.values(params).slice(0, 2);
                 let materialFloor = await this.#createMaterial(params);
                 return this.bf.createFloor(dimFloor, materialFloor);
 
@@ -78,16 +79,32 @@ export class RoomParser {
     }
 
     async #createMaterial(params) {
+        let mat;
         switch (params.texture.name) {
             case "scifi-wall":
-                return await this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
-
+                mat = this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1]);
+                break;
             case "scifi-floor":
-                return await this.mf.createSciFiFloorMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1])
+                mat = this.mf.createSciFiWallMaterial(params.texture.density, Object.values(params)[0], Object.values(params)[1]);
+                break;
 
             default:
                 throw new Error("Invalid texture " + type + ". The textures currently supported are: scifi-wall, scifi-floor");
         }
+
+        const key = params.texture.name + mat.getRepeat();
+        let res = null;
+        if (this.LUT[key]) {
+            // using cached textures
+            res = mat.createWithPreload(this.LUT[key]);
+        }
+        else {
+            res = await mat.create();
+            // caching textures
+            this.LUT[key] = mat.getTextures();
+        }
+
+        return res;
     }
 
     async #placeElement(obj, pose) {
@@ -96,17 +113,17 @@ export class RoomParser {
     }
 
     async #placePhysic(obj, pose) {
-        switch(obj.name){
+        switch (obj.name) {
             case "":
                 obj.position.set(...Object.values(pose.translation));
                 break;
             case "doorwall":
-                obj.position.y=pose.translation.y;
-                obj.position.z=pose.translation.z;
+                obj.position.y = pose.translation.y;
+                obj.position.z = pose.translation.z;
                 break;
             default:
-                obj.position.x=pose.translation.x;
-                obj.position.z=pose.translation.z;
+                obj.position.x = pose.translation.x;
+                obj.position.z = pose.translation.z;
                 break;
         }
         obj.quaternion.setFromEuler(...Object.values(pose.rotation));
