@@ -7,9 +7,9 @@ export class Door{
     }
 
     update(){
-        AnimationUtils.rotationOneAxis(this.idDoor,-1,48353,"z",500);
-        AnimationUtils.rotationOneAxis(this.idWindow,1,48353,"z",500);
-        AnimationUtils.translation(this.idWindow,-10,-20,28.667);
+        AnimationUtils.translation(this.idWindow,-10,20,28.667,500);
+        AnimationUtils.rotation(this.idDoor,0,0,1.48353,500);
+        AnimationUtils.rotation(this.idWindow,0,0,1.48353,'z',500);
     }
 }
 
