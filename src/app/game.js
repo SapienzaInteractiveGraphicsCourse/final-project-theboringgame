@@ -49,6 +49,12 @@ export class Game {
         this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera, this.physics);
         this.currentRoom = await this.rf.createMaze();
 
+        const models = Array.from(this.ml.models.values());
+        for (let index = 0; index < models.length; index++) {
+            const element = models[index];
+            this.renderer.compile (element, this.camera ) 
+        }        
+
         this.#init();
     }
 
