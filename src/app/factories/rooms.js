@@ -100,8 +100,8 @@ class Maze {
                 
                 this.player.items.delete("generator");
                 this.player.items.delete("physic");
-
-                showTextBox('I can finally see this place clearly, now I have to get out of here');
+                if(!config.debug)
+                    showTextBox('I can finally see this place clearly, now I have to get out of here');
                 this.light.intensity=0.8;
 
                 this.physic.removeBody(this.rp.physicsItems.get('door'));
