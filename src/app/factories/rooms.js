@@ -1,6 +1,5 @@
 import * as THREE from "../lib/three/build/three.module.js";
 import { showTextBox, showHint } from "../utils/textBox.js"
-import { DoorOpen } from "../animations/door.js";
 import { config } from "../static/config.js";
 import { AnimationUtils } from '../utils/animationUtils.js';
 import { TWEEN } from '../lib/tween/build/tween.module.min.js';
@@ -43,7 +42,6 @@ class Maze {
         this.playerPhysic.position.set(100, this.scene.getObjectByName("maze-easy-floor").position.y + 7, -100);
         this.playerRoot.position.copy(this.playerPhysic);
         this.player.bodyOrientation = Math.PI / 2;
-        this.doorAnimation = new DoorOpen(this.scene.getObjectByName('door'));
         this.scene.add(this.light);
     }
 
