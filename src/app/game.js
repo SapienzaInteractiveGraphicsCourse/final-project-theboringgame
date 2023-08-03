@@ -6,6 +6,8 @@ import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
 import { RoomFactory } from "./factories/rooms.js"
 import { ModelsLoader } from "./utils/loader.js"
+import { addAudioListenerToCamera } from "./utils/audio.js"
+
 import { KeyHandlerUtil } from "./utils/keyhandler.js";
 import CannonDebugger from "./lib/cannon/cannon-es-debugger.js"
 import Stats from './lib/stats/stats.module.js';
@@ -98,6 +100,10 @@ export class Game {
         this.container.appendChild(this.renderer.domElement);
 
         KeyHandlerUtil.setupKeyHandler(this.mainChar);
+
+        document.addEventListener("click", () => {
+            addAudioListenerToCamera(this.camera);
+          });
 
         // Idk if this is the right place to generate the torch. Consider to move it somewhere else
         this.holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);
