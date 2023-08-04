@@ -5,5 +5,5 @@ main();
 
 function main(){
     let game = new Game();
-    game.load();
+    game.load(1);
 }

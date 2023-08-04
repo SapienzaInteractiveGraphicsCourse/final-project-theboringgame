@@ -1,6 +1,6 @@
 [
     {
-        "name": "maze-easy-floor",
+        "name": "maze-floor",
         "type": "floor",
         "params": {
             "width": 500,
@@ -24,7 +24,7 @@
         }
     },
     {
-        "name": "maze-easy-win",
+        "name": "maze-win",
         "type": "floor",
         "params": {
             "width": 100,

@@ -6,7 +6,6 @@ import { RoomParser } from "./utils/roomParser.js"
 import { CharacterFactory } from "./factories/characters.js"
 import { RoomFactory } from "./factories/rooms.js"
 import { ModelsLoader } from "./utils/loader.js"
-
 import { KeyHandlerUtil } from "./utils/keyhandler.js";
 import CannonDebugger from "./lib/cannon/cannon-es-debugger.js"
 import Stats from './lib/stats/stats.module.js';
@@ -35,20 +34,35 @@ export class Game {
         this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
         this.debugger = CannonDebugger(this.scene,this.physics);
 
-        this.stats = new Stats()
+        this.stats = new Stats();
         this.stats.showPanel(0);
+
+        this.modelsLoaded = false;
         document.body.appendChild(this.stats.dom);
     }
 
-    async load() {
+    async load(stage) {
 
-        await this.ml.loadModels();
+        if(!this.modelsLoaded){
+            await this.ml.loadModels();
+            this.modelsLoaded=true;
+        }
 
         let cf = new CharacterFactory(this.ml);
         this.mainChar = cf.createMainRobot(this.lm);
 
         this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera, this.physics);
-        this.currentRoom = await this.rf.createMaze();
+        switch (stage) {
+            case 1:
+                this.currentRoom = await this.rf.createMaze();    
+                break;
+            case 2:
+                break;
+        
+            default:
+                throw new Error("Invalid stage");
+                break;
+        }
 
         const models = Array.from(this.ml.models.values());
         for (let index = 0; index < models.length; index++) {
@@ -100,22 +114,6 @@ export class Game {
 
         KeyHandlerUtil.setupKeyHandler(this.mainChar, this.camera);
 
-        // Idk if this is the right place to generate the torch. Consider to move it somewhere else
-        this.holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);
-        this.holdedLight.castShadow = true;
-        this.holdedLight.shadow.mapSize.set(1024, 1024)
-        this.holdedLight.shadow.camera.near = 1;
-        this.holdedLight.shadow.camera.far = 100;
-        var side = 10;
-        this.holdedLight.shadow.camera.top = side;
-        this.holdedLight.shadow.camera.bottom = -side;
-        this.holdedLight.shadow.camera.left = side;
-        this.holdedLight.shadow.camera.right = -side;
-
-        this.scene.add(this.holdedLight);
-        this.scene.add(this.holdedLight.target);
-
-        this.mainChar.bindTorch(this.holdedLight);
         this.scene.add(this.mainChar.getInstance());
         this.physics.addBody(this.mainChar.getPhysic());
 
@@ -140,6 +138,11 @@ export class Game {
         }
     }
 
+    #cleanScene(){
+        while (this.scene.children.length)
+            this.scene.remove(this.scene.children[0]);
+    }
+
     render(t) {
         this.stats.begin();
         let dt = t - this.last_t;
@@ -152,6 +155,11 @@ export class Game {
         TWEEN.update();
         this.mainChar.update(dt);
         this.currentRoom.update();
+        if(this.currentRoom.isCleared()){
+            this.#cleanScene();
+            this.load(1);
+            return;
+        }
 
         this.renderer.render(this.scene, this.camera);
 

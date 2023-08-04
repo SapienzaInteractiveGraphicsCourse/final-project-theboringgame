@@ -34,15 +34,31 @@ class Maze {
         this.camera = camera;
         this.hintTorch = true;
         this.cameraCloseUp = false;
-        
+
     }
     async create() {
         await this.rp.parseRoom("maze-easy.json");
         this.light = this.#buildLight();
-        this.playerPhysic.position.set(100, this.scene.getObjectByName("maze-easy-floor").position.y + 7, -100);
+        this.playerPhysic.position.set(100, this.scene.getObjectByName("maze-floor").position.y + 7, -100);
         this.playerRoot.position.copy(this.playerPhysic);
         this.player.bodyOrientation = Math.PI / 2;
         this.scene.add(this.light);
+
+        let holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);
+        holdedLight.castShadow = true;
+        holdedLight.shadow.mapSize.set(1024, 1024)
+        holdedLight.shadow.camera.near = 1;
+        holdedLight.shadow.camera.far = 100;
+        const side = 10;
+        holdedLight.shadow.camera.top = side;
+        holdedLight.shadow.camera.bottom = -side;
+        holdedLight.shadow.camera.left = side;
+        holdedLight.shadow.camera.right = -side;
+
+        this.scene.add(holdedLight);
+        this.scene.add(holdedLight.target);
+
+        this.player.bindTorch(holdedLight);
     }
 
     #buildLight() {
@@ -54,7 +70,7 @@ class Maze {
     }
 
     init() {
-        if(!config.debug)
+        if (!config.debug)
             showTextBox("Hey, it looks like the light is cut off. I need to find the generator and place it on the platform to restore power.");
     }
 
@@ -70,16 +86,16 @@ class Maze {
         const platInstance = this.scene.getObjectByName("platform");
         let closeToPlatform = platInstance == null ? false : this.playerRoot.position.distanceTo(platInstance.position) < 40.0;
 
-        let genOverPlat = genInstance==null ? false : genInstance.position.distanceTo(platInstance.position) < 40;
+        let genOverPlat = genInstance == null ? false : genInstance.position.distanceTo(platInstance.position) < 40;
 
         if (closeToGenerator && !genOverPlat && document.getElementById("dialog-container").innerHTML === "") {
             showHint("Press P to pick the generator up", 10);
         }
 
         if (closeToPlatform && document.getElementById("dialog-container").innerHTML === "") {
-            if(this.player.items.has("generator"))
+            if (this.player.items.has("generator"))
                 showHint("Press P to place the generator", 10);
-            else if(!genOverPlat)
+            else if (!genOverPlat)
                 showHint("I found the platform, but I don't have the generator", 10);
         }
 
@@ -92,26 +108,26 @@ class Maze {
                 genPhysic.position.set(platformPos.x, 5, platformPos.z);
             }
 
-            if(closeToPlatform && this.player.items.has("generator")) {
+            if (closeToPlatform && this.player.items.has("generator")) {
                 const platformPos = this.scene.getObjectByName("platform").position;
-                
+
                 this.player.items.get("generator").position.set(platformPos.x, 5, platformPos.z);
-                
+
                 this.scene.add(this.player.items.get("generator"));
-                
+
                 this.player.items.delete("generator");
-                
-                this.light.intensity=0.8;
+
+                this.light.intensity = 0.8;
 
                 this.physic.removeBody(this.rp.physicsItems.get('door'));
-                this.cameraCloseUp=true;
-                const doorpos = this.scene.getObjectByName("door").position; 
+                this.cameraCloseUp = true;
+                const doorpos = this.scene.getObjectByName("door").position;
 
-                this.camera.lookAt(doorpos.x-65,doorpos.y+50,doorpos.z+1000);
+                this.camera.lookAt(doorpos.x - 65, doorpos.y + 50, doorpos.z + 1000);
 
-                AnimationUtils.translation(this.camera,doorpos.x-65,doorpos.y+50,doorpos.z-80,2000);
-                AnimationUtils.rotation(this.camera,-Math.PI,2*Math.PI,Math.PI,2000);
-                
+                AnimationUtils.translation(this.camera, doorpos.x - 65, doorpos.y + 50, doorpos.z - 80, 2000);
+                AnimationUtils.rotation(this.camera, -Math.PI, 2 * Math.PI, Math.PI, 2000);
+
                 new TWEEN.Tween(this.scene.getObjectByName('door').getObjectByName("pCube5").position)
                     .to({
                         x: 0,
@@ -121,8 +137,8 @@ class Maze {
                     .delay(2000)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .start()
-                    .onComplete(() => {this.cameraCloseUp=false;})
-                    
+                    .onComplete(() => { this.cameraCloseUp = false; })
+
                 new TWEEN.Tween(this.scene.getObjectByName('door').getObjectByName("pCube6").position)
                     .to({
                         x: 0,
@@ -132,18 +148,27 @@ class Maze {
                     .delay(2000)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .start()
-                    .onComplete(() => {this.cameraCloseUp=false;
-                                            if(!config.debug)
-                                                showTextBox('I can finally see this place clearly, now I have to get out of here');})
-                    }
+                    .onComplete(() => {
+                        this.cameraCloseUp = false;
+                        if (!config.debug)
+                            showTextBox('I can finally see this place clearly, now I have to get out of here');
+                    })
+            }
 
             this.player.action = false;
         }
-        
-        if (!this.cameraCloseUp){
+
+        if (!this.cameraCloseUp) {
             this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z + 50);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
         }
         this.player.action = false;
+    }
+
+    isCleared() {
+        const winBox = new THREE.Box3().setFromObject(this.scene.getObjectByName("maze-win"));
+        const playerclipped = new THREE.Vector3(this.playerRoot.position.x, (winBox.max.y+winBox.min.y)/2, this.playerRoot.position.z);
+
+        return winBox.containsPoint(playerclipped);
     }
 }

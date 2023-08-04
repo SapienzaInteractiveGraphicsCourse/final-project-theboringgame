@@ -47,6 +47,7 @@ export class RoomParser {
                 }
             }
         }
+        this.LUT = {};
     }
 
     async #createElement(type, params) {
