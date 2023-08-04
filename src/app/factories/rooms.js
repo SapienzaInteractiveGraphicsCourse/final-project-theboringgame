@@ -191,7 +191,7 @@ class LightRoom {
         this.camera = camera;
     }
     async create() {
-        await this.rp.parseRoom("room.json");
+        await this.rp.parseRoom("lightRoom.json");
         this.light = this.#buildLight();
 
         this.playerPhysic.position.set(0,  20, 0);
@@ -203,19 +203,35 @@ class LightRoom {
 
     #buildLight() {
         // TODO: move parameters to config file 
+        //const color = 0xFF8822;
         const color = 0xFFFFFF;
-        const intensity = 0.01;
-        let light = new THREE.AmbientLight(color, intensity);
+        const intensity = 1;
+        let light = new THREE.DirectionalLight(color, intensity);
         return light
     }
 
     init() {
-        
+        const geometry = new THREE.BoxGeometry( 30, 30, 30 ); 
+        const material = new THREE.MeshStandardMaterial({color:"#11aaff"});
+        this.cube = new THREE.Mesh( geometry, material );
+        this.cube.position.set(0,15,0); 
+        this.scene.add( this.cube );
+        this.factor = 0.1;
     }
 
     async update() {
-        this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z + 50);
+        this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 100, this.playerRoot.position.z + 100);
         this.camera.lookAt(...Object.values(this.playerRoot.position));
+        if(this.playerRoot.position.z > 0){
+            this.light.color = new THREE.Color(0xFFFFFF);
+        }
+        else{
+            this.light.color = new THREE.Color(0xFF8822);
+        }
+
+        if(Math.abs(this.cube.position.y-30) > 15)
+            this.factor *= -1;
+        this.cube.position.y += this.factor;
     }
 
     isCleared() {

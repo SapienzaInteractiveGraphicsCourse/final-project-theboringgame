@@ -3,7 +3,7 @@ import { MainRobot } from "../factories/characters.js"
 
 
 export const config = {
-    debug: true,
+    debug: false,
     game: {
         camera: {
             fov: 60,

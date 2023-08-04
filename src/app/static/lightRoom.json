@@ -1,0 +1,102 @@
+[
+    {
+        "name": "lightRoom-floor",
+        "type": "floor",
+        "params": {
+            "width": 300,
+            "height": 400,
+            "texture": {
+                "name": "scifi-floor",
+                "density": 1
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": -1.5707963267948966,
+                "y": 0.0,
+                "z": 0.0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 400,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.25
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 150,
+                "y": 50,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 400,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.25
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": -150,
+                "y": 50,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 302.5,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.25
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 50,
+                "z": -200
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    }
+    
+]
