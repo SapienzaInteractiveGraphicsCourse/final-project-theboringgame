@@ -111,17 +111,21 @@ export class MainRobot {
 
     holdLight() {
 
-        if (!this.items.has("torch"))
-            this.items.set("torch", this.holdedLight);
+        if(this.holdedLight){
+            if (!this.items.has("torch"))
+                this.items.set("torch", this.holdedLight);
 
-        this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterWalk) && !(element instanceof MainCharacterStand));
+            this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterWalk) && !(element instanceof MainCharacterStand));
+        }
     }
 
     dropLight() {
 
         this.items.delete("torch");
 
-        this.holdedLight.intensity = 0;
+        if(this.holdedLight)
+            this.holdedLight.intensity = 0;
+
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStandWithLight) && !(element instanceof MainCharacterWalkWithLight));
     }
 

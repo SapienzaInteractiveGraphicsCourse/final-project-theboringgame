@@ -28,14 +28,14 @@
         "type": "doorwall",
         "params": {
             "width": 100,
-            "height": 20,
-            "depth": 3,
+            "height": 100,
+            "depth": 5,
+            "doorWidth": 70,
+            "doorHeigth": 70,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.5
-            },
-            "door-width": 12,
-            "door-height": 15
+                "density": 0.25
+            }
         },
         "pose": {
             "translation": {

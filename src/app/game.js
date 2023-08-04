@@ -57,6 +57,7 @@ export class Game {
                 this.currentRoom = await this.rf.createMaze();    
                 break;
             case 2:
+                this.currentRoom = await this.rf.createLightRoom();
                 break;
         
             default:
@@ -157,7 +158,7 @@ export class Game {
         this.currentRoom.update();
         if(this.currentRoom.isCleared()){
             this.#cleanScene();
-            this.load(1);
+            this.load(2);
             return;
         }
 
