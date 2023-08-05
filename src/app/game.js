@@ -143,6 +143,10 @@ export class Game {
         while (this.scene.children.length)
             this.scene.remove(this.scene.children[0]);
     }
+    #cleanPhysics(){
+        while (this.physics.bodies.length)
+            this.physics.removeBody(this.physics.bodies[0]);
+    }
 
     render(t) {
         this.stats.begin();
@@ -157,6 +161,7 @@ export class Game {
         this.mainChar.update(dt);
         this.currentRoom.update();
         if(this.currentRoom.isCleared()){
+            this.#cleanPhysics();
             this.#cleanScene();
             this.load(2);
             return;
