@@ -30,7 +30,7 @@ export class Game {
         this.scene = this.#buildScene();
         this.lm = this.#buildLoader();
         this.physics = this.#buildPhysics();
-        this.ml = new ModelsLoader(this.lm);
+        this.ml = new ModelsLoader(this.lm, this.renderer, this.camera);
         this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
         this.debugger = CannonDebugger(this.scene,this.physics);
 
@@ -58,14 +58,7 @@ export class Game {
         
             default:
                 throw new Error("Invalid stage");
-                break;
-        }
-
-        const models = Array.from(this.ml.models.values());
-        for (let index = 0; index < models.length; index++) {
-            const element = models[index];
-            this.renderer.compile (element, this.camera ) 
-        }        
+        }      
 
         this.#init();
     }

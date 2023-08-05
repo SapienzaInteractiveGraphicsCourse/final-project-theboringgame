@@ -105,7 +105,7 @@ export class Door {
 }
 export class Pillar {
     constructor(modelLoader) {
-        this.instance = modelLoader.models.get(this.constructor);
+        this.instance = modelLoader.get(this);
         this.instance.scale.set(7, 7, 7);
         
         this.instance.traverse(function (node) {
