@@ -28,7 +28,7 @@ export class ObjectsFactory {
 
     createButton() {
         let instance = new Button(this.ml);
-        return instance.getInstance;
+        return instance.getInstance();
     }
 
 }
