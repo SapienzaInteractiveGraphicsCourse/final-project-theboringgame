@@ -20,6 +20,11 @@ export class ObjectsFactory {
         let instance = new Door(this.ml);
         return instance.getInstance();
     }
+    
+    createPillar() {
+        let instance = new Pillar(this.ml);
+        return instance.getInstance();
+    }
 
 }
 
@@ -97,5 +102,31 @@ export class Door {
     getInstance() {
         return [this.instance,this.door];
     }
+}
+export class Pillar {
+    constructor(modelLoader) {
+        this.instance = modelLoader.models.get(this.constructor);
+        this.instance.scale.set(7, 7, 7);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
 
+        this.pillar = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        //this.pillar.position.y=dim.y/2;
+    }
+
+    getInstance() {
+        return [this.instance,this.pillar];
+    }
 }
