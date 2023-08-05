@@ -266,6 +266,25 @@ class LightRoom {
         this.factor4 = this.animate(this.cube4,this.factor4);
         this.factor5 = this.animate(this.cube5,this.factor5);
         this.factor6 = this.animate(this.cube6,this.factor6);
+
+        const butt1Instance = this.scene.getObjectByName("button1");
+        const butt2Instance = this.scene.getObjectByName("button2");
+        const butt3Instance = this.scene.getObjectByName("button3");
+
+        let closeTobutt1 = butt1Instance == null ? false : this.playerRoot.position.distanceTo(butt1Instance.position) < 25.0;
+        let closeTobutt2 = butt2Instance == null ? false : this.playerRoot.position.distanceTo(butt2Instance.position) < 25.0;
+        let closeTobutt3 = butt3Instance == null ? false : this.playerRoot.position.distanceTo(butt3Instance.position) < 25.0;
+
+        if (closeTobutt1) {
+            showHint("Press C to change light", 10);
+        }
+        if (closeTobutt2) {
+            showHint("Press C to change light", 10);
+        }
+        if (closeTobutt3) {
+            showHint("Press C to change light", 10);
+        }
+
     }
 
     isCleared() {

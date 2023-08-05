@@ -27,6 +27,8 @@ export class ModelsLoader {
         }
 
         let models = await Promise.all(prom);
+        
+        let sum = 0;
 
         for (let index = 0; index < valueArray.length; index++){
             const element = valueArray[index];
@@ -34,10 +36,10 @@ export class ModelsLoader {
             let entry = new Array(rep);
 
             for(let j = 0; j < rep; j++){
-                entry[j] = models[index+j].scene;
+                entry[j] = models[sum+j].scene;
                 this.renderer.compile(entry[j], this.camera ) 
             }
-            
+            sum += rep;
             this.models.set(keyArray[index], entry);
         }
 

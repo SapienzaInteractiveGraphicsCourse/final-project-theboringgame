@@ -219,11 +219,27 @@
         }
     },
     {
-        "name": "button",
+        "name": "button1",
         "type": "button",
         "pose": {
             "translation": {
-                "x": 20,
+                "x": 40,
+                "y": 0,
+                "z": -75
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "button2",
+        "type": "button",
+        "pose": {
+            "translation": {
+                "x": 0,
                 "y": 0,
                 "z": -50
             },
@@ -235,29 +251,13 @@
         }
     },
     {
-        "name": "button",
+        "name": "button3",
         "type": "button",
         "pose": {
             "translation": {
-                "x": 0,
+                "x": -40,
                 "y": 0,
-                "z": -50
-            },
-            "rotation": {
-                "x": 0,
-                "y": 0,
-                "z": 0
-            }
-        }
-    },
-    {
-        "name": "button",
-        "type": "button",
-        "pose": {
-            "translation": {
-                "x": -20,
-                "y": 0,
-                "z": -50
+                "z": -75
             },
             "rotation": {
                 "x": 0,

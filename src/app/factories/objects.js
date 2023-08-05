@@ -148,15 +148,12 @@ export class Button {
             }
         });
         
-        let dim = new THREE.Vector3();
-        let box = new THREE.Box3().setFromObject(this.instance);
-        box.getSize(dim);
 
         this.button = new CANNON.Body({
             type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            shape: new CANNON.Box(new CANNON.Vec3(6,15,6))
         });
-        this.button.position.y=dim.y/2;
+        this.button.position.y=7.5;
     }
 
     getInstance() {

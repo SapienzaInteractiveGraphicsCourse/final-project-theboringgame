@@ -24,8 +24,8 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idLL, -0.7, 'x', this.executionSpeed);
                 AnimationUtils.rotationOneAxis(this.idRL, 0.0, 'x', this.executionSpeed);
                 //shoulders
-                AnimationUtils.rotationOneAxis(this.idLS, -0.26, 'x', this.executionSpeed);
-                AnimationUtils.rotationOneAxis(this.idRS, 0.36, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idLS, -0.536, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idRS, 0.536, 'x', this.executionSpeed);
 
                 if (this.idLU.rotation.x > -0.1) {
                     this.state++;
@@ -37,8 +37,8 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idRU, -0.35, 'x', this.executionSpeed);
 
                 //shoulders
-                AnimationUtils.rotationOneAxis(this.idLS, 0.05, 'x', this.executionSpeed);
-                AnimationUtils.rotationOneAxis(this.idRS, 0.05, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idLS, -0.226, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idRS, 0.226, 'x', this.executionSpeed);
 
                 if (this.idLU.rotation.x > -0.25) {
                     this.state++;
@@ -52,8 +52,8 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idLL, 0, 'x', this.executionSpeed);
                 AnimationUtils.rotationOneAxis(this.idRL, -0.7, 'x', this.executionSpeed);
                 //shoulders
-                AnimationUtils.rotationOneAxis(this.idLS, 0.36, 'x', this.executionSpeed);
-                AnimationUtils.rotationOneAxis(this.idRS, -0.26, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idLS, 0.084, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idRS, -0.084, 'x', this.executionSpeed);
 
                 if (this.idLU.rotation.x < -0.6) {
                     this.state++;
@@ -65,8 +65,8 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idRU, -0.35, 'x', this.executionSpeed);
 
                 //shoulders
-                AnimationUtils.rotationOneAxis(this.idLS, 0.05, 'x', this.executionSpeed);
-                AnimationUtils.rotationOneAxis(this.idRS, 0.05, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idLS, -0.226, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idRS, 0.226, 'x', this.executionSpeed);
 
                 if (this.idLU.rotation.x < -0.25) {
                     this.state = 0;
