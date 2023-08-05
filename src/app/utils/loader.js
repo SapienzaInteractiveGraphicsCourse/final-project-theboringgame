@@ -40,6 +40,7 @@ export class ModelsLoader {
                 this.renderer.compile(entry[j], this.camera ) 
             }
             sum += rep;
+
             this.models.set(keyArray[index], entry);
         }
 

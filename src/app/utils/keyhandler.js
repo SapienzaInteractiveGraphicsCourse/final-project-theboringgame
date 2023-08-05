@@ -33,6 +33,10 @@ export class KeyHandlerUtil{
 
                 case 'KeyP': mainChar.action = true; break;
 
+                case 'KeyR': mainChar.read = true; break;
+
+                case 'KeyC': mainChar.change = true; break;
+
             }
         }
     }.bind(mainChar);

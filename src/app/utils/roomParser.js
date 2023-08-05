@@ -89,6 +89,12 @@ export class RoomParser {
             case "button":
                 return this.of.createButton();
 
+            case "desk":
+                return this.of.createDesk();
+
+            case "book":
+                return this.of.createBook();
+
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");
         }
@@ -144,6 +150,11 @@ export class RoomParser {
             case "pillar":
                 obj.position.x = pose.translation.x-25;
                 obj.position.z = pose.translation.z+5;
+                break;
+            case "desk":
+                obj.position.x = pose.translation.x-85;
+                obj.position.y = pose.translation.y+60;
+                obj.position.z = pose.translation.z+115;
                 break;
             default:
                 obj.position.x = pose.translation.x;

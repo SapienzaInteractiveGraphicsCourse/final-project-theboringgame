@@ -24,6 +24,8 @@ export class MainRobot {
 
         this.action = false;
         this.useLight = false;
+        this.read = false;
+        this.change = false;
 
         this.instance = modelLoader.get(this);
         this.instance.name = 'mainRobot';

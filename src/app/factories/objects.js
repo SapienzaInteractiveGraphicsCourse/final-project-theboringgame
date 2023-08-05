@@ -31,6 +31,16 @@ export class ObjectsFactory {
         return instance.getInstance();
     }
 
+    createDesk() {
+        let instance = new Desk(this.ml);
+        return instance.getInstance();
+    }
+
+    createBook() {
+        let instance = new Book(this.ml);
+        return instance.getInstance();
+    }
+
 }
 
 export class Generator {
@@ -108,6 +118,7 @@ export class Door {
         return [this.instance,this.door];
     }
 }
+
 export class Pillar {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
@@ -158,5 +169,52 @@ export class Button {
 
     getInstance() {
         return [this.instance,this.button];
+    }
+}
+
+export class Desk {
+    constructor(modelLoader) {
+        this.instance = modelLoader.get(this);
+        this.instance.scale.set(20, 20, 20);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
+
+        this.desk = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        this.desk.position.y=dim.y/2;
+    }
+
+    getInstance() {
+        return [this.instance,this.desk];
+    }
+}
+
+export class Book {
+    constructor(modelLoader) {
+        this.instance = modelLoader.get(this);
+        this.instance.scale.set(0.5, 0.5, 0.5);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+    }
+
+    getInstance() {
+        return [this.instance,0];
     }
 }

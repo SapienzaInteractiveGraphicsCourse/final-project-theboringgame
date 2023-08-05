@@ -194,9 +194,9 @@ class LightRoom {
         await this.rp.parseRoom("lightRoom.json");
         this.light = this.#buildLight();
 
-        this.playerPhysic.position.set(0,  20, 0);
+        this.playerPhysic.position.set(0,  20, 250);
         this.playerRoot.position.copy(this.playerPhysic);
-        this.player.bodyOrientation = Math.PI / 2;
+        this.light.color = new THREE.Color(0xFFFFFF);
         this.scene.add(this.light);
         
     }
@@ -253,12 +253,6 @@ class LightRoom {
     async update() {
         this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
         this.camera.lookAt(...Object.values(this.playerRoot.position));
-        if(this.playerRoot.position.z > 0){
-            this.light.color = new THREE.Color(0xFFFFFF);
-        }
-        else{
-            this.light.color = new THREE.Color(0xFF8822);
-        }
 
         this.factor1 = this.animate(this.cube1,this.factor1);
         this.factor2 = this.animate(this.cube2,this.factor2);
@@ -275,16 +269,38 @@ class LightRoom {
         let closeTobutt2 = butt2Instance == null ? false : this.playerRoot.position.distanceTo(butt2Instance.position) < 25.0;
         let closeTobutt3 = butt3Instance == null ? false : this.playerRoot.position.distanceTo(butt3Instance.position) < 25.0;
 
-        if (closeTobutt1) {
+        if (closeTobutt1 && this.playerRoot.position.z>butt1Instance.position.z) 
             showHint("Press C to change light", 10);
-        }
-        if (closeTobutt2) {
+        
+        if (closeTobutt2 && this.playerRoot.position.z>butt2Instance.position.z) 
             showHint("Press C to change light", 10);
-        }
-        if (closeTobutt3) {
+        
+        if (closeTobutt3 && this.playerRoot.position.z>butt3Instance.position.z)
             showHint("Press C to change light", 10);
-        }
+        
 
+        if (this.player.change && closeTobutt1)
+            this.light.color = new THREE.Color(0xFF0000);
+
+        if (this.player.change && closeTobutt2)
+            this.light.color = new THREE.Color(0x00FF00);
+
+        if (this.player.change && closeTobutt3)
+            this.light.color = new THREE.Color(0x0000FF);
+
+        const bookInstance = this.scene.getObjectByName("book");
+        let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
+
+        if (closeTobook) 
+            showHint("Press R to read", 10);
+        
+
+        if (this.player.read && closeTobook)
+            showTextBox("This book seems to be ancient, it says: 'The key to get out is Porco Dio'");
+        
+
+        this.player.read = false;
+        this.player.change = false;
     }
 
     isCleared() {

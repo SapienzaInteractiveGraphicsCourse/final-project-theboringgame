@@ -4,7 +4,7 @@
         "type": "floor",
         "params": {
             "width": 300,
-            "height": 700,
+            "height": 800,
             "texture": {
                 "name": "scifi-floor",
                 "density": 1
@@ -27,7 +27,7 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 700,
+            "width": 800,
             "height": 100,
             "depth": 5,
             "texture": {
@@ -52,7 +52,7 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 700,
+            "width": 800,
             "height": 100,
             "depth": 5,
             "texture": {
@@ -114,7 +114,7 @@
             "translation": {
                 "x": 0,
                 "y": 50,
-                "z": 250
+                "z": 300
             },
             "rotation": {
                 "x": 0,
@@ -225,7 +225,7 @@
             "translation": {
                 "x": 40,
                 "y": 0,
-                "z": -75
+                "z": 175
             },
             "rotation": {
                 "x": 0,
@@ -241,7 +241,7 @@
             "translation": {
                 "x": 0,
                 "y": 0,
-                "z": -50
+                "z": 200
             },
             "rotation": {
                 "x": 0,
@@ -257,7 +257,7 @@
             "translation": {
                 "x": -40,
                 "y": 0,
-                "z": -75
+                "z": 175
             },
             "rotation": {
                 "x": 0,
@@ -265,6 +265,39 @@
                 "z": 0
             }
         }
+    },
+    {
+        "name": "desk",
+        "type": "desk",
+        "pose": {
+            "translation": {
+                "x": 85,
+                "y": -50,
+                "z": -290
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "book",
+        "type": "book",
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 20,
+                "z": -180
+            },
+            "rotation": {
+                "x": 0,
+                "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
     }
+    
     
 ]
