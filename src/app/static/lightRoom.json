@@ -97,6 +97,22 @@
                 "z": 0
             }
         }
+    },
+    {
+        "name": "pillar",
+        "type": "pillar",
+        "pose": {
+            "translation": {
+                "x": 100,
+                "y": 0,
+                "z": 0
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
     }
     
 ]

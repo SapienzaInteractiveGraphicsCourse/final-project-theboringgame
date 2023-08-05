@@ -1,4 +1,4 @@
-import { Door, Generator, Platform } from "../factories/objects.js"
+import { Door, Generator, Platform, Pillar } from "../factories/objects.js"
 import { MainRobot } from "../factories/characters.js"
 
 
@@ -21,5 +21,6 @@ export const modelMapping = new Map([
 [Generator, '../../assets/models/generator/sci-fi_cargo_crate.glb'],
 [MainRobot, '../../assets/models/hmo-man/hmo-ng.glb'],
 [Platform ,'../../assets/models/platform/scifi_platform.glb'],
-[Door , '../../assets/models/door/space_door.glb']
+[Door , '../../assets/models/door/space_door.glb'],
+[Pillar, '../../assets/models/pillar/pillar.glb']
 ]);

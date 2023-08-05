@@ -76,6 +76,9 @@ export class RoomParser {
 
             case "door":
                 return this.of.createDoor();
+                
+            case "pillar":
+                return this.of.createPillar();
 
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");
