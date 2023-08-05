@@ -25,7 +25,7 @@ export class ObjectsFactory {
 
 export class Generator {
     constructor(modelLoader) {
-        this.instance = modelLoader.models.get(this.constructor);
+        this.instance = modelLoader.get(this);
         this.instance.scale.set(10, 10, 10);
 
         this.instance.traverse(function (node) {
@@ -54,7 +54,7 @@ export class Generator {
 
 export class Platform {
     constructor(modelLoader) {
-        this.instance = modelLoader.models.get(this.constructor);
+        this.instance = modelLoader.get(this);
         this.instance.scale.set(10, 10, 10);
         
         this.instance.traverse(function (node) {
@@ -73,7 +73,7 @@ export class Platform {
 
 export class Door {
     constructor(modelLoader) {
-        this.instance = modelLoader.models.get(this.constructor);
+        this.instance = modelLoader.get(this);
         this.instance.scale.set(0.25, 0.25, 0.25);
         
         this.instance.traverse(function (node) {

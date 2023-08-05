@@ -37,16 +37,12 @@ export class Game {
         this.stats = new Stats();
         this.stats.showPanel(0);
 
-        this.modelsLoaded = false;
         document.body.appendChild(this.stats.dom);
     }
 
     async load(stage) {
 
-        if(!this.modelsLoaded){
-            await this.ml.loadModels();
-            this.modelsLoaded=true;
-        }
+        await this.ml.loadModels();
 
         let cf = new CharacterFactory(this.ml);
         this.mainChar = cf.createMainRobot(this.lm);

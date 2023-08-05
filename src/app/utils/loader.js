@@ -25,4 +25,10 @@ export class ModelsLoader {
             this.models.set(keyArray[index], models[index].scene);
 
     }
+
+    get(classIdx){
+        const model = this.models.get(classIdx.constructor);
+        this.models.delete(classIdx.constructor);
+        return model;
+    }
 }
