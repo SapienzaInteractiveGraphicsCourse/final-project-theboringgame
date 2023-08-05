@@ -26,6 +26,11 @@ export class ObjectsFactory {
         return instance.getInstance();
     }
 
+    createButton() {
+        let instance = new Button(this.ml);
+        return instance.getInstance;
+    }
+
 }
 
 export class Generator {
@@ -128,5 +133,33 @@ export class Pillar {
 
     getInstance() {
         return [this.instance,this.pillar];
+    }
+}
+
+export class Button {
+    constructor(modelLoader) {
+        this.instance = modelLoader.get(this);
+        this.instance.scale.set(10, 10, 10);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
+
+        this.button = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        this.button.position.y=dim.y/2;
+    }
+
+    getInstance() {
+        return [this.instance,this.button];
     }
 }

@@ -1,4 +1,4 @@
-import { Door, Generator, Platform, Pillar } from "../factories/objects.js"
+import { Door, Generator, Platform, Pillar, Button } from "../factories/objects.js"
 import { MainRobot } from "../factories/characters.js"
 
 
@@ -9,7 +9,7 @@ export const config = {
             fov: 60,
             aspect: document.querySelector('#scene-container').clientWidth / document.querySelector('#scene-container').clientHeight,
             near: 10,
-            far: 500
+            far: 600
         },
         scene: {
             background: "rgb(6,5,41)"
@@ -23,4 +23,5 @@ export const modelMapping = new Map([
 [Platform ,['../../assets/models/platform/scifi_platform.glb',1]],
 [Door , ['../../assets/models/door/space_door.glb',1]],
 [Pillar, ['../../assets/models/pillar/pillar.glb',6]],
+[Button, ['../../assets/models/button/scifi_button.glb',3]]
 ]);

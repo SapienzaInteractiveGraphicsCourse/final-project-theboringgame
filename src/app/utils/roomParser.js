@@ -29,14 +29,16 @@ export class RoomParser {
     async #parse(data) {
         for (let index = 0; index < data.length; index++) {
             const element = data[index];
+            
             let obj = await this.#createElement(element.type, element.params);
             if (obj[0] && obj[0].isObject3D) {
 
                 obj[0].name = element.name;
 
                 await this.#placeElement(obj[0], element.pose);
-
-                this.scene.add(obj[0]);
+                if (element.type != "invisiblewall"){
+                    this.scene.add(obj[0]);
+                }
             }
             if (obj[1] && !(config.debug && element.type == "wall")) {
                 for (let index = 1; index < obj.length; index++) {
@@ -68,6 +70,10 @@ export class RoomParser {
                 let materialDW = await this.#createMaterial(params);
                 return this.bf.createDoorWall(dimWall, materialDW, dimDoor);
 
+            case "invisiblewall":
+                let dimInv = Object.values(params).slice(0, 3);
+                return this.bf.createBasicWall(dimInv, null);
+
             case "generator":
                 return this.of.createGenerator();
 
@@ -79,6 +85,9 @@ export class RoomParser {
                 
             case "pillar":
                 return this.of.createPillar();
+
+            case "button":
+                return this.of.createButton();
 
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");

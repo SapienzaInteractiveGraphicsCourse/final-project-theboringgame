@@ -4,7 +4,7 @@
         "type": "floor",
         "params": {
             "width": 300,
-            "height": 400,
+            "height": 700,
             "texture": {
                 "name": "scifi-floor",
                 "density": 1
@@ -27,7 +27,7 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 400,
+            "width": 700,
             "height": 100,
             "depth": 5,
             "texture": {
@@ -52,7 +52,7 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 400,
+            "width": 700,
             "height": 100,
             "depth": 5,
             "texture": {
@@ -90,6 +90,31 @@
                 "x": 0,
                 "y": 50,
                 "z": -200
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "invisiblewall",
+        "type": "invisiblewall",
+        "params": {
+            "width": 302.5,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.25
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 50,
+                "z": 250
             },
             "rotation": {
                 "x": 0,
@@ -185,6 +210,54 @@
                 "x": -75,
                 "y": -2,
                 "z": 95
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "button",
+        "type": "button",
+        "pose": {
+            "translation": {
+                "x": 20,
+                "y": 0,
+                "z": -50
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "button",
+        "type": "button",
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 0,
+                "z": -50
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "button",
+        "type": "button",
+        "pose": {
+            "translation": {
+                "x": -20,
+                "y": 0,
+                "z": -50
             },
             "rotation": {
                 "x": 0,

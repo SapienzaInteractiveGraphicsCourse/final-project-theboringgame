@@ -207,26 +207,27 @@ class LightRoom {
         const color = 0xFFFFFF;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
+        light.position.set(0,100,200)
         return light
     }
 
     init() {
-        this.cube = new Cube(14,{color: "#11aaff"},100,54,0);
+        this.cube = new Cube(14,{color: "brown"},100,54,0);
         this.cube1 = this.cube.create();
         this.scene.add(this.cube1);
-        this.cube = new Cube(14,{color: "#11aaff"},-100,54,0);
+        this.cube = new Cube(14,{color: "lightblue"},-100,54,0);
         this.cube2 = this.cube.create();
         this.scene.add(this.cube2);
-        this.cube = new Cube(14,{color: "#11aaff"},100,54,-100);
+        this.cube = new Cube(14,{color: "lightgreen"},100,54,-100);
         this.cube3 = this.cube.create();
         this.scene.add(this.cube3);
-        this.cube = new Cube(14,{color: "#11aaff"},-100,54,-100);
+        this.cube = new Cube(14,{color: "yellow"},-100,54,-100);
         this.cube4 = this.cube.create();
         this.scene.add(this.cube4);
-        this.cube = new Cube(14,{color: "#11aaff"},100,54,100);
+        this.cube = new Cube(14,{color: "pink"},100,54,100);
         this.cube5 = this.cube.create();
         this.scene.add(this.cube5);
-        this.cube = new Cube(14,{color: "#11aaff"},-100,54,100);
+        this.cube = new Cube(14,{color: "orange"},-100,54,100);
         this.cube6 = this.cube.create();
         this.scene.add(this.cube6);
         this.factor1 = 0.05;
@@ -244,11 +245,13 @@ class LightRoom {
             factor = 0.05;
         }
         cube.position.y += factor;
+        cube.rotateY(0.005);
+        cube.rotateX(0.005);
         return factor;
     }
 
     async update() {
-        this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 100, this.playerRoot.position.z + 100);
+        this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
         this.camera.lookAt(...Object.values(this.playerRoot.position));
         if(this.playerRoot.position.z > 0){
             this.light.color = new THREE.Color(0xFFFFFF);
@@ -263,7 +266,6 @@ class LightRoom {
         this.factor4 = this.animate(this.cube4,this.factor4);
         this.factor5 = this.animate(this.cube5,this.factor5);
         this.factor6 = this.animate(this.cube6,this.factor6);
-        
     }
 
     isCleared() {
