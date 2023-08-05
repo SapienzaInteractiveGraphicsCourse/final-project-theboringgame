@@ -103,9 +103,9 @@
         "type": "pillar",
         "pose": {
             "translation": {
-                "x": 100,
-                "y": 0,
-                "z": 0
+                "x": 125,
+                "y": -2,
+                "z": -5
             },
             "rotation": {
                 "x": 0,
@@ -119,9 +119,72 @@
         "type": "pillar",
         "pose": {
             "translation": {
-                "x": -100,
+                "x": -75,
+                "y": -2,
+                "z": -5
+            },
+            "rotation": {
+                "x": 0,
                 "y": 0,
                 "z": 0
+            }
+        }
+    },{
+        "name": "pillar",
+        "type": "pillar",
+        "pose": {
+            "translation": {
+                "x": 125,
+                "y": -2,
+                "z": -105
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "pillar",
+        "type": "pillar",
+        "pose": {
+            "translation": {
+                "x": -75,
+                "y": -2,
+                "z": -105
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "pillar",
+        "type": "pillar",
+        "pose": {
+            "translation": {
+                "x": 125,
+                "y": -2,
+                "z": 95
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "pillar",
+        "type": "pillar",
+        "pose": {
+            "translation": {
+                "x": -75,
+                "y": -2,
+                "z": 95
             },
             "rotation": {
                 "x": 0,

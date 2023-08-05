@@ -22,5 +22,5 @@ export const modelMapping = new Map([
 [MainRobot, ['../../assets/models/hmo-man/hmo-ng.glb',1]],
 [Platform ,['../../assets/models/platform/scifi_platform.glb',1]],
 [Door , ['../../assets/models/door/space_door.glb',1]],
-[Pillar, ['../../assets/models/pillar/pillar.glb',2]],
+[Pillar, ['../../assets/models/pillar/pillar.glb',6]],
 ]);

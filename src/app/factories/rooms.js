@@ -3,7 +3,7 @@ import { showTextBox, showHint } from "../utils/textBox.js"
 import { config } from "../static/config.js";
 import { AnimationUtils } from '../utils/animationUtils.js';
 import { TWEEN } from '../lib/tween/build/tween.module.min.js';
-
+import { Cube } from "../utils/cube.js";
 
 
 export class RoomFactory {
@@ -211,12 +211,40 @@ class LightRoom {
     }
 
     init() {
-        const geometry = new THREE.BoxGeometry( 30, 30, 30 ); 
-        const material = new THREE.MeshStandardMaterial({color:"#11aaff"});
-        this.cube = new THREE.Mesh( geometry, material );
-        this.cube.position.set(0,15,0); 
-        this.scene.add( this.cube );
-        this.factor = 0.1;
+        this.cube = new Cube(14,{color: "#11aaff"},100,54,0);
+        this.cube1 = this.cube.create();
+        this.scene.add(this.cube1);
+        this.cube = new Cube(14,{color: "#11aaff"},-100,54,0);
+        this.cube2 = this.cube.create();
+        this.scene.add(this.cube2);
+        this.cube = new Cube(14,{color: "#11aaff"},100,54,-100);
+        this.cube3 = this.cube.create();
+        this.scene.add(this.cube3);
+        this.cube = new Cube(14,{color: "#11aaff"},-100,54,-100);
+        this.cube4 = this.cube.create();
+        this.scene.add(this.cube4);
+        this.cube = new Cube(14,{color: "#11aaff"},100,54,100);
+        this.cube5 = this.cube.create();
+        this.scene.add(this.cube5);
+        this.cube = new Cube(14,{color: "#11aaff"},-100,54,100);
+        this.cube6 = this.cube.create();
+        this.scene.add(this.cube6);
+        this.factor1 = 0.05;
+        this.factor2 = 0.05;
+        this.factor3 = 0.05;
+        this.factor4 = 0.05;
+        this.factor5 = 0.05;
+        this.factor6 = 0.05;
+    }
+
+    animate(cube,factor){
+        if(cube.position.y > 60){
+            factor *= -1;
+        }else if(cube.position.y < 54){
+            factor = 0.05;
+        }
+        cube.position.y += factor;
+        return factor;
     }
 
     async update() {
@@ -229,9 +257,13 @@ class LightRoom {
             this.light.color = new THREE.Color(0xFF8822);
         }
 
-        if(Math.abs(this.cube.position.y-30) > 15)
-            this.factor *= -1;
-        this.cube.position.y += this.factor;
+        this.factor1 = this.animate(this.cube1,this.factor1);
+        this.factor2 = this.animate(this.cube2,this.factor2);
+        this.factor3 = this.animate(this.cube3,this.factor3);
+        this.factor4 = this.animate(this.cube4,this.factor4);
+        this.factor5 = this.animate(this.cube5,this.factor5);
+        this.factor6 = this.animate(this.cube6,this.factor6);
+        
     }
 
     isCleared() {

@@ -132,6 +132,10 @@ export class RoomParser {
                 obj.position.x = pose.translation.x-65;
                 obj.position.z = pose.translation.z;
                 break;
+            case "pillar":
+                obj.position.x = pose.translation.x-25;
+                obj.position.z = pose.translation.z+5;
+                break;
             default:
                 obj.position.x = pose.translation.x;
                 obj.position.z = pose.translation.z;

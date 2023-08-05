@@ -106,7 +106,7 @@ export class Door {
 export class Pillar {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
-        this.instance.scale.set(7, 7, 7);
+        this.instance.scale.set(12, 7, 12);
         
         this.instance.traverse(function (node) {
             if (node.isMesh) {
@@ -123,7 +123,7 @@ export class Pillar {
             type:CANNON.Body.STATIC,
             shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
         });
-        //this.pillar.position.y=dim.y/2;
+        this.pillar.position.y=dim.y/2;
     }
 
     getInstance() {
