@@ -1,4 +1,4 @@
-import { Door, Generator, Platform, Pillar, Button, Desk, Book, Trophy } from "../factories/objects.js"
+import { Door, Generator, Platform, Pillar, Button, Desk, Book, Trophy, Redcarpet, Rope } from "../factories/objects.js"
 import { MainRobot } from "../factories/characters.js"
 
 
@@ -26,5 +26,7 @@ export const modelMapping = new Map([
 [Button, ['../../assets/models/button/scifi_button.glb',3]],
 [Desk, ['../../assets/models/desk/scifi_desk.glb',1]],
 [Book, ['../../assets/models/book/book_open.glb',1]],
-[Trophy, ['../../assets/models/trophy/world_cup_trophy.glb',1]]
+[Trophy, ['../../assets/models/trophy/world_cup_trophy.glb',1]],
+[Redcarpet, ['../../assets/models/redcarpet/red_carpet.glb',1]],
+[Rope, ['../../assets/models/rope/red_velvet_rope.glb',16]]
 ]);

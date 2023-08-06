@@ -46,6 +46,17 @@ export class ObjectsFactory {
         return instance.getInstance();
     }
 
+    createRedcarpet() {
+        let instance = new Redcarpet(this.ml);
+        return instance.getInstance();
+    }
+
+    createRope() {
+        let instance = new Rope(this.ml);
+        return instance.getInstance();
+    }
+
+
 }
 
 export class Generator {
@@ -249,5 +260,52 @@ export class Trophy {
 
     getInstance() {
         return [this.instance,this.trophy];
+    }
+}
+
+export class Redcarpet {
+    constructor(modelLoader) {
+        this.instance = modelLoader.get(this);
+        this.instance.scale.set(15, 10, 50);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+    }
+
+    getInstance() {
+        return [this.instance,0];
+    }
+}
+
+export class Rope {
+    constructor(modelLoader) {
+        this.instance = modelLoader.get(this);
+        this.instance.scale.set(25, 25, 25);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
+
+        this.rope = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        this.rope.position.y=dim.y/2;
+    }
+
+    getInstance() {
+        return [this.instance,this.rope];
     }
 }

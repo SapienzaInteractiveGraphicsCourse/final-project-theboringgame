@@ -98,6 +98,12 @@ export class RoomParser {
             case "trophy":
                 return this.of.createTrophy();
 
+            case "redcarpet":
+                return this.of.createRedcarpet();
+            
+            case "rope":
+                return this.of.createRope();
+
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");
         }
@@ -158,6 +164,10 @@ export class RoomParser {
                 obj.position.x = pose.translation.x-85;
                 obj.position.y = pose.translation.y+60;
                 obj.position.z = pose.translation.z+115;
+                break;
+            case "rope":
+                obj.position.x = pose.translation.x;
+                obj.position.z = pose.translation.z-20;
                 break;
             default:
                 obj.position.x = pose.translation.x;
