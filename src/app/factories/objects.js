@@ -41,6 +41,11 @@ export class ObjectsFactory {
         return instance.getInstance();
     }
 
+    createTrophy() {
+        let instance = new Trophy(this.ml);
+        return instance.getInstance();
+    }
+
 }
 
 export class Generator {
@@ -216,5 +221,33 @@ export class Book {
 
     getInstance() {
         return [this.instance,0];
+    }
+}
+
+export class Trophy {
+    constructor(modelLoader) {
+        this.instance = modelLoader.get(this);
+        this.instance.scale.set(2.5, 2.5, 2.5);
+        
+        this.instance.traverse(function (node) {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+            }
+        });
+        
+        let dim = new THREE.Vector3();
+        let box = new THREE.Box3().setFromObject(this.instance);
+        box.getSize(dim);
+
+        this.trophy = new CANNON.Body({
+            type:CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+        });
+        this.trophy.position.y=dim.y/2;
+    }
+
+    getInstance() {
+        return [this.instance,this.trophy];
     }
 }

@@ -4,17 +4,17 @@
         "type": "floor",
         "params": {
             "width": 300,
-            "height": 800,
+            "height": 1000,
             "texture": {
                 "name": "scifi-floor",
-                "density": 1
+                "density": 5
             }
         },
         "pose": {
             "translation": {
                 "x": 0,
                 "y": 0,
-                "z": 0
+                "z": 300
             },
             "rotation": {
                 "x": -1.5707963267948966,
@@ -23,23 +23,24 @@
             }
         }
     },
+    
     {
         "name": "",
         "type": "wall",
         "params": {
-            "width": 800,
+            "width": 1000,
             "height": 100,
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.25
+                "density": 0.5
             }
         },
         "pose": {
             "translation": {
                 "x": 150,
                 "y": 50,
-                "z": 0
+                "z": 300
             },
             "rotation": {
                 "x": 0,
@@ -52,19 +53,19 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 800,
+            "width": 1000,
             "height": 100,
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.25
+                "density": 0.5
             }
         },
         "pose": {
             "translation": {
                 "x": -150,
                 "y": 50,
-                "z": 0
+                "z": 300
             },
             "rotation": {
                 "x": 0,
@@ -82,7 +83,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.25
+                "density": 0.5
             }
         },
         "pose": {
@@ -99,6 +100,32 @@
         }
     },
     {
+        "name": "",
+        "type": "wall",
+        "params": {
+            "width": 302.5,
+            "height": 100,
+            "depth": 5,
+            "texture": {
+                "name": "scifi-wall",
+                "density": 0.5
+            }
+        },
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 50,
+                "z": 800
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        }
+    },
+    
+    {
         "name": "invisiblewall",
         "type": "invisiblewall",
         "params": {
@@ -107,7 +134,7 @@
             "depth": 5,
             "texture": {
                 "name": "scifi-wall",
-                "density": 0.25
+                "density": 0.5
             }
         },
         "pose": {
@@ -294,6 +321,22 @@
             "rotation": {
                 "x": 0,
                 "y": -1.5707963267948966,
+                "z": 0
+            }
+        }
+    },
+    {
+        "name": "trophy",
+        "type": "trophy",
+        "pose": {
+            "translation": {
+                "x": 0,
+                "y": 0,
+                "z": 700
+            },
+            "rotation": {
+                "x": 0,
+                "y": 0,
                 "z": 0
             }
         }

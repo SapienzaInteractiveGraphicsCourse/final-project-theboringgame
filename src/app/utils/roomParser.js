@@ -95,6 +95,9 @@ export class RoomParser {
             case "book":
                 return this.of.createBook();
 
+            case "trophy":
+                return this.of.createTrophy();
+
             default:
                 throw new Error("Invalid element " + type + ". The types currently supported are: floor, wall, doorwall, generator, platform");
         }

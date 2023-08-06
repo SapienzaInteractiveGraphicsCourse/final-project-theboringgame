@@ -37,6 +37,8 @@ export class KeyHandlerUtil{
 
                 case 'KeyC': mainChar.change = true; break;
 
+                case 'Enter': mainChar.select = true; break;
+
             }
         }
     }.bind(mainChar);

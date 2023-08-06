@@ -207,35 +207,38 @@ class LightRoom {
         const color = 0xFFFFFF;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(0,100,200)
+        light.position.set(0,100,200);
         return light
+    }
+    
+    initCube(d,c,x,y,z) {
+        let cube = new Cube(d,{color: c},x,y,z);
+        let cubeInst = cube.create();
+        cubeInst.name = c;
+        this.scene.add(cubeInst);
+        return cubeInst;
     }
 
     init() {
-        this.cube = new Cube(14,{color: "brown"},100,54,0);
-        this.cube1 = this.cube.create();
-        this.scene.add(this.cube1);
-        this.cube = new Cube(14,{color: "lightblue"},-100,54,0);
-        this.cube2 = this.cube.create();
-        this.scene.add(this.cube2);
-        this.cube = new Cube(14,{color: "lightgreen"},100,54,-100);
-        this.cube3 = this.cube.create();
-        this.scene.add(this.cube3);
-        this.cube = new Cube(14,{color: "yellow"},-100,54,-100);
-        this.cube4 = this.cube.create();
-        this.scene.add(this.cube4);
-        this.cube = new Cube(14,{color: "pink"},100,54,100);
-        this.cube5 = this.cube.create();
-        this.scene.add(this.cube5);
-        this.cube = new Cube(14,{color: "orange"},-100,54,100);
-        this.cube6 = this.cube.create();
-        this.scene.add(this.cube6);
-        this.factor1 = 0.05;
-        this.factor2 = 0.05;
-        this.factor3 = 0.05;
-        this.factor4 = 0.05;
-        this.factor5 = 0.05;
-        this.factor6 = 0.05;
+        this.cubeRed = this.initCube(14,"red",100,54,0);
+        this.cubeLightBlue = this.initCube(14,"lightblue",-100,54,0);
+        this.cubeGreen = this.initCube(14,"lightgreen",100,54,-100);
+        this.cubeYellow = this.initCube(14,"yellow",-100,54,-100);
+        this.cubePink = this.initCube(14,"pink",100,54,100);
+        this.cubeOrange = this.initCube(14,"orange",-100,54,100);
+        this.factorRed = 0.05;
+        this.factorLightBlue = 0.05;
+        this.factorGreen = 0.05;
+        this.factorYellow = 0.05;
+        this.factorPink = 0.05;
+        this.factorOrange = 0.05;
+
+        this.solution = ["red","lightgreen"];
+        this.pick = 0;
+        this.win = false;
+        this.life = 3;
+
+        this.invWall = this.rp.physicsItems.get('invisiblewall');
     }
 
     animate(cube,factor){
@@ -250,55 +253,96 @@ class LightRoom {
         return factor;
     }
 
+    checkButton(name,color){
+        const Inst = this.scene.getObjectByName(name);
+        let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 25.0;
+
+        if (closeTo && this.playerRoot.position.z>Inst.position.z) 
+            showHint("Press C to change light", 10);
+
+        if (this.player.change && closeTo)
+            this.light.color = new THREE.Color(color);
+        
+    }
+
+    checkCube(objName) {
+        const Inst = this.scene.getObjectByName(objName);
+        let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
+
+        if (closeTo) 
+            showHint("Press Enter to select this option", 10);
+
+        if(this.player.select && closeTo){
+            if(this.solution[this.pick] == objName){
+                if(this.pick==this.solution.length-1){
+                    this.win=true;
+                }else{
+                    showTextBox("Correct pick!");
+                    this.pick +=1;
+                }
+            }else{
+                this.pick=0;
+                this.life -=1;
+                if (this.life)
+                    showTextBox("Wrong pick, you lost a life, you have "+ this.life +" life remaining");
+            }
+        }
+    }
+
     async update() {
-        this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
-        this.camera.lookAt(...Object.values(this.playerRoot.position));
-
-        this.factor1 = this.animate(this.cube1,this.factor1);
-        this.factor2 = this.animate(this.cube2,this.factor2);
-        this.factor3 = this.animate(this.cube3,this.factor3);
-        this.factor4 = this.animate(this.cube4,this.factor4);
-        this.factor5 = this.animate(this.cube5,this.factor5);
-        this.factor6 = this.animate(this.cube6,this.factor6);
-
-        const butt1Instance = this.scene.getObjectByName("button1");
-        const butt2Instance = this.scene.getObjectByName("button2");
-        const butt3Instance = this.scene.getObjectByName("button3");
-
-        let closeTobutt1 = butt1Instance == null ? false : this.playerRoot.position.distanceTo(butt1Instance.position) < 25.0;
-        let closeTobutt2 = butt2Instance == null ? false : this.playerRoot.position.distanceTo(butt2Instance.position) < 25.0;
-        let closeTobutt3 = butt3Instance == null ? false : this.playerRoot.position.distanceTo(butt3Instance.position) < 25.0;
-
-        if (closeTobutt1 && this.playerRoot.position.z>butt1Instance.position.z) 
-            showHint("Press C to change light", 10);
-        
-        if (closeTobutt2 && this.playerRoot.position.z>butt2Instance.position.z) 
-            showHint("Press C to change light", 10);
-        
-        if (closeTobutt3 && this.playerRoot.position.z>butt3Instance.position.z)
-            showHint("Press C to change light", 10);
+        if(!this.win){
+            this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
+            this.camera.lookAt(...Object.values(this.playerRoot.position));
+        }
         
 
-        if (this.player.change && closeTobutt1)
-            this.light.color = new THREE.Color(0xFF0000);
+        this.factorRed = this.animate(this.cubeRed,this.factorRed);
+        this.factorLightBlue = this.animate(this.cubeLightBlue,this.factorLightBlue);
+        this.factorGreen = this.animate(this.cubeGreen,this.factorGreen);
+        this.factorYellow = this.animate(this.cubeYellow,this.factorYellow);
+        this.factorPink = this.animate(this.cubePink,this.factorPink);
+        this.factorOrange = this.animate(this.cubeOrange,this.factorOrange);
 
-        if (this.player.change && closeTobutt2)
-            this.light.color = new THREE.Color(0x00FF00);
+        if (this.life && !this.win){
+            this.checkButton("button1",0xFF7000);
+            this.checkButton("button2",0x70FF00);
+            this.checkButton("button3",0x7000FF);
 
-        if (this.player.change && closeTobutt3)
-            this.light.color = new THREE.Color(0x0000FF);
+            const bookInstance = this.scene.getObjectByName("book");
+            let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
 
-        const bookInstance = this.scene.getObjectByName("book");
-        let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
+            if (closeTobook) 
+                showHint("Press R to read", 10);
+            
 
-        if (closeTobook) 
-            showHint("Press R to read", 10);
-        
+            if (this.player.read && closeTobook)
+                showTextBox("This book seems to be ancient, it says: 'The key to get out is P0RC0 DI0'");
+            
+            this.checkCube("red");
+            this.checkCube("lightblue");
+            this.checkCube("lightgreen");
+            this.checkCube("yellow");
+            this.checkCube("pink");
+            this.checkCube("orange");
 
-        if (this.player.read && closeTobook)
-            showTextBox("This book seems to be ancient, it says: 'The key to get out is Porco Dio'");
-        
+            if(this.win)
+                showTextBox("CORRECT PICK! YOU WON!!!");
 
+            if(this.life==0)
+                showTextBox("YOU LOSE, GAME OVER");
+        }
+
+        if(this.win){
+            AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150);
+            AnimationUtils.rotation(this.camera, 0, 0, Math.PI);
+            this.camera.lookAt(...Object.values(this.playerRoot.position));
+            this.light.position.set(0,100,-100);
+            this.light.color = new THREE.Color(0xFFFFFF);
+            this.physic.removeBody(this.invWall);
+            
+        }
+
+        this.player.select = false;
         this.player.read = false;
         this.player.change = false;
     }
