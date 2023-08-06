@@ -194,7 +194,7 @@ class LightRoom {
         await this.rp.parseRoom("lightRoom.json");
         this.light = this.#buildLight();
 
-        this.playerPhysic.position.set(0,  20, 250);
+        this.playerPhysic.position.set(0,  40, 250);
         this.playerRoot.position.copy(this.playerPhysic);
         this.light.color = new THREE.Color(0xFFFFFF);
         this.scene.add(this.light);

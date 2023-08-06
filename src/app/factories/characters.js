@@ -179,8 +179,7 @@ export class MainRobot {
         this.charPhysic.position.x += Math.sin(this.bodyOrientation) * forwardDelta;
         this.charPhysic.position.z += Math.cos(this.bodyOrientation) * forwardDelta;
         // steering
-        this.instance.position.copy(this.charPhysic.position);
-        this.instance.position.y=0;
+        this.instance.position.set(this.charPhysic.position.x,this.charPhysic.position.y-5.5,this.charPhysic.position.z);
         this.instance.rotation.y = this.bodyOrientation;
     }
 }
