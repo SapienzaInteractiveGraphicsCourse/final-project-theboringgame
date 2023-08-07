@@ -45,6 +45,7 @@ export class Game {
     }
 
     async load(stage) {
+        this.currentLoading = 0;
         document.getElementById("progress-bar").style.setProperty('--width', 0);
         document.getElementById("loading").style.display = 'flex';
 
@@ -92,7 +93,8 @@ export class Game {
         const lm = new THREE.LoadingManager();
 
         lm.onProgress = async (url, loaded, total) => {
-            document.getElementById("progress-bar").style.setProperty('--width', (loaded / total) * 90)
+            this.currentLoading = Math.max(this.currentLoading, (loaded / total) * 90)
+            document.getElementById("progress-bar").style.setProperty('--width', this.currentLoading)
         };
 
         return lm;
@@ -100,7 +102,7 @@ export class Game {
 
     #buildPhysics(){
         const physicsWorld = new CANNON.World({
-            gravity: new CANNON.Vec3(0, -30, 0)
+            gravity: new CANNON.Vec3(0, -100, 0)
         });
         return physicsWorld;
     }
