@@ -24,7 +24,6 @@ export class MainRobot {
 
         this.action = false;
         this.useLight = false;
-        this.read = false;
         this.change = false;
         this.select = false;
 

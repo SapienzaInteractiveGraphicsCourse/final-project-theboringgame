@@ -4,7 +4,7 @@ import { config } from "../static/config.js";
 import { AnimationUtils } from '../utils/animationUtils.js';
 import { TWEEN } from '../lib/tween/build/tween.module.min.js';
 import { Cube } from "../utils/cube.js";
-
+import {FontLoader} from "../lib/three/loaders/FontLoader.js"
 
 export class RoomFactory {
     constructor(roomParser, scene, player, camera, physic) {
@@ -234,11 +234,67 @@ class LightRoom {
         this.factorOrange = 0.05;
 
         this.solution = ["red","lightgreen"];
+        this.writeOnBook(this.solution)
         this.pick = 0;
         this.win = false;
         this.life = 3;
 
         this.invWall = this.rp.physicsItems.get('invisiblewall');
+    }
+
+    writeOnBook(solutionArray){
+        let modArray1 = new Array();
+        let modArray2 = new Array();
+        solutionArray.slice(0,2).forEach((word, index) => {
+            const firstLetter = word.charAt(0).toUpperCase();
+            const rest = word.slice(1).toLowerCase();
+          
+            modArray1.push(firstLetter + rest);
+        });
+        solutionArray.slice(2).forEach((word, index) => {
+            const firstLetter = word.charAt(0).toUpperCase();
+            const rest = word.slice(1).toLowerCase();
+          
+            modArray2.push(firstLetter + rest);
+        });
+
+        const password = modArray1.toString().replace(","," - ")+"\n"+modArray2.toString().replace(","," - ")
+          
+        const loader = new FontLoader();
+        loader.load( '../../assets/font/Great-Vibes/Great_Vibes_Regular.json', function ( font ) {
+
+            const color = 0x000000;
+
+            const matLite = new THREE.MeshBasicMaterial( {
+                color: color,
+                transparent: true,
+                opacity: 1,
+                side: THREE.DoubleSide
+            } );
+
+            const message = ' The password is \n'+password;
+
+            const shapes = font.generateShapes( message, 1 );
+
+            const geometry = new THREE.ShapeGeometry( shapes );
+
+            geometry.computeBoundingBox();
+
+            const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+
+            geometry.translate( xMid, 0, 0 );
+
+            const text = new THREE.Mesh( geometry, matLite );
+            const book = this.scene.getObjectByName("book");
+            text.position.z = book.position.z-6;
+            text.position.x = book.position.x-5;
+            text.position.y = book.position.y+2.7;
+            text.rotation.x = - Math.PI/2;
+            text.rotation.y = 0;
+
+            this.scene.add( text );
+
+        }.bind(this) );
     }
 
     animate(cube,factor){
@@ -290,12 +346,7 @@ class LightRoom {
     }
 
     async update() {
-        if(!this.win){
-            this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
-            this.camera.lookAt(...Object.values(this.playerRoot.position));
-        }
         
-
         this.factorRed = this.animate(this.cubeRed,this.factorRed);
         this.factorLightBlue = this.animate(this.cubeLightBlue,this.factorLightBlue);
         this.factorGreen = this.animate(this.cubeGreen,this.factorGreen);
@@ -304,19 +355,20 @@ class LightRoom {
         this.factorOrange = this.animate(this.cubeOrange,this.factorOrange);
 
         if (this.life && !this.win){
+            const bookInstance = this.scene.getObjectByName("book");
+            let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
+            if(!closeTobook){
+                this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
+                this.camera.lookAt(...Object.values(this.playerRoot.position));
+            }
+            else{
+                this.camera.position.set(bookInstance.position.x, bookInstance.position.y + 30, bookInstance.position.z);
+                this.camera.lookAt(...Object.values(bookInstance.position));
+            }
+
             this.checkButton("button1",0xFF7000);
             this.checkButton("button2",0x70FF00);
             this.checkButton("button3",0x7000FF);
-
-            const bookInstance = this.scene.getObjectByName("book");
-            let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
-
-            if (closeTobook) 
-                showHint("Press R to read", 10);
-            
-
-            if (this.player.read && closeTobook)
-                showTextBox("This book seems to be ancient, it says: 'The key to get out is P0RC0 DI0'");
             
             this.checkCube("red");
             this.checkCube("lightblue");
