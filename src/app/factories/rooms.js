@@ -315,7 +315,7 @@ class LightRoom {
         const password = modArray1.toString().replace(",", " - ") + "\n" + modArray2.toString().replace(",", " - ")
 
         const loader = new FontLoader();
-        loader.load('../../assets/font/Great-Vibes/Great_Vibes_Regular.json', function (font) {
+        loader.load('assets/font/Great-Vibes/Great_Vibes_Regular.json', function (font) {
 
             const color = 0x000000;
 

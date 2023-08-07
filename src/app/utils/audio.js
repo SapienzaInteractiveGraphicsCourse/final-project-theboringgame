@@ -11,7 +11,7 @@ export const createAudioListener = () => {
 
   const sound = new THREE.Audio(listener);
 
-  audioLoader.load("../../assets/sounds/infiltration.ogg", (buffer) => {
+  audioLoader.load("assets/sounds/infiltration.ogg", (buffer) => {
     sound.setBuffer(buffer);
     sound.setLoop(true);
     sound.setVolume(0.5);
