@@ -34,6 +34,10 @@ export class Game {
         this.ml = new ModelsLoader(this.lm, this.renderer, this.camera);
         this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
 
+        const url = window.location.search;
+        const urlParams = new URLSearchParams(url);
+        this.difficulty = parseInt(urlParams.get("d"));
+
         this.stats = new Stats();
         this.stats.showPanel(0);
 
@@ -49,7 +53,7 @@ export class Game {
         let cf = new CharacterFactory(this.ml);
         this.mainChar = cf.createMainRobot(this.lm);
 
-        this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera, this.physics);
+        this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera, this.physics, this.difficulty);
         switch (stage) {
             case 1:
                 this.currentRoom = await this.rf.createMaze();    

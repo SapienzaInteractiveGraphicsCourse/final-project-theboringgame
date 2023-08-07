@@ -4,25 +4,26 @@ import { config } from "../static/config.js";
 import { AnimationUtils } from '../utils/animationUtils.js';
 import { TWEEN } from '../lib/tween/build/tween.module.min.js';
 import { Cube } from "../utils/cube.js";
-import {FontLoader} from "../lib/three/loaders/FontLoader.js"
+import { FontLoader } from "../lib/three/loaders/FontLoader.js"
 
 export class RoomFactory {
-    constructor(roomParser, scene, player, camera, physic) {
+    constructor(roomParser, scene, player, camera, physic, difficulty) {
         this.rp = roomParser;
         this.scene = scene;
         this.player = player;
         this.camera = camera;
         this.physic = physic;
+        this.difficulty = difficulty;
     }
 
     async createMaze() {
-        let instance = new Maze(this.rp, this.scene, this.player, this.camera, this.physic)
+        let instance = new Maze(this.rp, this.scene, this.player, this.camera, this.physic, this.difficulty)
         await instance.create();
         return instance;
     }
 
     async createLightRoom() {
-        let instance = new LightRoom(this.rp, this.scene, this.player, this.camera, this.physic)
+        let instance = new LightRoom(this.rp, this.scene, this.player, this.camera, this.physic, this.difficulty)
         await instance.create();
         return instance;
     }
@@ -30,7 +31,7 @@ export class RoomFactory {
 }
 
 class Maze {
-    constructor(roomParser, scene, player, camera, physic) {
+    constructor(roomParser, scene, player, camera, physic, difficulty) {
         this.rp = roomParser;
         this.scene = scene;
         this.player = player;
@@ -40,14 +41,32 @@ class Maze {
         this.camera = camera;
         this.hintTorch = true;
         this.cameraCloseUp = false;
-
+        this.difficulty = difficulty;
     }
     async create() {
-        await this.rp.parseRoom("maze-easy.json");
+        switch (this.difficulty) {
+            case 1:
+                await this.rp.parseRoom("maze-easy.json");
+                this.playerPhysic.position.set(100, this.scene.getObjectByName("maze-floor").position.y + 7, -100);
+                this.playerRoot.position.copy(this.playerPhysic);
+                this.player.bodyOrientation = Math.PI / 2;
+                break;
+            case 2:
+                await this.rp.parseRoom("maze-medium.json");
+                this.playerPhysic.position.set(250, this.scene.getObjectByName("maze-floor").position.y + 7, -250);
+                this.playerRoot.position.copy(this.playerPhysic);
+                this.player.bodyOrientation = Math.PI / 2;
+                break
+            case 3:
+                await this.rp.parseRoom("maze-difficult.json");
+                this.playerPhysic.position.set(300, this.scene.getObjectByName("maze-floor").position.y + 7, -300);
+                this.playerRoot.position.copy(this.playerPhysic);
+                this.player.bodyOrientation = 0;
+                break
+            default:
+                throw new Error("difficulty not recognized");
+        }
         this.light = this.#buildLight();
-        this.playerPhysic.position.set(100, this.scene.getObjectByName("maze-floor").position.y + 7, -100);
-        this.playerRoot.position.copy(this.playerPhysic);
-        this.player.bodyOrientation = Math.PI / 2;
         this.scene.add(this.light);
 
         let holdedLight = new THREE.SpotLight(0xffffff, 0, 300, Math.PI * 0.1);
@@ -173,7 +192,7 @@ class Maze {
 
     isCleared() {
         const winBox = new THREE.Box3().setFromObject(this.scene.getObjectByName("maze-win"));
-        const playerclipped = new THREE.Vector3(this.playerRoot.position.x, (winBox.max.y+winBox.min.y)/2, this.playerRoot.position.z);
+        const playerclipped = new THREE.Vector3(this.playerRoot.position.x, (winBox.max.y + winBox.min.y) / 2, this.playerRoot.position.z);
 
         return winBox.containsPoint(playerclipped);
     }
@@ -181,7 +200,7 @@ class Maze {
 
 
 class LightRoom {
-    constructor(roomParser, scene, player, camera, physic) {
+    constructor(roomParser, scene, player, camera, physic, difficulty) {
         this.rp = roomParser;
         this.scene = scene;
         this.player = player;
@@ -189,16 +208,18 @@ class LightRoom {
         this.playerRoot = player.getInstance();
         this.playerPhysic = player.getPhysic();
         this.camera = camera;
+        this.difficulty = difficulty;
     }
+
     async create() {
         await this.rp.parseRoom("lightRoom.json");
         this.light = this.#buildLight();
 
-        this.playerPhysic.position.set(0,  40, 250);
+        this.playerPhysic.position.set(0, 40, 250);
         this.playerRoot.position.copy(this.playerPhysic);
         this.light.color = new THREE.Color(0xFFFFFF);
         this.scene.add(this.light);
-        
+
     }
 
     #buildLight() {
@@ -207,12 +228,12 @@ class LightRoom {
         const color = 0xFFFFFF;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(0,100,200);
+        light.position.set(0, 100, 200);
         return light
     }
-    
-    initCube(d,c,x,y,z) {
-        let cube = new Cube(d,{color: c},x,y,z);
+
+    initCube(d, c, x, y, z) {
+        let cube = new Cube(d, { color: c }, x, y, z);
         let cubeInst = cube.create();
         cubeInst.name = c;
         this.scene.add(cubeInst);
@@ -220,12 +241,12 @@ class LightRoom {
     }
 
     init() {
-        this.cubeRed = this.initCube(14,"red",100,54,0);
-        this.cubeLightBlue = this.initCube(14,"lightblue",-100,54,0);
-        this.cubeGreen = this.initCube(14,"lightgreen",100,54,-100);
-        this.cubeYellow = this.initCube(14,"yellow",-100,54,-100);
-        this.cubePink = this.initCube(14,"pink",100,54,100);
-        this.cubeOrange = this.initCube(14,"orange",-100,54,100);
+        this.cubeRed = this.initCube(14, "red", 100, 54, 0);
+        this.cubeLightBlue = this.initCube(14, "lightblue", -100, 54, 0);
+        this.cubeGreen = this.initCube(14, "lightgreen", 100, 54, -100);
+        this.cubeYellow = this.initCube(14, "yellow", -100, 54, -100);
+        this.cubePink = this.initCube(14, "pink", 100, 54, 100);
+        this.cubeOrange = this.initCube(14, "orange", -100, 54, 100);
         this.factorRed = 0.05;
         this.factorLightBlue = 0.05;
         this.factorGreen = 0.05;
@@ -233,7 +254,13 @@ class LightRoom {
         this.factorPink = 0.05;
         this.factorOrange = 0.05;
 
-        this.solution = ["red","lightgreen"];
+        this.solution = ["red", "lightgreen"];
+
+        if(this.difficulty > 1)
+            this.solution.push("pink");
+        if(this.difficulty > 2)
+            this.solution.push("orange");
+
         this.writeOnBook(this.solution)
         this.pick = 0;
         this.win = false;
@@ -242,65 +269,65 @@ class LightRoom {
         this.invWall = this.rp.physicsItems.get('invisiblewall');
     }
 
-    writeOnBook(solutionArray){
+    writeOnBook(solutionArray) {
         let modArray1 = new Array();
         let modArray2 = new Array();
-        solutionArray.slice(0,2).forEach((word, index) => {
+        solutionArray.slice(0, 2).forEach((word, index) => {
             const firstLetter = word.charAt(0).toUpperCase();
             const rest = word.slice(1).toLowerCase();
-          
+
             modArray1.push(firstLetter + rest);
         });
         solutionArray.slice(2).forEach((word, index) => {
             const firstLetter = word.charAt(0).toUpperCase();
             const rest = word.slice(1).toLowerCase();
-          
+
             modArray2.push(firstLetter + rest);
         });
 
-        const password = modArray1.toString().replace(","," - ")+"\n"+modArray2.toString().replace(","," - ")
-          
+        const password = modArray1.toString().replace(",", " - ") + "\n" + modArray2.toString().replace(",", " - ")
+
         const loader = new FontLoader();
-        loader.load( '../../assets/font/Great-Vibes/Great_Vibes_Regular.json', function ( font ) {
+        loader.load('../../assets/font/Great-Vibes/Great_Vibes_Regular.json', function (font) {
 
             const color = 0x000000;
 
-            const matLite = new THREE.MeshBasicMaterial( {
+            const matLite = new THREE.MeshBasicMaterial({
                 color: color,
                 transparent: true,
                 opacity: 1,
                 side: THREE.DoubleSide
-            } );
+            });
 
-            const message = ' The password is \n'+password;
+            const message = ' The password is \n' + password;
 
-            const shapes = font.generateShapes( message, 1 );
+            const shapes = font.generateShapes(message, 1);
 
-            const geometry = new THREE.ShapeGeometry( shapes );
+            const geometry = new THREE.ShapeGeometry(shapes);
 
             geometry.computeBoundingBox();
 
-            const xMid = - 0.5 * ( geometry.boundingBox.max.x - geometry.boundingBox.min.x );
+            const xMid = - 0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
 
-            geometry.translate( xMid, 0, 0 );
+            geometry.translate(xMid, 0, 0);
 
-            const text = new THREE.Mesh( geometry, matLite );
+            const text = new THREE.Mesh(geometry, matLite);
             const book = this.scene.getObjectByName("book");
-            text.position.z = book.position.z-6;
-            text.position.x = book.position.x-5;
-            text.position.y = book.position.y+2.7;
-            text.rotation.x = - Math.PI/2;
+            text.position.z = book.position.z - 6;
+            text.position.x = book.position.x - 5;
+            text.position.y = book.position.y + 2.7;
+            text.rotation.x = - Math.PI / 2;
             text.rotation.y = 0;
 
-            this.scene.add( text );
+            this.scene.add(text);
 
-        }.bind(this) );
+        }.bind(this));
     }
 
-    animate(cube,factor){
-        if(cube.position.y > 60){
+    animate(cube, factor) {
+        if (cube.position.y > 60) {
             factor *= -1;
-        }else if(cube.position.y < 54){
+        } else if (cube.position.y < 54) {
             factor = 0.05;
         }
         cube.position.y += factor;
@@ -309,67 +336,67 @@ class LightRoom {
         return factor;
     }
 
-    checkButton(name,color){
+    checkButton(name, color) {
         const Inst = this.scene.getObjectByName(name);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 25.0;
 
-        if (closeTo && this.playerRoot.position.z>Inst.position.z) 
+        if (closeTo && this.playerRoot.position.z > Inst.position.z)
             showHint("Press C to change light", 10);
 
         if (this.player.change && closeTo)
             this.light.color = new THREE.Color(color);
-        
+
     }
 
     checkCube(objName) {
         const Inst = this.scene.getObjectByName(objName);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
 
-        if (closeTo) 
+        if (closeTo)
             showHint("Press Enter to select this option", 10);
 
-        if(this.player.select && closeTo){
-            if(this.solution[this.pick] == objName){
-                if(this.pick==this.solution.length-1){
-                    this.win=true;
-                }else{
+        if (this.player.select && closeTo) {
+            if (this.solution[this.pick] == objName) {
+                if (this.pick == this.solution.length - 1) {
+                    this.win = true;
+                } else {
                     showTextBox("Correct pick!");
-                    this.pick +=1;
+                    this.pick += 1;
                 }
-            }else{
-                this.pick=0;
-                this.life -=1;
+            } else {
+                this.pick = 0;
+                this.life -= 1;
                 if (this.life)
-                    showTextBox("Wrong pick, you lost a life, you have "+ this.life +" life remaining");
+                    showTextBox("Wrong pick. You lost a life, " + this.life + " life remaining");
             }
         }
     }
 
     async update() {
-        
-        this.factorRed = this.animate(this.cubeRed,this.factorRed);
-        this.factorLightBlue = this.animate(this.cubeLightBlue,this.factorLightBlue);
-        this.factorGreen = this.animate(this.cubeGreen,this.factorGreen);
-        this.factorYellow = this.animate(this.cubeYellow,this.factorYellow);
-        this.factorPink = this.animate(this.cubePink,this.factorPink);
-        this.factorOrange = this.animate(this.cubeOrange,this.factorOrange);
 
-        if (this.life && !this.win){
+        this.factorRed = this.animate(this.cubeRed, this.factorRed);
+        this.factorLightBlue = this.animate(this.cubeLightBlue, this.factorLightBlue);
+        this.factorGreen = this.animate(this.cubeGreen, this.factorGreen);
+        this.factorYellow = this.animate(this.cubeYellow, this.factorYellow);
+        this.factorPink = this.animate(this.cubePink, this.factorPink);
+        this.factorOrange = this.animate(this.cubeOrange, this.factorOrange);
+
+        if (this.life && !this.win) {
             const bookInstance = this.scene.getObjectByName("book");
             let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
-            if(!closeTobook){
+            if (!closeTobook) {
                 this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
                 this.camera.lookAt(...Object.values(this.playerRoot.position));
             }
-            else{
+            else {
                 this.camera.position.set(bookInstance.position.x, bookInstance.position.y + 30, bookInstance.position.z);
                 this.camera.lookAt(...Object.values(bookInstance.position));
             }
 
-            this.checkButton("button1",0xFF7000);
-            this.checkButton("button2",0x70FF00);
-            this.checkButton("button3",0x7000FF);
-            
+            this.checkButton("button1", 0xFF7000);
+            this.checkButton("button2", 0x70FF00);
+            this.checkButton("button3", 0x7000FF);
+
             this.checkCube("red");
             this.checkCube("lightblue");
             this.checkCube("lightgreen");
@@ -377,21 +404,21 @@ class LightRoom {
             this.checkCube("pink");
             this.checkCube("orange");
 
-            if(this.win)
+            if (this.win)
                 showTextBox("CORRECT PICK! YOU WON!!!");
 
-            if(this.life==0)
+            if (this.life == 0)
                 showTextBox("YOU LOSE, GAME OVER");
         }
 
-        if(this.win){
+        if (this.win) {
             AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150);
             AnimationUtils.rotation(this.camera, 0, 0, Math.PI);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
-            this.light.position.set(0,100,-100);
+            this.light.position.set(0, 100, -100);
             this.light.color = new THREE.Color(0xFFFFFF);
             this.physic.removeBody(this.invWall);
-            
+
         }
 
         this.player.select = false;
