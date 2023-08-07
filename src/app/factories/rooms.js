@@ -236,7 +236,7 @@ class LightRoom {
         await this.rp.parseRoom("lightRoom.json");
         this.light = this.#buildLight();
 
-        this.playerPhysic.position.set(0, 40, 250);
+        this.playerPhysic.position.set(0, 120, 250);
         this.playerRoot.position.copy(this.playerPhysic);
         this.light.color = new THREE.Color(0xFFFFFF);
         this.scene.add(this.light);
@@ -281,6 +281,7 @@ class LightRoom {
         if(this.difficulty > 2)
             this.solution.push("orange");
 
+        this.isSpawned = true;
         this.writeOnBook(this.solution)
         this.pick = 0;
         this.win = false;
@@ -411,6 +412,12 @@ class LightRoom {
             else {
                 this.camera.position.set(bookInstance.position.x, bookInstance.position.y + 30, bookInstance.position.z);
                 this.camera.lookAt(...Object.values(bookInstance.position));
+            }
+
+            if(this.playerRoot.position.y>2.1){
+                this.player.spin();
+            }else{
+                this.player.stopSpin();
             }
 
             this.checkButton("button1", 0xFF7000);
