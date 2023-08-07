@@ -420,9 +420,9 @@ class LightRoom {
                 this.player.stopSpin();
             }
 
-            this.checkButton("button1", 0xFF7000);
-            this.checkButton("button2", 0x70FF00);
-            this.checkButton("button3", 0x7000FF);
+            this.checkButton("button1", 0xFF4444);
+            this.checkButton("button2", 0x44FF44);
+            this.checkButton("button3", 0x4444FF);
 
             this.checkCube("red");
             this.checkCube("lightblue");
