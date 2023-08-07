@@ -42,7 +42,6 @@ class Maze {
         this.hintTorch = true;
         this.cameraCloseUp = false;
         this.difficulty = difficulty;
-        this.isCleared = false;
     }
     async create() {
         switch (this.difficulty) {
@@ -184,22 +183,6 @@ class Maze {
             this.player.action = false;
         }
 
-        
-        if(this.playerRoot.position.z>270){
-            this.player.controls.moveLeft=true;
-            new TWEEN.Tween(this.playerPhysic.position)
-                .to({
-                    y:100
-                },2000)
-                .easing(TWEEN.Easing.Quadratic.Out)
-                .start()
-                .onComplete(() =>{
-                    this.isCleared = true;
-                    this.player.controls.moveLeft=false;
-                })
-        }
-
-
         if (!this.cameraCloseUp) {
             this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z + 50);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
@@ -207,12 +190,12 @@ class Maze {
         this.player.action = false;
     }
 
-    /*isCleared() {
+    isCleared() {
         const winBox = new THREE.Box3().setFromObject(this.scene.getObjectByName("maze-win"));
         const playerclipped = new THREE.Vector3(this.playerRoot.position.x, (winBox.max.y + winBox.min.y) / 2, this.playerRoot.position.z);
 
         return winBox.containsPoint(playerclipped);
-    }*/
+    }
 }
 
 
@@ -226,7 +209,6 @@ class LightRoom {
         this.playerPhysic = player.getPhysic();
         this.camera = camera;
         this.difficulty = difficulty;
-        this.isCleared = false;
     }
 
     async create() {
@@ -443,7 +425,7 @@ class LightRoom {
         this.player.change = false;
     }
 
-    /*isCleared() {
+    isCleared() {
         return false;
-    }*/
+    }
 }
