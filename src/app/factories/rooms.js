@@ -4,7 +4,8 @@ import { config } from "../static/config.js";
 import { AnimationUtils } from '../utils/animationUtils.js';
 import { TWEEN } from '../lib/tween/build/tween.module.min.js';
 import { Cube } from "../utils/cube.js";
-import { FontLoader } from "../lib/three/loaders/FontLoader.js"
+import { FontLoader } from "../lib/three/loaders/FontLoader.js";
+import { KeyHandlerUtil } from "../utils/keyhandler.js";
 
 export class RoomFactory {
     constructor(roomParser, scene, player, camera, physic, difficulty) {
@@ -107,6 +108,7 @@ class Maze {
         }
 
         if(this.#isWinPosition()){
+            KeyHandlerUtil.isEnabled = false;
             this.player.spin();
             new TWEEN.Tween(this.playerPhysic.position)
                 .to({
@@ -118,6 +120,7 @@ class Maze {
                 .start()
                 .onComplete(() =>{
                     this.cleared = true;
+                    KeyHandlerUtil.isEnabled = true;
                 })
             return;
         }
@@ -284,7 +287,8 @@ class LightRoom {
         if(this.difficulty > 2)
             this.solution.push("orange");
 
-        this.isSpawned = true;
+        this.isSpawned = false;
+        this.cameraCloseUp = false;
         this.writeOnBook(this.solution)
         this.pick = 0;
         this.win = false;
@@ -367,8 +371,56 @@ class LightRoom {
         if (closeTo && this.playerRoot.position.z > Inst.position.z)
             showHint("Press C to change light", 10);
 
-        if (this.player.change && closeTo)
-            this.light.color = new THREE.Color(color);
+        if (this.player.change && closeTo){
+            this.cameraCloseUp = true;
+            KeyHandlerUtil.isEnabled=false;
+            AnimationUtils.translation(this.camera, Inst.position.x+100,30, Inst.position.z, 2000);
+            AnimationUtils.rotation(this.camera, 0,Math.PI/2 ,0, 2000);
+            this.player.bodyOrientation=Math.PI;
+            new TWEEN.Tween(this.playerPhysic.position)
+                .to({
+                    x:Inst.position.x,
+                    z:Inst.position.z+15 
+                },2000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start()
+                .onComplete(() =>{
+                    this.player.pressing = true;
+                    new TWEEN.Tween(this.playerRoot.getObjectByName("RightShoulder_032").rotation)
+                        .to({
+                            x:-0.7,
+                            y:1.3
+                        },1000)
+                        .easing(TWEEN.Easing.Quadratic.Out)
+                        .start()
+                        .onComplete(() =>{
+                            new TWEEN.Tween(Inst.getObjectByName("button_01").position)
+                                .to({
+                                    x:0.028,
+                                    y:-0.287,
+                                    z:1.627
+                                },500)
+                                .easing(TWEEN.Easing.Quadratic.Out)
+                                .start()
+                                .onComplete(() =>{
+                                    this.light.color = new THREE.Color(color);
+                                    new TWEEN.Tween(Inst.getObjectByName("button_01").position)
+                                        .to({
+                                            x:0.003,
+                                            y:-0.298,
+                                            z:1.653
+                                        },500)
+                                        .easing(TWEEN.Easing.Quadratic.Out)
+                                        .start()
+                                        .onComplete(() =>{
+                                            this.player.pressing = false;
+                                            this.cameraCloseUp = false;
+                                            KeyHandlerUtil.isEnabled=true;
+                                        })
+                                })
+                        })
+                })
+        }
 
     }
 
@@ -409,18 +461,25 @@ class LightRoom {
             const bookInstance = this.scene.getObjectByName("book");
             let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
             if (!closeTobook) {
-                this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
-                this.camera.lookAt(...Object.values(this.playerRoot.position));
+                if(!this.cameraCloseUp){
+                    this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
+                    this.camera.lookAt(...Object.values(this.playerRoot.position));
+                }
             }
             else {
                 this.camera.position.set(bookInstance.position.x, bookInstance.position.y + 30, bookInstance.position.z);
                 this.camera.lookAt(...Object.values(bookInstance.position));
             }
 
-            if(this.playerRoot.position.y>2.1){
+            if(this.playerRoot.position.y>3){
                 this.player.spin();
+                this.isSpawned = true;
             }else{
                 this.player.stopSpin();
+                if(this.isSpawned){
+                    this.player.bodyOrientation=0;
+                    this.isSpawned=false;
+                }
             }
 
             this.checkButton("button1", 0xFF4444);

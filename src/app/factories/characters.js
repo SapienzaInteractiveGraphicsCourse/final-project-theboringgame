@@ -26,7 +26,8 @@ export class MainRobot {
         this.useLight = false;
         this.change = false;
         this.select = false;
-        this.spinning=false;
+        this.spinning = false;
+        this.pressing = false;
 
         this.instance = modelLoader.get(this);
         this.instance.name = 'mainRobot';
@@ -114,6 +115,10 @@ export class MainRobot {
 
         if(this.spinning)
             this.bodyOrientation += delta * 5*this.angularSpeed
+
+        if(this.pressing){
+            this.stopStand();
+        }
 
         this.activeAnimations.forEach(element => { element.update() });
         this.updateMovement(delta);

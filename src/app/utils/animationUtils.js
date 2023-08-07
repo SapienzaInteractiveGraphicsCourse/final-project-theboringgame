@@ -13,7 +13,7 @@ export class AnimationUtils {
                     .onComplete(callback)
                 break;
             case 'y':
-                new TWEEN.Tween(this.id.rotation)
+                new TWEEN.Tween(id.rotation)
                     .to({
                         y: this.value
                     }, time)
@@ -22,7 +22,7 @@ export class AnimationUtils {
                     .onComplete(callback)
                 break;
             case 'z':
-                new TWEEN.Tween(this.id.rotation)
+                new TWEEN.Tween(id.rotation)
                     .to({
                         z: this.value
                     }, time)
