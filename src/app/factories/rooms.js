@@ -55,7 +55,7 @@ class Maze {
                 await this.rp.parseRoom("maze-medium.json");
                 this.playerPhysic.position.set(250, this.scene.getObjectByName("maze-floor").position.y + 7, -250);
                 this.playerRoot.position.copy(this.playerPhysic);
-                this.player.bodyOrientation = Math.PI / 2;
+                this.player.bodyOrientation = 0;
                 break
             case 3:
                 await this.rp.parseRoom("maze-difficult.json");
@@ -224,7 +224,6 @@ class LightRoom {
 
     #buildLight() {
         // TODO: move parameters to config file 
-        //const color = 0xFF8822;
         const color = 0xFFFFFF;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);

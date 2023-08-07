@@ -15,6 +15,8 @@
 
     <link href="./styles/index.css" rel="stylesheet" type="text/css">
 
+    <script src="index.js" defer></script>
+
 </head>
 
 <body>
@@ -33,18 +35,30 @@
         </tr>
     </table>
 
-    <div class="option-container">
+    <div class="option-container" id="option-container">
         <div class="options-row">
-            <div class="option title">
+            <div class="option title" id="rules">
                 <p>RULES</p>
             </div>
-            <div class="option title">
-                <a href="game.html">
-                    <p>PLAY</p>
-                </a>
+            <div class="option title" id="play">
+                <p>PLAY</p>
             </div>
-            <div class="option title">
+            <div class="option title" id="settings">
                 <p>SETTINGS</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-container" id="settings-container">
+        <div class="options-row">
+            <div class="option-static title">
+                    <p>Difficulty:</p>
+                    <input type="radio" name="diffRadio" id="easy" value="1" checked><label for="easy">Easy</label>
+                    <input type="radio" name="diffRadio" id="medium" value="2"><label for="medium">Medium</label>
+                    <input type="radio" name="diffRadio" id="hard" value="3"><label for="hard">Hard</label>
+            </div>
+            <div class="option title" id="back">
+                <p>BACK</p>
             </div>
         </div>
     </div>

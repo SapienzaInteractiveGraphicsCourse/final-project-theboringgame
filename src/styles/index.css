@@ -60,6 +60,7 @@ td {
 }
 
 .option-container {
+    display: block;
     position: relative;
     top: 10vh;
     max-width: 70%;
@@ -90,4 +91,18 @@ td {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.settings-container{
+    display: none;
+    position: relative;
+    top: 10vh;
+    max-width: 70%;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.option-static {
+    text-align: center;
+    cursor: pointer;
 }
