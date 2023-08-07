@@ -41,6 +41,7 @@ class Maze {
         this.camera = camera;
         this.hintTorch = true;
         this.cameraCloseUp = false;
+        this.cleared = false;
         this.difficulty = difficulty;
     }
     async create() {
@@ -103,6 +104,22 @@ class Maze {
         if (this.hintTorch && document.getElementById("dialog-container").innerHTML === "") {
             showHint("Press L to toggle the torchlight");
             this.hintTorch = false;
+        }
+
+        if(this.#isWinPosition()){
+            this.player.spin();
+            new TWEEN.Tween(this.playerPhysic.position)
+                .to({
+                    x:this.scene.getObjectByName("maze-win").position.x,
+                    y:130,
+                    z:this.scene.getObjectByName("maze-win").position.z 
+                },2000)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start()
+                .onComplete(() =>{
+                    this.cleared = true;
+                })
+            return;
         }
 
         const genPhysic = this.rp.physicsItems.get('generator');
@@ -190,11 +207,15 @@ class Maze {
         this.player.action = false;
     }
 
-    isCleared() {
+    #isWinPosition(){
         const winBox = new THREE.Box3().setFromObject(this.scene.getObjectByName("maze-win"));
         const playerclipped = new THREE.Vector3(this.playerRoot.position.x, (winBox.max.y + winBox.min.y) / 2, this.playerRoot.position.z);
 
         return winBox.containsPoint(playerclipped);
+    }
+
+    isCleared() {
+        return this.cleared;
     }
 }
 

@@ -26,6 +26,7 @@ export class MainRobot {
         this.useLight = false;
         this.change = false;
         this.select = false;
+        this.spinning=false;
 
         this.instance = modelLoader.get(this);
         this.instance.name = 'mainRobot';
@@ -84,6 +85,10 @@ export class MainRobot {
             this.activeAnimations.push(this.items.has("torch") ? new MainCharacterStandWithLight(this.instance, this.items.get("torch")) : new MainCharacterStand(this.instance));
     }
 
+    spin(){this.spinning=true}
+
+    stopSpin(){this.spinning=false}
+
     stopStand() {
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStand) && !(element instanceof MainCharacterStandWithLight));
     }
@@ -106,6 +111,9 @@ export class MainRobot {
             this.holdLight();
         else
             this.dropLight();
+
+        if(this.spinning)
+            this.bodyOrientation += delta * 5*this.angularSpeed
 
         this.activeAnimations.forEach(element => { element.update() });
         this.updateMovement(delta);
