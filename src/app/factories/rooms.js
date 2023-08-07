@@ -241,14 +241,13 @@ class LightRoom {
 
         this.playerPhysic.position.set(0, 120, 250);
         this.playerRoot.position.copy(this.playerPhysic);
-        this.light.color = new THREE.Color(0xFFFFFF);
         this.scene.add(this.light);
 
     }
 
     #buildLight() {
         // TODO: move parameters to config file 
-        const color = 0xFFFFFF;
+        const color = 0xFF4444;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
         light.position.set(0, 100, 200);
