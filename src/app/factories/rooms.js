@@ -261,6 +261,9 @@ class LightRoom {
     }
 
     init() {
+        if (!config.debug)
+            showTextBox("Oh no! The generator malfunctioned altering the light colors. To proceed, I just need to input the password by selecting the right cube sequence. Maybe I've noted it on that old book");
+
         this.cubeRed = this.initCube(14, "red", 100, 54, 0);
         this.cubeLightBlue = this.initCube(14, "lightblue", -100, 54, 0);
         this.cubeGreen = this.initCube(14, "lightgreen", 100, 54, -100);
