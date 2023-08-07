@@ -155,7 +155,7 @@ export class Game {
         TWEEN.update();
         this.mainChar.update(dt);
         this.currentRoom.update();
-        if(this.currentRoom.isCleared()){
+        if(this.currentRoom.isCleared){
             this.#cleanPhysics();
             this.#cleanScene();
             this.load(2);
