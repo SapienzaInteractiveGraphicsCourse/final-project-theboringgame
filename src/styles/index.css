@@ -45,6 +45,10 @@ td {
     font-size: 2.5rem;
 }
 
+.normal-font {
+    font-size: 1.5rem;
+}
+
 .logo-box {
     display: flex;
     justify-content: center;
