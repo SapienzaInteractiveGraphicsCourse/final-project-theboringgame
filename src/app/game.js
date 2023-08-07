@@ -30,9 +30,9 @@ export class Game {
         this.scene = this.#buildScene();
         this.lm = this.#buildLoader();
         this.physics = this.#buildPhysics();
+        this.debugger = CannonDebugger(this.scene,this.physics);
         this.ml = new ModelsLoader(this.lm, this.renderer, this.camera);
         this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
-        this.debugger = CannonDebugger(this.scene,this.physics);
 
         this.stats = new Stats();
         this.stats.showPanel(0);
@@ -41,6 +41,8 @@ export class Game {
     }
 
     async load(stage) {
+        document.getElementById("progress-bar").style.setProperty('--width', 0);
+        document.getElementById("loading").style.display = 'flex';
 
         await this.ml.loadModels();
 
