@@ -2,6 +2,7 @@ import * as THREE from "../lib/three/build/three.module.js";
 import * as CANNON from "../lib/cannon/cannon-es.js"
 import { MainCharacterWalk, MainCharacterWalkWithLight } from '../animations/walk.js';
 import { MainCharacterStand, MainCharacterStandWithLight } from "../animations/stand.js";
+import { MainCharacterCelebration } from "../animations/celebration.js";
 import { config } from "../static/config.js";
 
 
@@ -96,7 +97,8 @@ export class MainRobot {
     }
 
     celebration() {
-
+        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterCelebration))
+        this.activeAnimations.push(new MainCharacterCelebration(this.instance)); 
     }
 
     freeAnimations() {
