@@ -28,6 +28,7 @@ export class MainRobot {
         this.select = false;
         this.spinning = false;
         this.pressing = false;
+        this.celebrating = false;
 
         this.instance = modelLoader.get(this);
         this.instance.name = 'mainRobot';
@@ -94,6 +95,10 @@ export class MainRobot {
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStand) && !(element instanceof MainCharacterStandWithLight));
     }
 
+    celebration() {
+
+    }
+
     freeAnimations() {
         this.activeAnimations = new Array();
     }
@@ -118,6 +123,11 @@ export class MainRobot {
 
         if(this.pressing){
             this.stopStand();
+        }
+
+        if(this.celebrating){
+            this.stopStand();
+            this.celebration();
         }
 
         this.activeAnimations.forEach(element => { element.update() });

@@ -18,8 +18,8 @@ export class Walk {
         switch (this.state) {
             case 0:
                 //upper legs
-                AnimationUtils.rotation(this.idLU, 0, 0, -2.96706, this.executionSpeed);
-                AnimationUtils.rotation(this.idRU, -0.7, 0, 2.96706, this.executionSpeed);
+                AnimationUtils.rotation(this.idLU, 0, -0.062, -2.96706, this.executionSpeed);
+                AnimationUtils.rotation(this.idRU, -0.7, -0.13, 2.96706, this.executionSpeed);
                 //lower legs
                 AnimationUtils.rotationOneAxis(this.idLL, -0.7, 'x', this.executionSpeed);
                 AnimationUtils.rotationOneAxis(this.idRL, 0.0, 'x', this.executionSpeed);
@@ -50,7 +50,7 @@ export class Walk {
                 AnimationUtils.rotationOneAxis(this.idRU, 0, 'x', this.executionSpeed);
                 //lower legs
                 AnimationUtils.rotationOneAxis(this.idLL, 0, 'x', this.executionSpeed);
-                AnimationUtils.rotationOneAxis(this.idRL, -0.7, 'x', this.executionSpeed);
+                AnimationUtils.rotationOneAxis(this.idRL, -0.6, 'x', this.executionSpeed);
                 //shoulders
                 AnimationUtils.rotationOneAxis(this.idLS, 0.084, 'x', this.executionSpeed);
                 AnimationUtils.rotationOneAxis(this.idRS, -0.084, 'x', this.executionSpeed);

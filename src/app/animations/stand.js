@@ -14,18 +14,19 @@ export class Stand {
         this.idRLA = idRLA;
         this.idLF = idLF;
         this.idRF = idRF;
+        this.executionSpeed = 500;
     }
     update() {
-        AnimationUtils.rotation(this.idLU, -0.35, 0, -2.97);
-        AnimationUtils.rotation(this.idRU, -0.35, 0, 2.97);
-        AnimationUtils.rotation(this.idLL, -0.35, 0, 0);
-        AnimationUtils.rotation(this.idRL, -0.35, 0, 0);
-        AnimationUtils.rotation(this.idLS, -0.226, 0.087, -2.00);
-        AnimationUtils.rotation(this.idRS, 0.226, 0.087, 2.00);
-        AnimationUtils.rotation(this.idLLA, 0.6269, -0.1309, -0.157);
-        AnimationUtils.rotation(this.idRLA, 0.5391, -0.1309, 0.157);
-        AnimationUtils.rotation(this.idLF, 1.5708, -0.07, -0.033);
-        AnimationUtils.rotation(this.idRF, 1.5708, -0.07, -0.033);
+        AnimationUtils.rotation(this.idLU, -0.35, -0.062, -2.97, this.executionSpeed);
+        AnimationUtils.rotation(this.idRU, -0.35, -0.13, 2.97, this.executionSpeed);
+        AnimationUtils.rotation(this.idLL, -0.35, 0.0326, 0, this.executionSpeed);
+        AnimationUtils.rotation(this.idRL, -0.35, -0.03, 0, this.executionSpeed);
+        AnimationUtils.rotation(this.idLS, -0.226, 0.087, -2.00, this.executionSpeed);
+        AnimationUtils.rotation(this.idRS, 0.226, 0.087, 2.00, this.executionSpeed);
+        AnimationUtils.rotation(this.idLLA, 0.6269, -0.1309, -0.157, this.executionSpeed);
+        AnimationUtils.rotation(this.idRLA, 0.5391, -0.1309, 0.157, this.executionSpeed);
+        AnimationUtils.rotation(this.idLF, 1.5708, -0.07, -0.033, this.executionSpeed);
+        AnimationUtils.rotation(this.idRF, 1.5708, -0.07, -0.033, this.executionSpeed);
     }
 }
 
@@ -72,8 +73,8 @@ export class StandWithLight{
         this.light.target.position.y = this.character.position.y + this.idRH.position.y;
         this.light.target.position.z = point.z;
 
-        AnimationUtils.rotation(this.idLU, -0.35, 0, -2.97, this.executionSpeed);
-        AnimationUtils.rotation(this.idRU, -0.35, 0, 2.97, this.executionSpeed);
+        AnimationUtils.rotation(this.idLU, -0.35, -0.062, -2.97, this.executionSpeed);
+        AnimationUtils.rotation(this.idRU, -0.35, -0.33, 2.97, this.executionSpeed);
         AnimationUtils.rotation(this.idLL, -0.35, 0, 0, this.executionSpeed);
         AnimationUtils.rotation(this.idRL, -0.35, 0, 0, this.executionSpeed);
         AnimationUtils.rotation(this.idLS, -0.226, 0.087, -2.00, this.executionSpeed);
