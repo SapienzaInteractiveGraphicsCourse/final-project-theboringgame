@@ -4,5 +4,5 @@ main();
 
 function main(){
     let game = new Game();
-    game.load(2);
+    game.load(1);
 }

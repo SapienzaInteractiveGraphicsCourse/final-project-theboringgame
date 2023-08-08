@@ -61,7 +61,7 @@
         },
         "pose": {
             "translation": {
-                "x": -150,
+                "x": -152.5,
                 "y": 50,
                 "z": 250
             },
@@ -86,7 +86,7 @@
         },
         "pose": {
             "translation": {
-                "x": 150,
+                "x": 152.5,
                 "y": 50,
                 "z": 250
             },
@@ -113,7 +113,7 @@
             "translation": {
                 "x": 250,
                 "y": 50,
-                "z": 0
+                "z": -2.5
             },
             "rotation": {
                 "x": 0,
@@ -136,7 +136,7 @@
         },
         "pose": {
             "translation": {
-                "x": 0,
+                "x": -2.5,
                 "y": 50,
                 "z": -250
             },
@@ -151,7 +151,7 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 500,
+            "width": 495,
             "height": 100,
             "depth": 5,
             "texture": {
@@ -188,7 +188,7 @@
             "translation": {
                 "x": -50,
                 "y": 50,
-                "z": 200
+                "z": 197.5
             },
             "rotation": {
                 "x": 0,
@@ -211,7 +211,7 @@
         },
         "pose": {
             "translation": {
-                "x": 0,
+                "x": 2.5,
                 "y": 50,
                 "z": 150
             },
@@ -226,7 +226,7 @@
         "name": "",
         "type": "wall",
         "params": {
-            "width": 100,
+            "width": 95,
             "height": 100,
             "depth": 5,
             "texture": {
@@ -261,7 +261,7 @@
         },
         "pose": {
             "translation": {
-                "x": 0,
+                "x": 2.5,
                 "y": 50,
                 "z": 50
             },
@@ -288,7 +288,7 @@
             "translation": {
                 "x": 150,
                 "y": 50,
-                "z": 200
+                "z": 197.5
             },
             "rotation": {
                 "x": 0,
@@ -313,7 +313,7 @@
             "translation": {
                 "x": -150,
                 "y": 50,
-                "z": 100
+                "z": 97.5
             },
             "rotation": {
                 "x": 0,
@@ -336,7 +336,7 @@
         },
         "pose": {
             "translation": {
-                "x": -50,
+                "x": -47.5,
                 "y": 50,
                 "z": 0
             },
@@ -363,7 +363,7 @@
             "translation": {
                 "x": -100,
                 "y": 50,
-                "z": -50
+                "z": -47.5
             },
             "rotation": {
                 "x": 0,
@@ -386,7 +386,7 @@
         },
         "pose": {
             "translation": {
-                "x": -150,
+                "x": -147.5,
                 "y": 50,
                 "z": -100
             },
@@ -411,7 +411,7 @@
         },
         "pose": {
             "translation": {
-                "x": 150,
+                "x": 147.5,
                 "y": 50,
                 "z": -50
             },
@@ -438,7 +438,7 @@
             "translation": {
                 "x": 50,
                 "y": 50,
-                "z": -100
+                "z": -102.5
             },
             "rotation": {
                 "x": 0,
@@ -461,7 +461,7 @@
         },
         "pose": {
             "translation": {
-                "x": 100,
+                "x": 102.5,
                 "y": 50,
                 "z": -150
             },
@@ -488,7 +488,7 @@
             "translation": {
                 "x": -50,
                 "y": 50,
-                "z": -200
+                "z": -197.5
             },
             "rotation": {
                 "x": 0,
@@ -533,7 +533,7 @@
         "name": "doorwall",
         "type": "doorwall",
         "params": {
-            "width": 100,
+            "width": 105,
             "height": 100,
             "depth": 5,
             "doorWidth": 70,
