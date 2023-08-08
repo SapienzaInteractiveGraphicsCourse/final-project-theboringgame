@@ -49,7 +49,7 @@ export class MainRobot {
         };
 
         //TODO move these in config file
-        this.walkSpeed = config.debug ? 0.1 : 0.05;
+        this.walkSpeed = config.debug ? 0.12 : 0.075;
         this.acceleration = 0.01;
         this.angularSpeed = 0.002;
 
