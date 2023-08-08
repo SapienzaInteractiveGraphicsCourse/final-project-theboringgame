@@ -423,6 +423,92 @@ class LightRoom {
 
     }
 
+    noAnimation(){
+        this.cameraCloseUp = true;
+        KeyHandlerUtil.isEnabled=false;
+        AnimationUtils.translation(this.camera, this.playerRoot.position.x,40, this.playerRoot.position.z+50, 1000);
+    
+        this.player.bodyOrientation=0;
+        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+            .to({
+                y:0.1745
+            },500)
+            .delay(1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start()
+            .onComplete(() =>{
+                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                    .to({
+                        y:-0.1745
+                    },500)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start()
+                    .onComplete(() =>{
+                        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                            .to({
+                                y:0.1745
+                            },500)
+                            .easing(TWEEN.Easing.Quadratic.Out)
+                            .start()
+                            .onComplete(() =>{
+                                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                                    .to({
+                                        y:0
+                                    },500)
+                                    .easing(TWEEN.Easing.Quadratic.Out)
+                                    .start()
+                                    .onComplete(() =>{
+                                        this.cameraCloseUp = false;
+                                        KeyHandlerUtil.isEnabled=true;
+                                    })
+                            })
+                    })
+            })
+    }
+
+    yesAnimation(){
+        this.cameraCloseUp = true;
+        KeyHandlerUtil.isEnabled=false;
+        AnimationUtils.translation(this.camera, this.playerRoot.position.x,40, this.playerRoot.position.z+50, 1000);
+    
+        this.player.bodyOrientation=0;
+        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+            .to({
+                x:0.1745
+            },500)
+            .delay(1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start()
+            .onComplete(() =>{
+                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                    .to({
+                        x:2*0.1745
+                    },500)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start()
+                    .onComplete(() =>{
+                        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                            .to({
+                                x:0.1745
+                            },500)
+                            .easing(TWEEN.Easing.Quadratic.Out)
+                            .start()
+                            .onComplete(() =>{
+                                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                                    .to({
+                                        x:0.2766
+                                    },500)
+                                    .easing(TWEEN.Easing.Quadratic.Out)
+                                    .start()
+                                    .onComplete(() =>{
+                                        this.cameraCloseUp = false;
+                                        KeyHandlerUtil.isEnabled=true;
+                                    })
+                            })
+                    })
+            })
+    }
+
     checkCube(objName) {
         const Inst = this.scene.getObjectByName(objName);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
@@ -437,12 +523,15 @@ class LightRoom {
                 } else {
                     showTextBox("Correct pick!");
                     this.pick += 1;
+                    this.yesAnimation();
                 }
             } else {
                 this.pick = 0;
                 this.life -= 1;
-                if (this.life)
+                if (this.life){
                     showTextBox("Wrong pick. You lost a life, " + this.life + " life remaining");
+                }
+                this.noAnimation();
             }
         }
     }
