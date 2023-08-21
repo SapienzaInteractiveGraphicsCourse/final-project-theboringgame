@@ -9,7 +9,11 @@ export class KeyHandlerUtil{
         if(KeyHandlerUtil.isEnabled){
 
             if(KeyHandlerUtil.isFirstCall && !config.debug){
-                addAudioListenerToCamera(camera);
+                const url = window.location.search;
+                const urlParams = new URLSearchParams(url);
+                const startMusic = urlParams.get("v");
+                if(startMusic == "true")
+                    addAudioListenerToCamera(camera);
                 KeyHandlerUtil.isFirstCall = false;
             }
 

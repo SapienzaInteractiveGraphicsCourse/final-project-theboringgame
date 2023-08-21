@@ -14,6 +14,7 @@
     <!-- Todo: substitute favicon -->
 
     <link href="./styles/index.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="./styles/fontawesome/css/all.min.css">
 
     <script src="index.js" defer></script>
 
@@ -51,15 +52,40 @@
 
     <div class="settings-container" id="settings-container">
         <div class="options-row">
+            <div class="option-static title normal-font" id="volumeToggle">
+                <i class="fas fa-volume-up fa-3x" id="volumeYes"></i>
+                <i class="fas fa-volume-mute fa-3x" id="volumeNo"></i>
+            </div>
+
             <div class="option-static title normal-font">
                     <p>Difficulty:</p>
                     <input type="radio" name="diffRadio" id="easy" value="1" checked><label for="easy">Easy</label>
                     <input type="radio" name="diffRadio" id="medium" value="2"><label for="medium">Medium</label>
                     <input type="radio" name="diffRadio" id="hard" value="3"><label for="hard">Hard</label>
             </div>
+            
             <div class="option title" id="back">
                 <p>BACK</p>
             </div>
+        </div>
+    </div>
+
+    <div class="rules-container" id="rules-container">
+        <div class="option-static title" id="play">
+            <p>
+                The game consists of two levels. You can control the player using the keyboard arrows (up, down, left, right) or the WASD keys. Additional commands will be communicated during gameplay. <br>
+                Pressing the up and down arrow keys moves the player forward or backward,
+                while using the left and right arrow keys rotates the player in place. <br>
+                The first level is a maze that must be navigated under poor lighting conditions, requiring the use of a light torch to illuminate the way. 
+                Once you have found the generator and placed it on the platform, the light will be restored, and the door to the next level will open. <br>
+                In the second level, you will be tasked with finding the correct color cube combination under non-white light.
+                Pay attention: if you make a mistake while selecting the cubes, you will need to restart the sequence from the first cube. <br>
+                ENJOY! :)
+            </p>
+        </div>
+
+        <div class="option title" id="backR">
+            <p>BACK</p>
         </div>
     </div>
 
