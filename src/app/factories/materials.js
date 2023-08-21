@@ -23,13 +23,13 @@ class SciFiWallMaterial {
     }
 
     async create() {
-        const ao_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_ambientOcclusion.jpg');
-        const map_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_basecolor.jpg');
-        const emissive_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_emissive.jpg');
-        const bump_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_height.png');
-        const metalness_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_metallic.jpg');
-        const normal_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_normal.jpg');
-        const roughness_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/wall/Sci-fi_Wall_011_roughness.jpg');
+        const ao_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_ambientOcclusion.jpg');
+        const map_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_basecolor.jpg');
+        const emissive_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_emissive.jpg');
+        const bump_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_height.png');
+        const metalness_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_metallic.jpg');
+        const normal_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_normal.jpg');
+        const roughness_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/wall/Sci-fi_Wall_011_roughness.jpg');
 
         this.textures = await Promise.all([ao_tex, map_tex, bump_tex, emissive_tex, metalness_tex, normal_tex, roughness_tex]);
 
@@ -82,13 +82,13 @@ class SciFiFloorMaterial {
     }
 
     async create() {
-        const ao_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_ambientOcclusion.jpg');
-        const map_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_basecolor.jpg');
-        const emissive_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_emission.jpg');
-        const bump_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_height.png');
-        const metalness_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_metallic.jpg');
-        const normal_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_normal.jpg');
-        const roughness_tex = new THREE.TextureLoader(this.lm).loadAsync('assets/textures/floor/Sci-fi_Floor_001_roughness.jpg');
+        const ao_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_ambientOcclusion.jpg');
+        const map_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_basecolor.jpg');
+        const emissive_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_emission.jpg');
+        const bump_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_height.png');
+        const metalness_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_metallic.jpg');
+        const normal_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_normal.jpg');
+        const roughness_tex = new THREE.TextureLoader(this.lm).loadAsync('../../assets/textures/floor/Sci-fi_Floor_001_roughness.jpg');
 
         this.textures = await Promise.all([ao_tex, map_tex, bump_tex, emissive_tex, metalness_tex, normal_tex, roughness_tex]);
 

@@ -2,6 +2,7 @@ import * as THREE from "../lib/three/build/three.module.js";
 import * as CANNON from "../lib/cannon/cannon-es.js"
 import { MainCharacterWalk, MainCharacterWalkWithLight } from '../animations/walk.js';
 import { MainCharacterStand, MainCharacterStandWithLight } from "../animations/stand.js";
+import { MainCharacterCelebration } from "../animations/celebration.js";
 import { config } from "../static/config.js";
 
 
@@ -28,6 +29,7 @@ export class MainRobot {
         this.select = false;
         this.spinning = false;
         this.pressing = false;
+        this.celebrating = false;
 
         this.instance = modelLoader.get(this);
         this.instance.name = 'mainRobot';
@@ -49,7 +51,7 @@ export class MainRobot {
         };
 
         //TODO move these in config file
-        this.walkSpeed = config.debug ? 0.1 : 0.05;
+        this.walkSpeed = config.debug ? 0.12 : 0.075;
         this.acceleration = 0.01;
         this.angularSpeed = 0.002;
 
@@ -94,6 +96,11 @@ export class MainRobot {
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStand) && !(element instanceof MainCharacterStandWithLight));
     }
 
+    celebration() {
+        if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterCelebration))
+        this.activeAnimations.push(new MainCharacterCelebration(this.instance)); 
+    }
+
     freeAnimations() {
         this.activeAnimations = new Array();
     }
@@ -118,6 +125,11 @@ export class MainRobot {
 
         if(this.pressing){
             this.stopStand();
+        }
+
+        if(this.celebrating){
+            this.stopStand();
+            this.celebration();
         }
 
         this.activeAnimations.forEach(element => { element.update() });

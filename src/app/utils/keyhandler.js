@@ -9,7 +9,11 @@ export class KeyHandlerUtil{
         if(KeyHandlerUtil.isEnabled){
 
             if(KeyHandlerUtil.isFirstCall && !config.debug){
-                addAudioListenerToCamera(camera);
+                const url = window.location.search;
+                const urlParams = new URLSearchParams(url);
+                const startMusic = urlParams.get("v");
+                if(startMusic == "true")
+                    addAudioListenerToCamera(camera);
                 KeyHandlerUtil.isFirstCall = false;
             }
 
@@ -34,6 +38,8 @@ export class KeyHandlerUtil{
                 case 'KeyP': mainChar.action = true; break;
 
                 case 'KeyC': mainChar.change = true; break;
+
+                case 'KeyY': mainChar.celebrating = true; break;
 
                 case 'Enter': mainChar.select = true; break;
 

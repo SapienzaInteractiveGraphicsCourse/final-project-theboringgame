@@ -248,6 +248,7 @@ class LightRoom {
     #buildLight() {
         // TODO: move parameters to config file 
         const color = 0xFF4444;
+        //const color = 0xFFFFFF;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
         light.position.set(0, 100, 200);
@@ -264,31 +265,30 @@ class LightRoom {
 
     init() {
         if (!config.debug)
-            showTextBox("Oh no! The generator malfunctioned altering the light colors. To proceed, I just need to input the password by selecting the right cube sequence. Maybe I've noted it on that old book");
+            showTextBox("Oh no! A generator malfunction altered the light colors. To proceed, I just need to input the password by selecting the right cube sequence. Maybe I've noted it on that old book");
 
-        this.cubeRed = this.initCube(14, "red", 100, 54, 0);
-        this.cubeLightBlue = this.initCube(14, "lightblue", -100, 54, 0);
-        this.cubeGreen = this.initCube(14, "lightgreen", 100, 54, -100);
-        this.cubeYellow = this.initCube(14, "yellow", -100, 54, -100);
-        this.cubePink = this.initCube(14, "pink", 100, 54, 100);
-        this.cubeOrange = this.initCube(14, "orange", -100, 54, 100);
-        this.factorRed = 0.05;
-        this.factorLightBlue = 0.05;
-        this.factorGreen = 0.05;
-        this.factorYellow = 0.05;
-        this.factorPink = 0.05;
-        this.factorOrange = 0.05;
+        this.colors = ["crimson","DeepSkyBlue","Green","yellow","DarkOrchid","orange"]
+        const sol = ["crimson","Green","DarkOrchid","orange"]
+        const HFcolors = ["red","green","purple","orange"]
+        const cubeZdistance = 100
+        const cubeXdistance = 100
+        const startingCubeZdistance = -100
+        this.colorCubes = new Array()
+        for (let index = 0; index < this.colors.length; index++) {
+            const element = this.colors[index];
+            const side = index & 1 ? -cubeXdistance : cubeXdistance; 
+            const jumps = Math.floor(index>>1)
+            const tmpCube = this.initCube(14,element,side,54,startingCubeZdistance + jumps*cubeZdistance)
+            this.colorCubes.push(tmpCube)
+        }
 
-        this.solution = ["red", "lightgreen"];
+        this.animationDirection = 0.05;
 
-        if(this.difficulty > 1)
-            this.solution.push("pink");
-        if(this.difficulty > 2)
-            this.solution.push("orange");
+        this.solution = sol.slice(0, this.difficulty+1);
 
         this.isSpawned = false;
         this.cameraCloseUp = false;
-        this.writeOnBook(this.solution)
+        this.writeOnBook(HFcolors.slice(0, this.difficulty+1))
         this.pick = 0;
         this.win = false;
         this.life = 3;
@@ -315,7 +315,7 @@ class LightRoom {
         const password = modArray1.toString().replace(",", " - ") + "\n" + modArray2.toString().replace(",", " - ")
 
         const loader = new FontLoader();
-        loader.load('assets/font/Great-Vibes/Great_Vibes_Regular.json', function (font) {
+        loader.load('../../assets/font/Great-Vibes/Great_Vibes_Regular.json', function (font) {
 
             const color = 0x000000;
 
@@ -351,16 +351,17 @@ class LightRoom {
         }.bind(this));
     }
 
-    animate(cube, factor) {
-        if (cube.position.y > 60) {
-            factor *= -1;
-        } else if (cube.position.y < 54) {
-            factor = 0.05;
+    animateCubes() {
+        let switchDir = false;
+        for (let index = 0; index < this.colorCubes.length; index++) {
+            const cube = this.colorCubes[index];
+            cube.position.y += this.animationDirection;
+            cube.rotateY(0.005);
+            cube.rotateX(0.005);
+            switchDir = switchDir || cube.position.y > 60 || cube.position.y < 54;
         }
-        cube.position.y += factor;
-        cube.rotateY(0.005);
-        cube.rotateX(0.005);
-        return factor;
+        if(switchDir)
+            this.animationDirection *= -1;
     }
 
     checkButton(name, color) {
@@ -423,6 +424,92 @@ class LightRoom {
 
     }
 
+    noAnimation(){
+        this.cameraCloseUp = true;
+        KeyHandlerUtil.isEnabled=false;
+        AnimationUtils.translation(this.camera, this.playerRoot.position.x,40, this.playerRoot.position.z+50, 1000);
+    
+        this.player.bodyOrientation=0;
+        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+            .to({
+                y:0.1745
+            },500)
+            .delay(1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start()
+            .onComplete(() =>{
+                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                    .to({
+                        y:-0.1745
+                    },500)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start()
+                    .onComplete(() =>{
+                        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                            .to({
+                                y:0.1745
+                            },500)
+                            .easing(TWEEN.Easing.Quadratic.Out)
+                            .start()
+                            .onComplete(() =>{
+                                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                                    .to({
+                                        y:0
+                                    },500)
+                                    .easing(TWEEN.Easing.Quadratic.Out)
+                                    .start()
+                                    .onComplete(() =>{
+                                        this.cameraCloseUp = false;
+                                        KeyHandlerUtil.isEnabled=true;
+                                    })
+                            })
+                    })
+            })
+    }
+
+    yesAnimation(){
+        this.cameraCloseUp = true;
+        KeyHandlerUtil.isEnabled=false;
+        AnimationUtils.translation(this.camera, this.playerRoot.position.x,40, this.playerRoot.position.z+50, 1000);
+    
+        this.player.bodyOrientation=0;
+        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+            .to({
+                x:0.1745
+            },500)
+            .delay(1000)
+            .easing(TWEEN.Easing.Quadratic.Out)
+            .start()
+            .onComplete(() =>{
+                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                    .to({
+                        x:2*0.1745
+                    },500)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start()
+                    .onComplete(() =>{
+                        new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                            .to({
+                                x:0.1745
+                            },500)
+                            .easing(TWEEN.Easing.Quadratic.Out)
+                            .start()
+                            .onComplete(() =>{
+                                new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
+                                    .to({
+                                        x:0.2766
+                                    },500)
+                                    .easing(TWEEN.Easing.Quadratic.Out)
+                                    .start()
+                                    .onComplete(() =>{
+                                        this.cameraCloseUp = false;
+                                        KeyHandlerUtil.isEnabled=true;
+                                    })
+                            })
+                    })
+            })
+    }
+
     checkCube(objName) {
         const Inst = this.scene.getObjectByName(objName);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
@@ -437,24 +524,22 @@ class LightRoom {
                 } else {
                     showTextBox("Correct pick!");
                     this.pick += 1;
+                    this.yesAnimation();
                 }
             } else {
                 this.pick = 0;
-                this.life -= 1;
-                if (this.life)
-                    showTextBox("Wrong pick. You lost a life, " + this.life + " life remaining");
+                this.life--;
+                if (this.life){
+                    showTextBox("Wrong pick. I lost a life, " + this.life + " life remaining. Now I have to enter the code again from the first cube");
+                }
+                this.noAnimation();
             }
         }
     }
 
     async update() {
 
-        this.factorRed = this.animate(this.cubeRed, this.factorRed);
-        this.factorLightBlue = this.animate(this.cubeLightBlue, this.factorLightBlue);
-        this.factorGreen = this.animate(this.cubeGreen, this.factorGreen);
-        this.factorYellow = this.animate(this.cubeYellow, this.factorYellow);
-        this.factorPink = this.animate(this.cubePink, this.factorPink);
-        this.factorOrange = this.animate(this.cubeOrange, this.factorOrange);
+        this.animateCubes()
 
         if (this.life && !this.win) {
             const bookInstance = this.scene.getObjectByName("book");
@@ -485,18 +570,16 @@ class LightRoom {
             this.checkButton("button2", 0x44FF44);
             this.checkButton("button3", 0x4444FF);
 
-            this.checkCube("red");
-            this.checkCube("lightblue");
-            this.checkCube("lightgreen");
-            this.checkCube("yellow");
-            this.checkCube("pink");
-            this.checkCube("orange");
+            for (let index = 0; index < this.colors.length; index++) {
+                const element = this.colors[index];
+                this.checkCube(element)    
+            }
 
             if (this.win)
-                showTextBox("CORRECT PICK! YOU WON!!!");
+                showTextBox("CORRECT PICK! I WON!!!");
 
             if (this.life == 0)
-                showTextBox("YOU LOSE, GAME OVER");
+                showTextBox("I LOSE, GAME OVER");
         }
 
         if (this.win) {

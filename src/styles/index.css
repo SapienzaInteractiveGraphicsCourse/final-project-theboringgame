@@ -9,15 +9,13 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-}
-
-body {
     font-size: 16px;
     line-height: 1.5;
     font-family: Arial, sans-serif;
     background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
+    overflow: hidden;
 }
 
 table {
@@ -106,7 +104,23 @@ a {
     padding: 1rem;
 }
 
+.rules-container{
+    display: none;
+    position: relative;
+    max-width: 85%;
+    margin: 0 auto;
+    padding: 0rem;
+}
+
 .option-static {
     text-align: center;
     cursor: pointer;
+}
+
+.fas{
+    margin-top: 4vh;
+}
+
+#volumeNo{
+    display: none;
 }
