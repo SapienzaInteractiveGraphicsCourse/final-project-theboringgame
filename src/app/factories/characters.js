@@ -30,6 +30,7 @@ export class MainRobot {
         this.spinning = false;
         this.pressing = false;
         this.celebrating = false;
+        this.finalAnim = false;
 
         this.instance = modelLoader.get(this);
         this.instance.name = 'mainRobot';
@@ -110,7 +111,7 @@ export class MainRobot {
             this.stopStand();
             this.walk();
         }
-        else {
+        else if (!this.finalAnim && !this.celebrating){
             this.stopWalk();
             this.stand();
         }
@@ -125,6 +126,11 @@ export class MainRobot {
 
         if(this.pressing){
             this.stopStand();
+        }
+        
+        if(this.finalAnim){
+            this.stopStand();
+            this.walk();
         }
 
         if(this.celebrating){

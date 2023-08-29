@@ -238,7 +238,7 @@ export class Book {
 export class Trophy {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
-        this.instance.scale.set(2.5, 2.5, 2.5);
+        this.instance.scale.set(2, 2, 2);
         
         this.instance.traverse(function (node) {
             if (node.isMesh) {

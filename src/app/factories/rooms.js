@@ -268,8 +268,8 @@ class LightRoom {
             showTextBox("Oh no! A generator malfunction altered the light colors. To proceed, I just need to input the password by selecting the right cube sequence. Maybe I've noted it on that old book");
 
         this.colors = ["crimson","DeepSkyBlue","Green","yellow","DarkOrchid","orange"]
-        const sol = ["crimson","Green","DarkOrchid","orange"]
-        const HFcolors = ["red","green","purple","orange"]
+        const sol = ["crimson","Green","orange"]
+        const HFcolors = ["red","green","orange"]
         const cubeZdistance = 100
         const cubeXdistance = 100
         const startingCubeZdistance = -100
@@ -284,11 +284,15 @@ class LightRoom {
 
         this.animationDirection = 0.05;
 
-        this.solution = sol.slice(0, this.difficulty+1);
+        this.solution = sol.slice(0, this.difficulty);
+        this.solution.push("DarkOrchid");
 
+        this.finalAnimation=false;
         this.isSpawned = false;
         this.cameraCloseUp = false;
-        this.writeOnBook(HFcolors.slice(0, this.difficulty+1))
+        const write=HFcolors.slice(0, this.difficulty);
+        write.push("purple")
+        this.writeOnBook(write);
         this.pick = 0;
         this.win = false;
         this.life = 3;
@@ -513,7 +517,7 @@ class LightRoom {
         const Inst = this.scene.getObjectByName(objName);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
 
-        if (closeTo && document.getElementById("dialog-container").innerHTML === "")
+        if (closeTo && document.getElementById("dialog-container").innerHTML === "" && this.playerRoot.position.z >= Inst.position.z-10)
             showHint("Press Enter to select this option", 10);
 
         if (this.player.select && closeTo) {
@@ -580,18 +584,65 @@ class LightRoom {
             if (this.win){
                 showTextBox("CORRECT PICK! I WON!!!");
                 this.trasition=true;
-                AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150,1000,()=>{this.trasition=false});
+                AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150,1000,()=>{this.trasition=false});
             }
         }
 
         if (this.win) {
+            const trophyInstance = this.scene.getObjectByName("trophy");
+            KeyHandlerUtil.isEnabled=false;
             if (!this.trasition)
-                this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150);
+                this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150);
             AnimationUtils.rotation(this.camera, 0, 0, Math.PI);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
             this.light.position.set(0, 100, -100);
             this.light.color = new THREE.Color(0xFFFFFF);
             this.physic.removeBody(this.invWall);
+            
+            
+            if(!this.finalAnimation){
+                this.finalAnimation = true;
+                this.player.finalAnim = true;
+                this.player.bodyOrientation = 0;
+                new TWEEN.Tween(this.playerPhysic.position)
+                    .to({
+                        x:this.playerPhysic.position.x,
+                        z:300 
+                    },2500)
+                    .easing(TWEEN.Easing.Linear.None)
+                    .start()
+                    .onComplete(() =>{
+                        this.player.bodyOrientation = -Math.PI/2;
+                        new TWEEN.Tween(this.playerPhysic.position)
+                        .to({
+                            x:trophyInstance.position.x,
+                            z:this.playerPhysic.position.z
+                        },2500)
+                        .easing(TWEEN.Easing.Linear.None)
+                        .start()
+                        .onComplete(() =>{
+                            this.player.bodyOrientation = 0;
+                            new TWEEN.Tween(this.playerPhysic.position)   
+                            .to({
+                                x:trophyInstance.position.x,
+                                z:trophyInstance.position.z-30 
+                            },5000)
+                            .easing(TWEEN.Easing.Linear.None)
+                            .start()
+                            .onComplete(() =>{
+                                this.player.bodyOrientation = Math.PI;
+                                this.player.finalAnim = false;
+                            })
+                        })
+                    })
+
+            }
+            
+            if (this.finalAnimation && !this.player.finalAnim){
+                this.player.celebrating = true;
+            }
+                
+
         }
 
         this.player.select = false;
