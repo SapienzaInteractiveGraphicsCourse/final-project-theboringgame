@@ -166,3 +166,53 @@ html {
 #go-box a:hover {
   text-decoration: none;
 }
+
+#win {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 101%;
+  height: 101%;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 200;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+#win-box {
+  width: 30%;
+  height: 30%;
+  border-radius: 40px;
+  background-color: #001F3F;
+  margin: auto;
+  margin-top: 65vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+#win-box p {
+  margin: 0;
+  letter-spacing: 0.2em;
+  font-family: Orbitron, Arial, sans-serif;
+  color: #0cf;
+  text-shadow: 0 0 1.5rem #0cf;
+  font-size: 5rem;
+}
+
+#win-box a {
+  text-decoration: underline;
+  color: #0cf;
+  font-size: 3rem;
+  margin-top: 3rem;
+  text-decoration: none;
+  text-shadow: 0 0 1.5rem #0cf;
+}
+
+#win-box a:hover {
+  text-decoration: none;
+}

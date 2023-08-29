@@ -633,6 +633,7 @@ class LightRoom {
                                             .onComplete(() => {
                                                 this.player.bodyOrientation = Math.PI;
                                                 this.player.finalAnim = false;
+
                                             })
                                     })
                             })
@@ -641,6 +642,7 @@ class LightRoom {
 
             if (this.finalAnimation && !this.player.finalAnim) {
                 this.player.celebrating = true;
+                setTimeout( function() { document.getElementById("win").style.display="block" }, 3000);
             }
 
 
