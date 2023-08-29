@@ -51,7 +51,6 @@ export class MainRobot {
 
         };
 
-        //TODO move these in config file
         this.walkSpeed = config.debug ? 0.12 : 0.075;
         this.acceleration = 0.01;
         this.angularSpeed = 0.002;
@@ -62,14 +61,14 @@ export class MainRobot {
         this.charPhysic = new CANNON.Body({
             mass: 5,
             type: CANNON.Body.DYNAMIC,
-            shape: new CANNON.Box(new CANNON.Vec3(9,6,9)),
+            shape: new CANNON.Box(new CANNON.Vec3(9, 6, 9)),
             angularDamping: 1,
             collisionFilterGroup: 1,
             collisionFilterMask: 1
         });
     }
 
-    bindTorch(torch){
+    bindTorch(torch) {
         this.holdedLight = torch;
     }
 
@@ -89,9 +88,9 @@ export class MainRobot {
             this.activeAnimations.push(this.items.has("torch") ? new MainCharacterStandWithLight(this.instance, this.items.get("torch")) : new MainCharacterStand(this.instance));
     }
 
-    spin(){this.spinning=true}
+    spin() { this.spinning = true }
 
-    stopSpin(){this.spinning=false}
+    stopSpin() { this.spinning = false }
 
     stopStand() {
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStand) && !(element instanceof MainCharacterStandWithLight));
@@ -99,7 +98,7 @@ export class MainRobot {
 
     celebration() {
         if (!this.activeAnimations.some((elem) => elem instanceof MainCharacterCelebration))
-        this.activeAnimations.push(new MainCharacterCelebration(this.instance)); 
+            this.activeAnimations.push(new MainCharacterCelebration(this.instance));
     }
 
     freeAnimations() {
@@ -111,7 +110,7 @@ export class MainRobot {
             this.stopStand();
             this.walk();
         }
-        else if (!this.finalAnim && !this.celebrating){
+        else if (!this.finalAnim && !this.celebrating) {
             this.stopWalk();
             this.stand();
         }
@@ -121,19 +120,19 @@ export class MainRobot {
         else
             this.dropLight();
 
-        if(this.spinning)
-            this.bodyOrientation += delta * 5*this.angularSpeed
+        if (this.spinning)
+            this.bodyOrientation += delta * 5 * this.angularSpeed
 
-        if(this.pressing){
+        if (this.pressing) {
             this.stopStand();
         }
-        
-        if(this.finalAnim){
+
+        if (this.finalAnim) {
             this.stopStand();
             this.walk();
         }
 
-        if(this.celebrating){
+        if (this.celebrating) {
             this.stopStand();
             this.celebration();
         }
@@ -144,7 +143,7 @@ export class MainRobot {
 
     holdLight() {
 
-        if(this.holdedLight){
+        if (this.holdedLight) {
             if (!this.items.has("torch"))
                 this.items.set("torch", this.holdedLight);
 
@@ -156,7 +155,7 @@ export class MainRobot {
 
         this.items.delete("torch");
 
-        if(this.holdedLight)
+        if (this.holdedLight)
             this.holdedLight.intensity = 0;
 
         this.activeAnimations = this.activeAnimations.filter(element => !(element instanceof MainCharacterStandWithLight) && !(element instanceof MainCharacterWalkWithLight));
@@ -166,7 +165,7 @@ export class MainRobot {
         return this.instance;
     }
 
-    getPhysic(){
+    getPhysic() {
         return this.charPhysic;
     }
 
@@ -188,9 +187,9 @@ export class MainRobot {
 
         // orientation speed update
         if (controls.moveLeft) this.bodyOrientation += delta * this.angularSpeed;
-        
-        if (controls.moveRight)this.bodyOrientation -= delta * this.angularSpeed;
-        
+
+        if (controls.moveRight) this.bodyOrientation -= delta * this.angularSpeed;
+
 
         // speed decreasing
         if (!(controls.moveForward || controls.moveBackward)) {
@@ -209,7 +208,7 @@ export class MainRobot {
         this.charPhysic.position.x += Math.sin(this.bodyOrientation) * forwardDelta;
         this.charPhysic.position.z += Math.cos(this.bodyOrientation) * forwardDelta;
         // steering
-        this.instance.position.set(this.charPhysic.position.x,this.charPhysic.position.y-5.5,this.charPhysic.position.z);
+        this.instance.position.set(this.charPhysic.position.x, this.charPhysic.position.y - 5.5, this.charPhysic.position.z);
         this.instance.rotation.y = this.bodyOrientation;
     }
 }

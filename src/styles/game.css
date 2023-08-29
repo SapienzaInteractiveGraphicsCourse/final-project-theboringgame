@@ -1,117 +1,168 @@
 @font-face {
-    font-family: Orbitron;
-    src: url(../assets/font/Orbitron/Orbitron-Regular.ttf);
+  font-family: Orbitron;
+  src: url(../assets/font/Orbitron/Orbitron-Regular.ttf);
 }
 
-body, html{
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 
-    text-align: center;
-    font-size: 12px;
-    font-family: Sans-Serif;
+  text-align: center;
+  font-size: 12px;
+  font-family: Sans-Serif;
 
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 
-    color: black;
+  color: black;
 }
 
 #scene-container {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
 }
 
 #scene-canvas {
-    display: block;
-    height: 100vh;
-    width: 100vw;
+  display: block;
+  height: 100vh;
+  width: 100vw;
 }
 
-.loading{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 1);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .progress-bar {
-	position: relative;
-	width: 60%;
-	height: 3em;
-    margin-top: 0.5%;
+  position: relative;
+  width: 60%;
+  height: 3em;
+  margin-top: 0.5%;
 
-	background-color: #111;
-	border-radius: 1.5em;
-	color: white;
+  background-color: #111;
+  border-radius: 1.5em;
+  color: white;
 
-    letter-spacing: 0.2em;
-    font-family: Orbitron, Arial, sans-serif;
-    color: #0cf;
-    text-shadow: 0 0 0.5rem #0cf;
-    font-size: 2rem;
+  letter-spacing: 0.2em;
+  font-family: Orbitron, Arial, sans-serif;
+  color: #0cf;
+  text-shadow: 0 0 0.5rem #0cf;
+  font-size: 2rem;
 }
 
 .progress-bar::before {
-	content: attr(data-label);
-	display: flex;
-	align-items: center;
-	position: absolute;
-	left: .5em;
-	top: .5em;
-	bottom: .5em;
-	width: calc(var(--width, 0) * 1%);
-	min-width: 2rem;
-	max-width: calc(100% - 3em);
-	background-color: #069;
-	border-radius: 1em;
-	padding: 1em;
+  content: attr(data-label);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: .5em;
+  top: .5em;
+  bottom: .5em;
+  width: calc(var(--width, 0) * 1%);
+  min-width: 2rem;
+  max-width: calc(100% - 3em);
+  background-color: #069;
+  border-radius: 1em;
+  padding: 1em;
 }
 
 #dialog-container {
-    display: none;
-    top: 80%;
-    left: 30%;
-    height: 10%;
-    background: #1c1c1c;
-    border-radius: 5px;
-    box-shadow: 0 0 0 6px #F5EAC8, 0 0 0 12px #251C00;
-    font-family: Orbitron, Arial, sans-serif;
-    color: #0cf;
-    text-shadow: 0 0 0.5rem #0cf;
-    font-size: 18px;
-    font-weight: bold;
-    padding: 20px 20px 20px 20px;
-    position: relative;
-    text-transform: uppercase;
-    word-spacing: 3px;
-    width: 40%;
-  }
+  display: none;
+  top: 80%;
+  left: 30%;
+  height: 10%;
+  background: #1c1c1c;
+  border-radius: 5px;
+  box-shadow: 0 0 0 6px #F5EAC8, 0 0 0 12px #251C00;
+  font-family: Orbitron, Arial, sans-serif;
+  color: #0cf;
+  text-shadow: 0 0 0.5rem #0cf;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 20px 20px 20px 20px;
+  position: relative;
+  text-transform: uppercase;
+  word-spacing: 3px;
+  width: 40%;
+}
 
-  #tips-container {
-    display: flex;
-    top: 80%;
-    height: 10%;
-    background: transparent;
-    font-family: Orbitron, Arial, sans-serif;
-    color: #0cf;
-    opacity: 0%;
-    font-size: 22px;
-    font-weight: bold;
-    position: relative;
-    text-transform: uppercase;
-    align-items: center;
-    justify-content: center;
-    word-spacing: 3px;
-    width: 100%;
-  }
+#tips-container {
+  display: flex;
+  top: 80%;
+  height: 10%;
+  background: transparent;
+  font-family: Orbitron, Arial, sans-serif;
+  color: #0cf;
+  opacity: 0%;
+  font-size: 22px;
+  font-weight: bold;
+  position: relative;
+  text-transform: uppercase;
+  align-items: center;
+  justify-content: center;
+  word-spacing: 3px;
+  width: 100%;
+}
+
+#gameOver {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 101%;
+  height: 101%;
+  background-color: rgba(0, 0, 0, 1);
+  font-size: 200;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+#go-box {
+  width: 30%;
+  height: 30%;
+  border-radius: 40px;
+  background-color: #001F3F;
+  margin: auto;
+  margin-top: 35vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+#go-box p {
+  margin: 0;
+  letter-spacing: 0.2em;
+  font-family: Orbitron, Arial, sans-serif;
+  color: #0cf;
+  text-shadow: 0 0 1.5rem #0cf;
+  font-size: 5rem;
+}
+
+#go-box a {
+  text-decoration: underline;
+  color: #0cf;
+  font-size: 3rem;
+  margin-top: 3rem;
+  text-decoration: none;
+  text-shadow: 0 0 1.5rem #0cf;
+}
+
+#go-box a:hover {
+  text-decoration: none;
+}

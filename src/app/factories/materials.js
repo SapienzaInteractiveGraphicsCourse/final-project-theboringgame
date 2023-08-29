@@ -1,8 +1,8 @@
 import * as THREE from "../lib/three/build/three.module.js";
 
 export class MaterialFactory {
-    constructor(loadingManager){
-        this.lm=loadingManager;
+    constructor(loadingManager) {
+        this.lm = loadingManager;
     }
 
     createSciFiWallMaterial(density, surfaceW, surfaceH) {
@@ -33,8 +33,8 @@ class SciFiWallMaterial {
 
         this.textures = await Promise.all([ao_tex, map_tex, bump_tex, emissive_tex, metalness_tex, normal_tex, roughness_tex]);
 
-        this.textures.forEach(function(obj){
-            obj.wrapS = THREE.RepeatWrapping; 
+        this.textures.forEach(function (obj) {
+            obj.wrapS = THREE.RepeatWrapping;
             obj.wrapT = THREE.RepeatWrapping
             obj.repeat.set(...this.repeat);
         }.bind(this));
@@ -51,10 +51,10 @@ class SciFiWallMaterial {
 
     }
 
-    createWithPreload(preloadedTextures){
+    createWithPreload(preloadedTextures) {
 
-        preloadedTextures.forEach(function(obj){
-            obj.wrapS = THREE.RepeatWrapping; 
+        preloadedTextures.forEach(function (obj) {
+            obj.wrapS = THREE.RepeatWrapping;
             obj.wrapT = THREE.RepeatWrapping
             obj.repeat.set(...this.repeat);
         }.bind(this));
@@ -70,8 +70,8 @@ class SciFiWallMaterial {
         });
     }
 
-    getRepeat(){ return this.repeat }
-    getTextures(){ return this.textures }
+    getRepeat() { return this.repeat }
+    getTextures() { return this.textures }
 }
 
 
@@ -92,8 +92,8 @@ class SciFiFloorMaterial {
 
         this.textures = await Promise.all([ao_tex, map_tex, bump_tex, emissive_tex, metalness_tex, normal_tex, roughness_tex]);
 
-        this.textures.forEach(function(obj){
-            obj.wrapS = THREE.RepeatWrapping; 
+        this.textures.forEach(function (obj) {
+            obj.wrapS = THREE.RepeatWrapping;
             obj.wrapT = THREE.RepeatWrapping
             obj.repeat.set(...this.repeat);
         }.bind(this));
@@ -110,7 +110,7 @@ class SciFiFloorMaterial {
 
     }
 
-    getRepeat(){ return this.repeat }
-    getTextures(){ return this.textures }
+    getRepeat() { return this.repeat }
+    getTextures() { return this.textures }
 }
 

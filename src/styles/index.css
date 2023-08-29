@@ -68,7 +68,7 @@ td {
 .option-container {
     display: block;
     position: relative;
-    bottom: -5vh;    
+    bottom: -5vh;
     max-width: 70%;
     margin: 0 auto;
     padding: 1rem;
@@ -99,7 +99,7 @@ a {
     color: inherit;
 }
 
-.settings-container{
+.settings-container {
     display: none;
     position: relative;
     top: 10vh;
@@ -108,7 +108,7 @@ a {
     padding: 1rem;
 }
 
-.rules-container{
+.rules-container {
     display: none;
     position: relative;
     max-width: 85%;
@@ -127,10 +127,10 @@ a {
 }
 
 
-.fas{
+.fas {
     margin-top: 4vh;
 }
 
-#volumeNo{
+#volumeNo {
     display: none;
 }

@@ -30,9 +30,10 @@ export class Game {
         this.scene = this.#buildScene();
         this.lm = this.#buildLoader();
         this.physics = this.#buildPhysics();
-        this.debugger = CannonDebugger(this.scene,this.physics);
+        this.debugger = CannonDebugger(this.scene, this.physics);
         this.ml = new ModelsLoader(this.lm, this.renderer, this.camera);
-        this.rp = new RoomParser(this.scene, this.lm, this.ml,this.physics);
+        this.rp = new RoomParser(this.scene, this.lm, this.ml, this.physics);
+        this.stage = 0;
 
         const url = window.location.search;
         const urlParams = new URLSearchParams(url);
@@ -46,6 +47,7 @@ export class Game {
 
     async load(stage) {
         this.currentLoading = 0;
+        this.stage = stage;
         document.getElementById("progress-bar").style.setProperty('--width', 0);
         document.getElementById("loading").style.display = 'flex';
 
@@ -57,15 +59,15 @@ export class Game {
         this.rf = new RoomFactory(this.rp, this.scene, this.mainChar, this.camera, this.physics, this.difficulty);
         switch (stage) {
             case 1:
-                this.currentRoom = await this.rf.createMaze();    
+                this.currentRoom = await this.rf.createMaze();
                 break;
             case 2:
                 this.currentRoom = await this.rf.createLightRoom();
                 break;
-        
+
             default:
                 throw new Error("Invalid stage");
-        }      
+        }
 
         this.#init();
     }
@@ -100,7 +102,7 @@ export class Game {
         return lm;
     }
 
-    #buildPhysics(){
+    #buildPhysics() {
         const physicsWorld = new CANNON.World({
             gravity: new CANNON.Vec3(0, -100, 0)
         });
@@ -136,11 +138,11 @@ export class Game {
         }
     }
 
-    #cleanScene(){
+    #cleanScene() {
         while (this.scene.children.length)
             this.scene.remove(this.scene.children[0]);
     }
-    #cleanPhysics(){
+    #cleanPhysics() {
         while (this.physics.bodies.length)
             this.physics.removeBody(this.physics.bodies[0]);
     }
@@ -153,14 +155,15 @@ export class Game {
 
         this.#resizeRendererAndCamera();
         this.physics.fixedStep();
-        //this.debugger.update(); //uncomment to test physics
         TWEEN.update();
         this.mainChar.update(dt);
         this.currentRoom.update();
-        if(this.currentRoom.isCleared()){
+
+        if (this.currentRoom.isCleared()) {
             this.#cleanPhysics();
             this.#cleanScene();
-            this.load(2);
+            if (this.stage == 1)
+                this.load(2);
             return;
         }
 

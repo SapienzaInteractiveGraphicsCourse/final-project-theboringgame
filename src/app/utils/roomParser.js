@@ -29,14 +29,14 @@ export class RoomParser {
     async #parse(data) {
         for (let index = 0; index < data.length; index++) {
             const element = data[index];
-            
+
             let obj = await this.#createElement(element.type, element.params);
             if (obj[0] && obj[0].isObject3D) {
 
                 obj[0].name = element.name;
 
                 await this.#placeElement(obj[0], element.pose);
-                if (element.type != "invisiblewall"){
+                if (element.type != "invisiblewall") {
                     this.scene.add(obj[0]);
                 }
             }
@@ -45,7 +45,7 @@ export class RoomParser {
                     obj[index].name = element.name;
                     await this.#placePhysic(obj[index], element.pose, element.type);
                     this.worldPhysics.addBody(obj[index]);
-                    this.physicsItems.set(obj[index].name,obj[index]);
+                    this.physicsItems.set(obj[index].name, obj[index]);
                 }
             }
         }
@@ -82,7 +82,7 @@ export class RoomParser {
 
             case "door":
                 return this.of.createDoor();
-                
+
             case "pillar":
                 return this.of.createPillar();
 
@@ -100,7 +100,7 @@ export class RoomParser {
 
             case "redcarpet":
                 return this.of.createRedcarpet();
-            
+
             case "rope":
                 return this.of.createRope();
 
@@ -153,21 +153,21 @@ export class RoomParser {
                 obj.position.z = pose.translation.z;
                 break;
             case "door":
-                obj.position.x = pose.translation.x-65;
+                obj.position.x = pose.translation.x - 65;
                 obj.position.z = pose.translation.z;
                 break;
             case "pillar":
-                obj.position.x = pose.translation.x-25;
-                obj.position.z = pose.translation.z+5;
+                obj.position.x = pose.translation.x - 25;
+                obj.position.z = pose.translation.z + 5;
                 break;
             case "desk":
-                obj.position.x = pose.translation.x-85;
-                obj.position.y = pose.translation.y+60;
-                obj.position.z = pose.translation.z+115;
+                obj.position.x = pose.translation.x - 85;
+                obj.position.y = pose.translation.y + 60;
+                obj.position.z = pose.translation.z + 115;
                 break;
             case "rope":
                 obj.position.x = pose.translation.x;
-                obj.position.z = pose.translation.z-20;
+                obj.position.z = pose.translation.z - 20;
                 break;
             default:
                 obj.position.x = pose.translation.x;

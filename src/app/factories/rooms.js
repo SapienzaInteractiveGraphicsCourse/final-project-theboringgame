@@ -107,18 +107,18 @@ class Maze {
             this.hintTorch = false;
         }
 
-        if(this.#isWinPosition()){
+        if (this.#isWinPosition()) {
             KeyHandlerUtil.isEnabled = false;
             this.player.spin();
             new TWEEN.Tween(this.playerPhysic.position)
                 .to({
-                    x:this.scene.getObjectByName("maze-win").position.x,
-                    y:130,
-                    z:this.scene.getObjectByName("maze-win").position.z 
-                },2000)
+                    x: this.scene.getObjectByName("maze-win").position.x,
+                    y: 130,
+                    z: this.scene.getObjectByName("maze-win").position.z
+                }, 2000)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .start()
-                .onComplete(() =>{
+                .onComplete(() => {
                     this.cleared = true;
                     KeyHandlerUtil.isEnabled = true;
                 })
@@ -210,7 +210,7 @@ class Maze {
         this.player.action = false;
     }
 
-    #isWinPosition(){
+    #isWinPosition() {
         const winBox = new THREE.Box3().setFromObject(this.scene.getObjectByName("maze-win"));
         const playerclipped = new THREE.Vector3(this.playerRoot.position.x, (winBox.max.y + winBox.min.y) / 2, this.playerRoot.position.z);
 
@@ -267,31 +267,30 @@ class LightRoom {
         if (!config.debug)
             showTextBox("Oh no! A generator malfunction altered the light colors. To proceed, I just need to input the password by selecting the right cube sequence. Maybe I've noted it on that old book");
 
-        this.colors = ["crimson","DeepSkyBlue","Green","yellow","DarkOrchid","orange"]
-        const sol = ["crimson","Green","orange"]
-        const HFcolors = ["red","green","orange"]
+        this.colors = ["crimson", "DeepSkyBlue", "Green", "yellow", "DarkOrchid", "orange"]
+        const sol = ["crimson", "Green", "DarkOrchid", "orange"]
+        const HFcolors = ["red", "green", "purple", "orange"]
         const cubeZdistance = 100
         const cubeXdistance = 100
         const startingCubeZdistance = -100
         this.colorCubes = new Array()
         for (let index = 0; index < this.colors.length; index++) {
             const element = this.colors[index];
-            const side = index & 1 ? -cubeXdistance : cubeXdistance; 
-            const jumps = Math.floor(index>>1)
-            const tmpCube = this.initCube(14,element,side,54,startingCubeZdistance + jumps*cubeZdistance)
+            const side = index & 1 ? -cubeXdistance : cubeXdistance;
+            const jumps = Math.floor(index >> 1)
+            const tmpCube = this.initCube(14, element, side, 54, startingCubeZdistance + jumps * cubeZdistance)
             this.colorCubes.push(tmpCube)
         }
 
+        this.cleared = false;
         this.animationDirection = 0.05;
 
-        this.solution = sol.slice(0, this.difficulty);
-        this.solution.push("DarkOrchid");
+        this.solution = sol.slice(0, this.difficulty + 1);
 
-        this.finalAnimation=false;
+        this.finalAnimation = false;
         this.isSpawned = false;
         this.cameraCloseUp = false;
-        const write=HFcolors.slice(0, this.difficulty);
-        write.push("purple")
+        const write = HFcolors.slice(0, this.difficulty + 1);
         this.writeOnBook(write);
         this.pick = 0;
         this.win = false;
@@ -364,7 +363,7 @@ class LightRoom {
             cube.rotateX(0.005);
             switchDir = switchDir || cube.position.y > 60 || cube.position.y < 54;
         }
-        if(switchDir)
+        if (switchDir)
             this.animationDirection *= -1;
     }
 
@@ -375,51 +374,51 @@ class LightRoom {
         if (closeTo && this.playerRoot.position.z > Inst.position.z && !this.cameraCloseUp)
             showHint("Press C to change light", 10);
 
-        if (this.player.change && closeTo){
+        if (this.player.change && closeTo) {
             this.cameraCloseUp = true;
-            KeyHandlerUtil.isEnabled=false;
-            AnimationUtils.translation(this.camera, Inst.position.x+100,30, Inst.position.z, 2000);
-            AnimationUtils.rotation(this.camera, 0,Math.PI/2 ,0, 2000);
-            this.player.bodyOrientation=Math.PI;
+            KeyHandlerUtil.isEnabled = false;
+            AnimationUtils.translation(this.camera, Inst.position.x + 100, 30, Inst.position.z, 2000);
+            AnimationUtils.rotation(this.camera, 0, Math.PI / 2, 0, 2000);
+            this.player.bodyOrientation = Math.PI;
             new TWEEN.Tween(this.playerPhysic.position)
                 .to({
-                    x:Inst.position.x,
-                    z:Inst.position.z+15 
-                },2000)
+                    x: Inst.position.x,
+                    z: Inst.position.z + 15
+                }, 2000)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .start()
-                .onComplete(() =>{
+                .onComplete(() => {
                     this.player.pressing = true;
                     new TWEEN.Tween(this.playerRoot.getObjectByName("RightShoulder_032").rotation)
                         .to({
-                            x:-0.7,
-                            y:1.3
-                        },1000)
+                            x: -0.7,
+                            y: 1.3
+                        }, 1000)
                         .easing(TWEEN.Easing.Quadratic.Out)
                         .start()
-                        .onComplete(() =>{
+                        .onComplete(() => {
                             new TWEEN.Tween(Inst.getObjectByName("button_01").position)
                                 .to({
-                                    x:0.028,
-                                    y:-0.287,
-                                    z:1.627
-                                },500)
+                                    x: 0.028,
+                                    y: -0.287,
+                                    z: 1.627
+                                }, 500)
                                 .easing(TWEEN.Easing.Quadratic.Out)
                                 .start()
-                                .onComplete(() =>{
+                                .onComplete(() => {
                                     this.light.color = new THREE.Color(color);
                                     new TWEEN.Tween(Inst.getObjectByName("button_01").position)
                                         .to({
-                                            x:0.003,
-                                            y:-0.298,
-                                            z:1.653
-                                        },500)
+                                            x: 0.003,
+                                            y: -0.298,
+                                            z: 1.653
+                                        }, 500)
                                         .easing(TWEEN.Easing.Quadratic.Out)
                                         .start()
-                                        .onComplete(() =>{
+                                        .onComplete(() => {
                                             this.player.pressing = false;
                                             this.cameraCloseUp = false;
-                                            KeyHandlerUtil.isEnabled=true;
+                                            KeyHandlerUtil.isEnabled = true;
                                         })
                                 })
                         })
@@ -428,41 +427,41 @@ class LightRoom {
 
     }
 
-    noAnimation(){
+    noAnimation() {
         this.cameraCloseUp = true;
-        KeyHandlerUtil.isEnabled=false;
-        AnimationUtils.translation(this.camera, this.playerRoot.position.x,40, this.playerRoot.position.z+50, 1000);
-    
-        this.player.bodyOrientation=0;
+        KeyHandlerUtil.isEnabled = false;
+        AnimationUtils.translation(this.camera, this.playerRoot.position.x, 40, this.playerRoot.position.z + 50, 1000);
+
+        this.player.bodyOrientation = 0;
         new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
             .to({
-                y:0.1745
-            },500)
+                y: 0.1745
+            }, 500)
             .delay(1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .start()
-            .onComplete(() =>{
+            .onComplete(() => {
                 new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
                     .to({
-                        y:-0.1745
-                    },500)
+                        y: -0.1745
+                    }, 500)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .start()
-                    .onComplete(() =>{
+                    .onComplete(() => {
                         new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
                             .to({
-                                y:0.1745
-                            },500)
+                                y: 0.1745
+                            }, 500)
                             .easing(TWEEN.Easing.Quadratic.Out)
                             .start()
-                            .onComplete(() =>{
+                            .onComplete(() => {
                                 new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
                                     .to({
-                                        y:0
-                                    },500)
+                                        y: 0
+                                    }, 500)
                                     .easing(TWEEN.Easing.Quadratic.Out)
                                     .start()
-                                    .onComplete(() =>{
+                                    .onComplete(() => {
                                         this.cameraCloseUp = false;
                                     })
                             })
@@ -470,42 +469,42 @@ class LightRoom {
             })
     }
 
-    yesAnimation(){
+    yesAnimation() {
         this.cameraCloseUp = true;
-        KeyHandlerUtil.isEnabled=false;
-        AnimationUtils.translation(this.camera, this.playerRoot.position.x,40, this.playerRoot.position.z+50, 1000);
-    
-        this.player.bodyOrientation=0;
+        KeyHandlerUtil.isEnabled = false;
+        AnimationUtils.translation(this.camera, this.playerRoot.position.x, 40, this.playerRoot.position.z + 50, 1000);
+
+        this.player.bodyOrientation = 0;
         new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
             .to({
-                x:0.1745
-            },500)
+                x: 0.1745
+            }, 500)
             .delay(1000)
             .easing(TWEEN.Easing.Quadratic.Out)
             .start()
-            .onComplete(() =>{
+            .onComplete(() => {
                 new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
                     .to({
-                        x:2*0.1745
-                    },500)
+                        x: 2 * 0.1745
+                    }, 500)
                     .easing(TWEEN.Easing.Quadratic.Out)
                     .start()
-                    .onComplete(() =>{
+                    .onComplete(() => {
                         new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
                             .to({
-                                x:0.1745
-                            },500)
+                                x: 0.1745
+                            }, 500)
                             .easing(TWEEN.Easing.Quadratic.Out)
                             .start()
-                            .onComplete(() =>{
+                            .onComplete(() => {
                                 new TWEEN.Tween(this.playerRoot.getObjectByName("Neck_06").rotation)
                                     .to({
-                                        x:0.2766
-                                    },500)
+                                        x: 0.2766
+                                    }, 500)
                                     .easing(TWEEN.Easing.Quadratic.Out)
                                     .start()
-                                    .onComplete(() =>{
-                                        KeyHandlerUtil.isEnabled=true;
+                                    .onComplete(() => {
+                                        KeyHandlerUtil.isEnabled = true;
                                         this.cameraCloseUp = false;
                                     })
                             })
@@ -515,12 +514,13 @@ class LightRoom {
 
     checkCube(objName) {
         const Inst = this.scene.getObjectByName(objName);
-        let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
+        const closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
+        const inFront = Inst == null ? false : Math.abs(this.playerRoot.position.x) <= Math.abs(Inst.position.x);
 
-        if (closeTo && document.getElementById("dialog-container").innerHTML === "" && this.playerRoot.position.z >= Inst.position.z-10)
+        if (closeTo && document.getElementById("dialog-container").innerHTML === "" && inFront)
             showHint("Press Enter to select this option", 10);
 
-        if (this.player.select && closeTo) {
+        if (this.player.select && closeTo && inFront) {
             if (this.solution[this.pick] == objName) {
                 if (this.pick == this.solution.length - 1) {
                     this.win = true;
@@ -532,11 +532,11 @@ class LightRoom {
             } else {
                 this.pick = 0;
                 this.life--;
-                if (this.life){
-                    showTextBox("Wrong pick. I lost a life, " + this.life + " life remaining. Now I have to enter the code again from the first cube");
-                }else{
-                    showTextBox("I LOSE, GAME OVER");
-                    //TODO: INSERT GAME OVER HTML
+                if (this.life) {
+                    showTextBox("Wrong pick. " + this.life + " life remaining. Now I have to enter the code again from the first cube");
+                } else {
+                    document.getElementById("gameOver").style.display = "block";
+                    this.cleared = true;
                 }
                 this.noAnimation();
             }
@@ -544,14 +544,13 @@ class LightRoom {
     }
 
     async update() {
-
         this.animateCubes()
 
         if (this.life && !this.win) {
             const bookInstance = this.scene.getObjectByName("book");
             let closeTobook = bookInstance == null ? false : this.playerRoot.position.distanceTo(bookInstance.position) < 40.0;
             if (!closeTobook) {
-                if(!this.cameraCloseUp){
+                if (!this.cameraCloseUp) {
                     this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z + 120);
                     this.camera.lookAt(...Object.values(this.playerRoot.position));
                 }
@@ -561,14 +560,14 @@ class LightRoom {
                 this.camera.lookAt(...Object.values(bookInstance.position));
             }
 
-            if(this.playerRoot.position.y>3){
+            if (this.playerRoot.position.y > 3) {
                 this.player.spin();
                 this.isSpawned = true;
-            }else{
+            } else {
                 this.player.stopSpin();
-                if(this.isSpawned){
-                    this.player.bodyOrientation=0;
-                    this.isSpawned=false;
+                if (this.isSpawned) {
+                    this.player.bodyOrientation = 0;
+                    this.isSpawned = false;
                 }
             }
 
@@ -578,70 +577,72 @@ class LightRoom {
 
             for (let index = 0; index < this.colors.length; index++) {
                 const element = this.colors[index];
-                this.checkCube(element)    
+                this.checkCube(element);
             }
 
-            if (this.win){
+            if (this.win) {
                 showTextBox("CORRECT PICK! I WON!!!");
-                this.trasition=true;
-                AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150,1000,()=>{this.trasition=false});
+                this.trasition = true;
+                AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150, 1000, () => { this.trasition = false });
             }
         }
 
         if (this.win) {
             const trophyInstance = this.scene.getObjectByName("trophy");
-            KeyHandlerUtil.isEnabled=false;
-            if (!this.trasition)
-                this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150);
+            KeyHandlerUtil.isEnabled = false;
             AnimationUtils.rotation(this.camera, 0, 0, Math.PI);
+            this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
             this.light.position.set(0, 100, -100);
             this.light.color = new THREE.Color(0xFFFFFF);
             this.physic.removeBody(this.invWall);
-            
-            
-            if(!this.finalAnimation){
+
+
+            if (!this.finalAnimation) {
                 this.finalAnimation = true;
                 this.player.finalAnim = true;
                 this.player.bodyOrientation = 0;
-                new TWEEN.Tween(this.playerPhysic.position)
-                    .to({
-                        x:this.playerPhysic.position.x,
-                        z:300 
-                    },2500)
+                new TWEEN.Tween(this.playerPhysic.position).to({
+                    x: this.playerPhysic.position.x < 0 ? -70 : 70
+                }, 500)
                     .easing(TWEEN.Easing.Linear.None)
                     .start()
-                    .onComplete(() =>{
-                        this.player.bodyOrientation = -Math.PI/2;
+                    .onComplete(() => {
                         new TWEEN.Tween(this.playerPhysic.position)
-                        .to({
-                            x:trophyInstance.position.x,
-                            z:this.playerPhysic.position.z
-                        },2500)
-                        .easing(TWEEN.Easing.Linear.None)
-                        .start()
-                        .onComplete(() =>{
-                            this.player.bodyOrientation = 0;
-                            new TWEEN.Tween(this.playerPhysic.position)   
                             .to({
-                                x:trophyInstance.position.x,
-                                z:trophyInstance.position.z-30 
-                            },5000)
+                                z: 300
+                            }, Math.abs(300 - this.playerPhysic.position.z) / this.player.walkSpeed)
                             .easing(TWEEN.Easing.Linear.None)
                             .start()
-                            .onComplete(() =>{
-                                this.player.bodyOrientation = Math.PI;
-                                this.player.finalAnim = false;
+                            .onComplete(() => {
+                                this.player.bodyOrientation = this.playerPhysic.position.x < 0 ? Math.PI / 2 : -Math.PI / 2;
+                                new TWEEN.Tween(this.playerPhysic.position)
+                                    .to({
+                                        x: trophyInstance.position.x,
+                                    }, Math.abs(trophyInstance.position.x - this.playerPhysic.position.x) / this.player.walkSpeed)
+                                    .easing(TWEEN.Easing.Linear.None)
+                                    .start()
+                                    .onComplete(() => {
+                                        this.player.bodyOrientation = 0;
+                                        new TWEEN.Tween(this.playerPhysic.position)
+                                            .to({
+                                                z: trophyInstance.position.z - 30
+                                            }, Math.abs(trophyInstance.position.z - 30 - this.playerPhysic.position.z) / this.player.walkSpeed)
+                                            .easing(TWEEN.Easing.Linear.None)
+                                            .start()
+                                            .onComplete(() => {
+                                                this.player.bodyOrientation = Math.PI;
+                                                this.player.finalAnim = false;
+                                            })
+                                    })
                             })
-                        })
                     })
-
             }
-            
-            if (this.finalAnimation && !this.player.finalAnim){
+
+            if (this.finalAnimation && !this.player.finalAnim) {
                 this.player.celebrating = true;
             }
-                
+
 
         }
 
@@ -651,6 +652,6 @@ class LightRoom {
     }
 
     isCleared() {
-        return false;
+        return this.cleared;
     }
 }
