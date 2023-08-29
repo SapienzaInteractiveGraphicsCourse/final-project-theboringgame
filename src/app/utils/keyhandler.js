@@ -39,8 +39,6 @@ export class KeyHandlerUtil{
 
                 case 'KeyC': mainChar.change = true; break;
 
-                case 'KeyY': mainChar.celebrating = true; break;
-
                 case 'Enter': mainChar.select = true; break;
 
             }
