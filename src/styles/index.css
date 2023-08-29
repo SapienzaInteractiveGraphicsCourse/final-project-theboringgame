@@ -12,7 +12,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
     font-family: Arial, sans-serif;
-    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 100%);
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
@@ -45,6 +45,10 @@ td {
 
 .normal-font {
     font-size: 1.5rem;
+}
+
+.difficulty-font {
+    font-size: 2.0rem;
 }
 
 .logo-box {
@@ -112,10 +116,16 @@ a {
     padding: 0rem;
 }
 
+
 .option-static {
     text-align: center;
     cursor: pointer;
 }
+
+.option-static p {
+    margin: 0.5rem 0;
+}
+
 
 .fas{
     margin-top: 4vh;

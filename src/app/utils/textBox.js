@@ -17,6 +17,17 @@ export async function showTextBox(text, speed=50){
 
 }
 
+export async function showTextBoxNoHandler(text, speed=50){
+    let div = document.getElementById("dialog-container");
+	
+	div.style.display = "flex";
+	for(let i = 0; i < text.length; i++) {
+		await new Promise(resolve => setTimeout(resolve, speed));
+		div.innerHTML += text[i]
+	}
+
+}
+
 export async function showHint(text, speed=100){
     let div = document.getElementById("tips-container");
 

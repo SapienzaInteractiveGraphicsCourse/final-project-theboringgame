@@ -2,11 +2,13 @@ let diff = 1;
 let volume = true;
 
 document.getElementById("settings").onclick = function(){
-        document.getElementById("option-container").style.display = "none";
-        document.getElementById("settings-container").style.display = "block";
+    document.getElementById("title-tab").style.display = "none";
+    document.getElementById("option-container").style.display = "none";
+    document.getElementById("settings-container").style.display = "block";
 }
 
 document.getElementById("rules").onclick = function(){
+    document.getElementById("title-tab").style.display = "none";
     document.getElementById("option-container").style.display = "none";
     document.getElementById("rules-container").style.display = "block";
 }
@@ -25,11 +27,13 @@ document.getElementById("volumeToggle").onclick = function(){
 }
 
 document.getElementById("back").onclick = function(){
+    document.getElementById("title-tab").style.display = "";
     document.getElementById("option-container").style.display = "block";
     document.getElementById("settings-container").style.display = "none";
 }
 
 document.getElementById("backR").onclick = function(){
+    document.getElementById("title-tab").style.display = "";
     document.getElementById("option-container").style.display = "block";
     document.getElementById("rules-container").style.display = "none";
 }

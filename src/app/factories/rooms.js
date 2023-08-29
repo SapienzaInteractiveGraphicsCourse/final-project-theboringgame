@@ -1,5 +1,5 @@
 import * as THREE from "../lib/three/build/three.module.js";
-import { showTextBox, showHint } from "../utils/textBox.js"
+import { showTextBox, showTextBoxNoHandler, showHint } from "../utils/textBox.js"
 import { config } from "../static/config.js";
 import { AnimationUtils } from '../utils/animationUtils.js';
 import { TWEEN } from '../lib/tween/build/tween.module.min.js';
@@ -171,7 +171,7 @@ class Maze {
                 this.camera.lookAt(doorpos.x - 65, doorpos.y + 50, doorpos.z + 1000);
 
                 AnimationUtils.translation(this.camera, doorpos.x - 65, doorpos.y + 50, doorpos.z - 80, 2000);
-                AnimationUtils.rotation(this.camera, -Math.PI, 2 * Math.PI, Math.PI, 2000);
+                AnimationUtils.rotation(this.camera, -Math.PI, 0, Math.PI, 2000);
 
                 new TWEEN.Tween(this.scene.getObjectByName('door').getObjectByName("pCube5").position)
                     .to({
@@ -368,7 +368,7 @@ class LightRoom {
         const Inst = this.scene.getObjectByName(name);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 25.0;
 
-        if (closeTo && this.playerRoot.position.z > Inst.position.z)
+        if (closeTo && this.playerRoot.position.z > Inst.position.z && !this.cameraCloseUp)
             showHint("Press C to change light", 10);
 
         if (this.player.change && closeTo){
@@ -460,7 +460,6 @@ class LightRoom {
                                     .start()
                                     .onComplete(() =>{
                                         this.cameraCloseUp = false;
-                                        KeyHandlerUtil.isEnabled=true;
                                     })
                             })
                     })
@@ -502,8 +501,8 @@ class LightRoom {
                                     .easing(TWEEN.Easing.Quadratic.Out)
                                     .start()
                                     .onComplete(() =>{
-                                        this.cameraCloseUp = false;
                                         KeyHandlerUtil.isEnabled=true;
+                                        this.cameraCloseUp = false;
                                     })
                             })
                     })
@@ -514,7 +513,7 @@ class LightRoom {
         const Inst = this.scene.getObjectByName(objName);
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
 
-        if (closeTo)
+        if (closeTo && document.getElementById("dialog-container").innerHTML === "")
             showHint("Press Enter to select this option", 10);
 
         if (this.player.select && closeTo) {
@@ -522,7 +521,7 @@ class LightRoom {
                 if (this.pick == this.solution.length - 1) {
                     this.win = true;
                 } else {
-                    showTextBox("Correct pick!");
+                    showTextBoxNoHandler("Correct pick!");
                     this.pick += 1;
                     this.yesAnimation();
                 }
@@ -531,6 +530,9 @@ class LightRoom {
                 this.life--;
                 if (this.life){
                     showTextBox("Wrong pick. I lost a life, " + this.life + " life remaining. Now I have to enter the code again from the first cube");
+                }else{
+                    showTextBox("I LOSE, GAME OVER");
+                    //TODO: INSERT GAME OVER HTML
                 }
                 this.noAnimation();
             }
@@ -575,21 +577,21 @@ class LightRoom {
                 this.checkCube(element)    
             }
 
-            if (this.win)
+            if (this.win){
                 showTextBox("CORRECT PICK! I WON!!!");
-
-            if (this.life == 0)
-                showTextBox("I LOSE, GAME OVER");
+                this.trasition=true;
+                AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150,1000,()=>{this.trasition=false});
+            }
         }
 
         if (this.win) {
-            AnimationUtils.translation(this.camera, this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150);
+            if (!this.trasition)
+                this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 150, this.playerRoot.position.z - 150);
             AnimationUtils.rotation(this.camera, 0, 0, Math.PI);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
             this.light.position.set(0, 100, -100);
             this.light.color = new THREE.Color(0xFFFFFF);
             this.physic.removeBody(this.invWall);
-
         }
 
         this.player.select = false;
