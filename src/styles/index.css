@@ -36,19 +36,19 @@ td {
 }
 
 .big-font {
-    font-size: 3.5rem;
+    font-size: 3.5vw;
 }
 
 .small-font {
-    font-size: 2.5rem;
+    font-size: 2.5vw;
 }
 
 .normal-font {
-    font-size: 1.5rem;
+    font-size: 1.5vw;
 }
 
 .difficulty-font {
-    font-size: 2.0rem;
+    font-size: 2.0vw;
 }
 
 .logo-box {
@@ -68,7 +68,7 @@ td {
 .option-container {
     display: block;
     position: relative;
-    top: 10vh;
+    bottom: -5vh;    
     max-width: 70%;
     margin: 0 auto;
     padding: 1rem;
@@ -87,7 +87,7 @@ td {
 
 .option p {
     margin: 0.5rem 0;
-    font-size: 2rem;
+    font-size: 2.5vw;
 }
 
 .option:hover {
