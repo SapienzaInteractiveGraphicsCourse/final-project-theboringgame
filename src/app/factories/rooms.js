@@ -642,7 +642,7 @@ class LightRoom {
 
             if (this.finalAnimation && !this.player.finalAnim) {
                 this.player.celebrating = true;
-                setTimeout( function() { document.getElementById("win").style.display="block" }, 3000);
+                setTimeout( function() { document.getElementById("win").style.display="block"; document.getElementById("dialog-container").style.display="none"; }, 3000);
             }
 
 
