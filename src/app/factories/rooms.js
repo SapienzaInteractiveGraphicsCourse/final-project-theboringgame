@@ -89,7 +89,6 @@ class Maze {
     }
 
     #buildLight() {
-        // TODO: move parameters to config file 
         const color = 0xFFFFFF;
         const intensity = 0.01;
         let light = new THREE.AmbientLight(color, intensity);
