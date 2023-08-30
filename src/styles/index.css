@@ -12,7 +12,7 @@ body {
     font-size: 16px;
     line-height: 1.5;
     font-family: Arial, sans-serif;
-    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+    background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 100%);
     background-repeat: no-repeat;
     background-size: cover;
     overflow: hidden;
@@ -36,15 +36,19 @@ td {
 }
 
 .big-font {
-    font-size: 3.5rem;
+    font-size: 3.5vw;
 }
 
 .small-font {
-    font-size: 2.5rem;
+    font-size: 2.5vw;
 }
 
 .normal-font {
-    font-size: 1.5rem;
+    font-size: 1.5vw;
+}
+
+.difficulty-font {
+    font-size: 2.0vw;
 }
 
 .logo-box {
@@ -64,7 +68,7 @@ td {
 .option-container {
     display: block;
     position: relative;
-    top: 10vh;
+    bottom: -5vh;
     max-width: 70%;
     margin: 0 auto;
     padding: 1rem;
@@ -83,7 +87,7 @@ td {
 
 .option p {
     margin: 0.5rem 0;
-    font-size: 2rem;
+    font-size: 2.5vw;
 }
 
 .option:hover {
@@ -95,7 +99,7 @@ a {
     color: inherit;
 }
 
-.settings-container{
+.settings-container {
     display: none;
     position: relative;
     top: 10vh;
@@ -104,7 +108,7 @@ a {
     padding: 1rem;
 }
 
-.rules-container{
+.rules-container {
     display: none;
     position: relative;
     max-width: 85%;
@@ -112,15 +116,21 @@ a {
     padding: 0rem;
 }
 
+
 .option-static {
     text-align: center;
     cursor: pointer;
 }
 
-.fas{
+.option-static p {
+    margin: 0.5rem 0;
+}
+
+
+.fas {
     margin-top: 4vh;
 }
 
-#volumeNo{
+#volumeNo {
     display: none;
 }

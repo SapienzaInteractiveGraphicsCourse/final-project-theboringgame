@@ -45,7 +45,7 @@ export class MainCharacterStand extends Stand {
     }
 }
 
-export class StandWithLight{
+export class StandWithLight {
     constructor(idLU, idRU, idLL, idRL, idLS, idRS, idLLA, idRLA, idLF, idRF, idRH, light, character) {
         this.idLU = idLU;
         this.idLL = idLL;
@@ -64,8 +64,8 @@ export class StandWithLight{
         this.executionSpeed = 500;
     }
     update() {
-        let lightPos = new Vector3(this.idRH.position.x-0.65,this.idRH.position.y,this.idRH.position.z+1).applyMatrix4(this.character.matrixWorld);
-        
+        let lightPos = new Vector3(this.idRH.position.x - 0.65, this.idRH.position.y, this.idRH.position.z + 1).applyMatrix4(this.character.matrixWorld);
+
         this.light.position.set(...Object.values(lightPos));
         let point = new Vector3(this.idRH.position.x, 0.0, 50.0).applyMatrix4(this.character.matrixWorld);
 
@@ -82,7 +82,7 @@ export class StandWithLight{
         AnimationUtils.rotation(this.idLF, 1.5708, -0.07, -0.033, this.executionSpeed);
         AnimationUtils.rotation(this.idRF, 1.5708, -0.07, -0.033, this.executionSpeed);
 
-        AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x', this.executionSpeed, function(){if(!this.isOn){this.light.intensity = 5; this.isOn = true}}.bind(this));
+        AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x', this.executionSpeed, function () { if (!this.isOn) { this.light.intensity = 5; this.isOn = true } }.bind(this));
     }
 }
 

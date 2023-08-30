@@ -21,23 +21,23 @@ export class ModelsLoader {
             const element = valueArray[index];
             const path = element[0];
             const rep = element[1];
-            for(let j = 0; j < rep; j++){
+            for (let j = 0; j < rep; j++) {
                 prom.push(this.loader.loadAsync(path))
             }
         }
 
         let models = await Promise.all(prom);
-        
+
         let sum = 0;
 
-        for (let index = 0; index < valueArray.length; index++){
+        for (let index = 0; index < valueArray.length; index++) {
             const element = valueArray[index];
             const rep = element[1];
             let entry = new Array(rep);
 
-            for(let j = 0; j < rep; j++){
-                entry[j] = models[sum+j].scene;
-                this.renderer.compile(entry[j], this.camera ) 
+            for (let j = 0; j < rep; j++) {
+                entry[j] = models[sum + j].scene;
+                this.renderer.compile(entry[j], this.camera)
             }
             sum += rep;
 
@@ -46,9 +46,9 @@ export class ModelsLoader {
 
     }
 
-    get(classIdx){
+    get(classIdx) {
         const modelList = this.models.get(classIdx.constructor);
-        if(modelList.length == 0)
+        if (modelList.length == 0)
             throw new Error("Detected an access to an empty model list.")
 
         const model = modelList.pop()

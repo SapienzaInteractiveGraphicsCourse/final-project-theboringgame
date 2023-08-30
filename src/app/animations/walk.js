@@ -88,7 +88,7 @@ export class MainCharacterWalk extends Walk {
     }
 }
 
-export class WalkWithLight{
+export class WalkWithLight {
     constructor(idLU, idRU, idLL, idRL, idLS, idRS, idRLA, idRH, light, character) {
         this.state = 0;
         this.idLU = idLU;
@@ -106,15 +106,15 @@ export class WalkWithLight{
     }
 
     update() {
-        let lightPos = new Vector3(this.idRH.position.x-0.65,this.idRH.position.y,this.idRH.position.z+1).applyMatrix4(this.character.matrixWorld);
-        
+        let lightPos = new Vector3(this.idRH.position.x - 0.65, this.idRH.position.y, this.idRH.position.z + 1).applyMatrix4(this.character.matrixWorld);
+
         this.light.position.set(...Object.values(lightPos));
         let point = new Vector3(this.idRH.position.x, 0.0, 50.0).applyMatrix4(this.character.matrixWorld);
 
         this.light.target.position.x = point.x;
         this.light.target.position.y = this.character.position.y + this.idRH.position.y;
         this.light.target.position.z = point.z;
-        
+
         switch (this.state) {
             case 0:
                 //upper legs
@@ -127,7 +127,7 @@ export class WalkWithLight{
                 AnimationUtils.rotationOneAxis(this.idLS, -0.26, 'x', this.executionSpeed);
                 AnimationUtils.rotation(this.idRS, -0.233, -0.046, 2.00, this.executionSpeed);
 
-                AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x', this.executionSpeed, function(){if(!this.isOn){this.light.intensity = 5; this.isOn = true}}.bind(this));
+                AnimationUtils.rotationOneAxis(this.idRLA, 1.26, 'x', this.executionSpeed, function () { if (!this.isOn) { this.light.intensity = 5; this.isOn = true } }.bind(this));
 
                 if (this.idLU.rotation.x > -0.1) {
                     this.state++;

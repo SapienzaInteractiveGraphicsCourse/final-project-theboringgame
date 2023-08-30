@@ -20,7 +20,7 @@ export class ObjectsFactory {
         let instance = new Door(this.ml);
         return instance.getInstance();
     }
-    
+
     createPillar() {
         let instance = new Pillar(this.ml);
         return instance.getInstance();
@@ -76,15 +76,15 @@ export class Generator {
         box.getSize(dim);
 
         this.generator = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x / 2, dim.y / 2, dim.z / 2))
         });
-        this.generator.position.y=dim.y/2;
+        this.generator.position.y = dim.y / 2;
 
     }
 
     getInstance() {
-        return [this.instance,this.generator];
+        return [this.instance, this.generator];
     }
 }
 
@@ -92,7 +92,7 @@ export class Platform {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(10, 10, 10);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
@@ -103,7 +103,7 @@ export class Platform {
     }
 
     getInstance() {
-        return [this.instance,0];
+        return [this.instance, 0];
     }
 }
 
@@ -111,27 +111,27 @@ export class Door {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(0.25, 0.25, 0.25);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
         let dim = new THREE.Vector3();
         let box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(dim);
 
         this.door = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x / 2, dim.y / 2, dim.z / 2))
         });
-        this.door.position.y=dim.y/2;
+        this.door.position.y = dim.y / 2;
     }
 
     getInstance() {
-        return [this.instance,this.door];
+        return [this.instance, this.door];
     }
 }
 
@@ -139,27 +139,27 @@ export class Pillar {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(12, 7, 12);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
         let dim = new THREE.Vector3();
         let box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(dim);
 
         this.pillar = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x / 2, dim.y / 2, dim.z / 2))
         });
-        this.pillar.position.y=dim.y/2;
+        this.pillar.position.y = dim.y / 2;
     }
 
     getInstance() {
-        return [this.instance,this.pillar];
+        return [this.instance, this.pillar];
     }
 }
 
@@ -167,24 +167,24 @@ export class Button {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(10, 10, 10);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
 
         this.button = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(6,15,6))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(6, 15, 6))
         });
-        this.button.position.y=7.5;
+        this.button.position.y = 7.5;
     }
 
     getInstance() {
-        return [this.instance,this.button];
+        return [this.instance, this.button];
     }
 }
 
@@ -192,27 +192,27 @@ export class Desk {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(20, 20, 20);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
         let dim = new THREE.Vector3();
         let box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(dim);
 
         this.desk = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x / 2, dim.y / 2, dim.z / 2))
         });
-        this.desk.position.y=dim.y/2;
+        this.desk.position.y = dim.y / 2;
     }
 
     getInstance() {
-        return [this.instance,this.desk];
+        return [this.instance, this.desk];
     }
 }
 
@@ -220,46 +220,46 @@ export class Book {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(0.5, 0.5, 0.5);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
     }
 
     getInstance() {
-        return [this.instance,0];
+        return [this.instance, 0];
     }
 }
 
 export class Trophy {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
-        this.instance.scale.set(2.5, 2.5, 2.5);
-        
+        this.instance.scale.set(2, 2, 2);
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
         let dim = new THREE.Vector3();
         let box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(dim);
 
         this.trophy = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x / 2, dim.y / 2, dim.z / 2))
         });
-        this.trophy.position.y=dim.y/2;
+        this.trophy.position.y = dim.y / 2;
     }
 
     getInstance() {
-        return [this.instance,this.trophy];
+        return [this.instance, this.trophy];
     }
 }
 
@@ -267,18 +267,18 @@ export class Redcarpet {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(15, 10, 50);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
     }
 
     getInstance() {
-        return [this.instance,0];
+        return [this.instance, 0];
     }
 }
 
@@ -286,26 +286,26 @@ export class Rope {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
         this.instance.scale.set(25, 25, 25);
-        
+
         this.instance.traverse(function (node) {
             if (node.isMesh) {
                 node.castShadow = true;
                 node.receiveShadow = true;
             }
         });
-        
+
         let dim = new THREE.Vector3();
         let box = new THREE.Box3().setFromObject(this.instance);
         box.getSize(dim);
 
         this.rope = new CANNON.Body({
-            type:CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(dim.x/2,dim.y/2,dim.z/2))
+            type: CANNON.Body.STATIC,
+            shape: new CANNON.Box(new CANNON.Vec3(dim.x / 2, dim.y / 2, dim.z / 2))
         });
-        this.rope.position.y=dim.y/2;
+        this.rope.position.y = dim.y / 2;
     }
 
     getInstance() {
-        return [this.instance,this.rope];
+        return [this.instance, this.rope];
     }
 }
