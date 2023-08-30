@@ -119,7 +119,6 @@ class Maze {
                 .start()
                 .onComplete(() => {
                     this.cleared = true;
-                    KeyHandlerUtil.isEnabled = true;
                 })
             return;
         }
@@ -542,7 +541,7 @@ class LightRoom {
     }
 
     async update() {
-        this.animateCubes()
+        this.animateCubes();
 
         if (this.life && !this.win) {
             const bookInstance = this.scene.getObjectByName("book");
