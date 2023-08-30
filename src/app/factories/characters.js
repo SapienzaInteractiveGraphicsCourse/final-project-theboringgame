@@ -25,8 +25,6 @@ export class MainRobot {
 
         this.action = false;
         this.useLight = false;
-        this.change = false;
-        this.select = false;
         this.spinning = false;
         this.pressing = false;
         this.celebrating = false;

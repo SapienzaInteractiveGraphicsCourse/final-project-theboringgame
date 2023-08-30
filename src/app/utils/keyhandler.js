@@ -36,11 +36,6 @@ export class KeyHandlerUtil {
                     case 'KeyL': mainChar.useLight = !mainChar.useLight; break;
 
                     case 'KeyP': mainChar.action = true; break;
-
-                    case 'KeyC': mainChar.change = true; break;
-
-                    case 'Enter': mainChar.select = true; break;
-
                 }
             }
         }.bind(mainChar);

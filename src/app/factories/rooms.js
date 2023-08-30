@@ -245,9 +245,7 @@ class LightRoom {
     }
 
     #buildLight() {
-        // TODO: move parameters to config file 
         const color = 0xFF4444;
-        //const color = 0xFFFFFF;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
         light.position.set(0, 100, 200);
@@ -263,6 +261,7 @@ class LightRoom {
     }
 
     init() {
+        KeyHandlerUtil.isEnabled = false;
         if (!config.debug)
             showTextBox("Oh no! A generator malfunction altered the light colors. To proceed, I just need to input the password by selecting the right cube sequence. Maybe I've noted it on that old book");
 
@@ -371,11 +370,11 @@ class LightRoom {
         let closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 25.0;
 
         if (closeTo && this.playerRoot.position.z > Inst.position.z && !this.cameraCloseUp)
-            showHint("Press C to change light", 10);
+            showHint("Press P to change light", 10);
 
-        if (this.player.change && closeTo) {
-            this.cameraCloseUp = true;
+        if (this.player.action && closeTo) {
             KeyHandlerUtil.isEnabled = false;
+            this.cameraCloseUp = true;
             AnimationUtils.translation(this.camera, Inst.position.x + 100, 30, Inst.position.z, 2000);
             AnimationUtils.rotation(this.camera, 0, Math.PI / 2, 0, 2000);
             this.player.bodyOrientation = Math.PI;
@@ -427,8 +426,8 @@ class LightRoom {
     }
 
     noAnimation() {
-        this.cameraCloseUp = true;
         KeyHandlerUtil.isEnabled = false;
+        this.cameraCloseUp = true;
         AnimationUtils.translation(this.camera, this.playerRoot.position.x, 40, this.playerRoot.position.z + 50, 1000);
 
         this.player.bodyOrientation = 0;
@@ -469,8 +468,8 @@ class LightRoom {
     }
 
     yesAnimation() {
-        this.cameraCloseUp = true;
         KeyHandlerUtil.isEnabled = false;
+        this.cameraCloseUp = true;
         AnimationUtils.translation(this.camera, this.playerRoot.position.x, 40, this.playerRoot.position.z + 50, 1000);
 
         this.player.bodyOrientation = 0;
@@ -517,9 +516,9 @@ class LightRoom {
         const inFront = Inst == null ? false : Math.abs(this.playerRoot.position.x) <= Math.abs(Inst.position.x);
 
         if (closeTo && document.getElementById("dialog-container").innerHTML === "" && inFront)
-            showHint("Press Enter to select this option", 10);
+            showHint("Press P to select this option", 10);
 
-        if (this.player.select && closeTo && inFront) {
+        if (this.player.action && closeTo && inFront) {
             if (this.solution[this.pick] == objName) {
                 if (this.pick == this.solution.length - 1) {
                     this.win = true;
@@ -647,9 +646,8 @@ class LightRoom {
 
         }
 
-        this.player.select = false;
         this.player.read = false;
-        this.player.change = false;
+        this.player.action = false;
     }
 
     isCleared() {
