@@ -10,7 +10,7 @@ export class ModelsLoader {
         this.camera = camera;
     }
 
-    async loadModels() {
+    async loadModels(level) {
         this.models.clear();
         let prom = new Array();
 
@@ -21,8 +21,11 @@ export class ModelsLoader {
             const element = valueArray[index];
             const path = element[0];
             const rep = element[1];
-            for (let j = 0; j < rep; j++) {
-                prom.push(this.loader.loadAsync(path))
+            const l = element[2];
+            if(l.includes(level)){
+                for (let j = 0; j < rep; j++) {
+                    prom.push(this.loader.loadAsync(path))
+                }
             }
         }
 
@@ -33,15 +36,21 @@ export class ModelsLoader {
         for (let index = 0; index < valueArray.length; index++) {
             const element = valueArray[index];
             const rep = element[1];
-            let entry = new Array(rep);
+            const l = element[2]
 
-            for (let j = 0; j < rep; j++) {
-                entry[j] = models[sum + j].scene;
-                this.renderer.compile(entry[j], this.camera)
+            if(l.includes(level)){
+
+                let entry = new Array(rep);
+
+                for (let j = 0; j < rep; j++) {
+                    entry[j] = models[sum + j].scene;
+                    this.renderer.compile(entry[j], this.camera)
+                }
+                sum += rep;
+
+                this.models.set(keyArray[index], entry);
             }
-            sum += rep;
-
-            this.models.set(keyArray[index], entry);
+            
         }
 
     }

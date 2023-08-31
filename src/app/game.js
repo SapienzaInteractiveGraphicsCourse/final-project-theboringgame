@@ -51,7 +51,7 @@ export class Game {
         document.getElementById("progress-bar").style.setProperty('--width', 0);
         document.getElementById("loading").style.display = 'flex';
 
-        await this.ml.loadModels();
+        await this.ml.loadModels(stage);
 
         let cf = new CharacterFactory(this.ml);
         this.mainChar = cf.createMainRobot(this.lm);
