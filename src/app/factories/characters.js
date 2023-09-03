@@ -59,7 +59,7 @@ export class MainRobot {
         this.charPhysic = new CANNON.Body({
             mass: 5,
             type: CANNON.Body.DYNAMIC,
-            shape: new CANNON.Box(new CANNON.Vec3(9, 6, 9)),
+            shape: new CANNON.Box(new CANNON.Vec3(14, 6, 14)),
             angularDamping: 1,
             collisionFilterGroup: 1,
             collisionFilterMask: 1
@@ -200,12 +200,11 @@ export class MainRobot {
             }
         }
 
-        // displacement
         var forwardDelta = this.speed * delta;
 
         this.charPhysic.position.x += Math.sin(this.bodyOrientation) * forwardDelta;
         this.charPhysic.position.z += Math.cos(this.bodyOrientation) * forwardDelta;
-        // steering
+
         this.instance.position.set(this.charPhysic.position.x, this.charPhysic.position.y - 5.5, this.charPhysic.position.z);
         this.instance.rotation.y = this.bodyOrientation;
     }

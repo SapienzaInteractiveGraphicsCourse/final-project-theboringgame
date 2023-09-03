@@ -62,7 +62,7 @@ export class ObjectsFactory {
 export class Generator {
     constructor(modelLoader) {
         this.instance = modelLoader.get(this);
-        this.instance.scale.set(10, 10, 10);
+        this.instance.scale.set(20, 20, 20);
 
         this.instance.traverse(function (node) {
             if (node.isMesh) {

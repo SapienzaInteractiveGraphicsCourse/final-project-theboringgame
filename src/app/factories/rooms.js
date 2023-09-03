@@ -511,7 +511,7 @@ class LightRoom {
 
     checkCube(objName) {
         const Inst = this.scene.getObjectByName(objName);
-        const closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 65.0;
+        const closeTo = Inst == null ? false : this.playerRoot.position.distanceTo(Inst.position) < 70.0;
         const inFront = Inst == null ? false : Math.abs(this.playerRoot.position.x) <= Math.abs(Inst.position.x);
 
         if (closeTo && document.getElementById("dialog-container").innerHTML === "" && inFront)
