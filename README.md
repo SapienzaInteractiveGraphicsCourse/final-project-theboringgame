@@ -12,5 +12,5 @@ Are you ready to get bored? :)
 
 ## AUTHORS
 
-Daniele Affinita (1885790)
+Daniele Affinita (1885790)  
 Domenico Meconi (1838058)
