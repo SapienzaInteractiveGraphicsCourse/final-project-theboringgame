@@ -1,15 +1,1 @@
-# interactive-graphics
-
-### Usage on linux
-
-Supported distros: `Ubuntu 20.04+`, `LinuxMint 21+`, `Debian 12`
-
-Just run the script `tools/run-server.sh`. Such script will also install npm if not available.
-
-* From the project root:
-```
-cd tools/ && ./run-server.sh
-```
-
-* Open `http://127.0.0.1:8080` within your browser.
-
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/9ItdZzWA)
