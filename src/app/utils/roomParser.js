@@ -3,9 +3,6 @@ import { MaterialFactory } from '../factories/materials.js';
 import { ObjectsFactory } from '../factories/objects.js';
 import { config } from '../static/config.js';
 
-
-//TODO: handle lights ?? 
-
 const folder = "./app/static/";
 
 export class RoomParser {

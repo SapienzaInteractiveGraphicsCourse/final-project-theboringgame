@@ -7,7 +7,6 @@ import { CharacterFactory } from "./factories/characters.js"
 import { RoomFactory } from "./factories/rooms.js"
 import { ModelsLoader } from "./utils/loader.js"
 import { KeyHandlerUtil } from "./utils/keyhandler.js";
-import CannonDebugger from "./lib/cannon/cannon-es-debugger.js"
 import Stats from './lib/stats/stats.module.js';
 
 let instance;
@@ -30,7 +29,6 @@ export class Game {
         this.scene = this.#buildScene();
         this.lm = this.#buildLoader();
         this.physics = this.#buildPhysics();
-        this.debugger = CannonDebugger(this.scene, this.physics);
         this.ml = new ModelsLoader(this.lm, this.renderer, this.camera);
         this.rp = new RoomParser(this.scene, this.lm, this.ml, this.physics);
         this.stage = 0;
