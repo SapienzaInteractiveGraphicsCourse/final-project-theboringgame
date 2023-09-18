@@ -1,8 +1,9 @@
 # The Boring Game
 
-![Logo](src/assets/img/logo.png)
+<img src="src/assets/img/logo.png" alt="Logo" height="200">
 
-Are you ready to get bored?
+
+Are you ready to get bored? :)
 
 [PLAY NOW](https://sapienzainteractivegraphicscourse.github.io/final-project-theboringgame/)
 
