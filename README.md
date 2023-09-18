@@ -1,4 +1,9 @@
 # The Boring Game
+
+![Logo](src/assets/img/logo.png)
+
+Are you ready to get bored?
+
 [PLAY NOW](https://sapienzainteractivegraphicscourse.github.io/final-project-theboringgame/)
 
 [REPORT]()
