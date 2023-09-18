@@ -235,19 +235,23 @@ class LightRoom {
 
     async create() {
         await this.rp.parseRoom("lightRoom.json");
-        this.light = this.#buildLight();
+        this.light1 = this.#buildLight(0, 150, 0);
+        this.light2 = this.#buildLight(0, 150, 200);
+        this.light3 = this.#buildLight(0, 150, -200);
 
         this.playerPhysic.position.set(0, 120, 250);
         this.playerRoot.position.copy(this.playerPhysic);
-        this.scene.add(this.light);
+        this.scene.add(this.light1);
+        this.scene.add(this.light2);
+        this.scene.add(this.light3);
 
     }
 
-    #buildLight() {
+    #buildLight(x,y,z) {
         const color = 0xFF4444;
         const intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
-        light.position.set(0, 100, 200);
+        light.position.set(x,y,z);
         return light
     }
 
@@ -403,7 +407,9 @@ class LightRoom {
                                 .easing(TWEEN.Easing.Quadratic.Out)
                                 .start()
                                 .onComplete(() => {
-                                    this.light.color = new THREE.Color(color);
+                                    this.light1.color = new THREE.Color(color);
+                                    this.light2.color = new THREE.Color(color);
+                                    this.light3.color = new THREE.Color(color);
                                     new TWEEN.Tween(Inst.getObjectByName("button_01").position)
                                         .to({
                                             x: 0.003,
@@ -590,8 +596,9 @@ class LightRoom {
             AnimationUtils.rotation(this.camera, 0, 0, Math.PI);
             this.camera.position.set(this.playerRoot.position.x, this.playerRoot.position.y + 50, this.playerRoot.position.z - 150);
             this.camera.lookAt(...Object.values(this.playerRoot.position));
-            this.light.position.set(0, 100, -100);
-            this.light.color = new THREE.Color(0xFFFFFF);
+            this.light1.color = new THREE.Color(0xFFFFFF);
+            this.light2.color = new THREE.Color(0xFFFFFF);
+            this.light3.color = new THREE.Color(0xFFFFFF);
             this.physic.removeBody(this.invWall);
 
 
