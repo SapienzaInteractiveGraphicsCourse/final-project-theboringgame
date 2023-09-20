@@ -384,7 +384,7 @@ class LightRoom {
             new TWEEN.Tween(this.playerPhysic.position)
                 .to({
                     x: Inst.position.x,
-                    z: Inst.position.z + 15
+                    z: Inst.position.z + 16
                 }, 2000)
                 .easing(TWEEN.Easing.Quadratic.Out)
                 .start()

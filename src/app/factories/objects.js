@@ -178,7 +178,7 @@ export class Button {
 
         this.button = new CANNON.Body({
             type: CANNON.Body.STATIC,
-            shape: new CANNON.Box(new CANNON.Vec3(6, 15, 6))
+            shape: new CANNON.Box(new CANNON.Vec3(2, 15, 2))
         });
         this.button.position.y = 7.5;
     }
