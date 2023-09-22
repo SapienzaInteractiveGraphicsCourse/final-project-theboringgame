@@ -1,16 +1,33 @@
 # The Boring Game
+<br />
+<br />
+<p align="center">
+    <img src="src/assets/img/logo.png" alt="Logo" height="200">
+  </a>
+  
+  <h3 align="center"> Are you ready to get bored? :) </h3>
+</p>
 
-<img src="src/assets/img/logo.png" alt="Logo" height="200">
+# 🕹️ How to Play
 
+Here are your controls:
 
-Are you ready to get bored? :)
+- **⬆️** or **W**: Move forward
+- **⬇️** or **S**: Move backward
+- **⬅️** or **A**: Rotate Counterclockwise 
+- **➡️** or **D**: Rotate Clockwise
+- **L**: Toggle torchlight (only level 1).
+- **P**: Perform actions like picking up/dropping items, selecting cubes, and pressing buttons.
+# 🎮 Play
 
-[PLAY NOW](https://sapienzainteractivegraphicscourse.github.io/final-project-theboringgame/)
+🚀 Ready to dive in? [**PLAY NOW**](https://sapienzainteractivegraphicscourse.github.io/final-project-theboringgame/)
 
-[REPORT](https://github.com/SapienzaInteractiveGraphicsCourse/final-project-theboringgame/blob/main/report/Affinita_Meconi_Report.pdf)
+# 📖 Technical Report
 
+Want to know more? Check out our [**REPORT**](https://github.com/SapienzaInteractiveGraphicsCourse/final-project-theboringgame/blob/main/report/Affinita_Meconi_Report.pdf)
 
-## AUTHORS
+## 📝 AUTHORS
 
-Daniele Affinita (1885790)  
-Domenico Meconi (1838058)
+- Daniele Affinita (1885790)  
+- Domenico Meconi (1838058)
+
